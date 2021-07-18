@@ -9,7 +9,7 @@
 <h1 class="text-center">
 
 
-    BIENVENIDO A ESTA PLANTILLA
+    BIENVENIDO AL SISTEMA DE DETECCIÓN DE IRREGULARIDADES DE LA UNT
 
 </h1>
 @endsection
