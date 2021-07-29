@@ -1,3 +1,3 @@
-cd C:\xampp\htdocs\SistemaCarritoCompras
-TITLE CARRITO VENTAS
-php artisan serve --port=8001
+cd C:\xampp\htdocs\SIDIRAUNT
+TITLE DIRIDAUNT
+php artisan serve --port=8000
