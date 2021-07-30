@@ -12,6 +12,6 @@ class Area extends Model
 
 
     protected $fillable = [
-       'descripcion'
+       'descripcion','area'
     ];
 }

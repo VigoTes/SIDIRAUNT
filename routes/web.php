@@ -1,8 +1,21 @@
 <?php
 
+use App\Debug;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
+
+//AREA
+Route::resource('area','AreaController');
+Route::get('/area/{id}/eliminar', 'AreaController@eliminar')->name('area.eliminar');
+
+//FACULTAD
+Route::resource('facultad','FacultadController');
+Route::get('/facultad/{id}/eliminar', 'FacultadController@eliminar')->name('facultad.eliminar');
+
+//CARRERAS
+Route::get('/Carrera/listar', 'CarreraController@listar')->name('Carrera.listar');
+Route::get('/Carrera/crear', 'CarreraController@crear')->name('Carrera.crear');
 
 /* RUTAS PARA INGRESO Y REGISTRO DE USUARIO Y CLIENTE */
 
@@ -16,11 +29,7 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 
 
 
-Route::get('/generarRegistros',function(){
-    
-
-
-});
+Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
 
 
@@ -61,4 +70,42 @@ Route::get('/probandoCosas',function(){
     return $cadena;
 
 });
+
+
+
+/* *********************************** EXAMENES ************************************* */
+
+
+
+Route::get('/Examenes/Director/Listar','ExamenController@listar')->name('Examen.Director.Listar');
+
+Route::get('/Examenes/Director/Crear','ExamenController@Crear')->name('Examen.Director.Crear');
+
+Route::get('/Examen/{id}/Director/VerCargarResultados','ExamenController@verCargarResultados')->name('Examen.Director.VerCargar');
+Route::post('/Examen/Director/CargarResultados','ExamenController@cargarResultados')->name('Examen.Director.cargarResultados');
+
+Route::get('/Examen/{id}/Director/IniciarProcesamiento','ExamenController@procesar')->name('Examen.Director.Procesar');
+
+
+Route::post('/examenes/director/guardar','ExamenController@guardar')->name('Examen.Director.Guardar');
+
+
+
+
+
+
+
+
+
+
+
+
+// Modalidad 
+Route::get('/modalidad', 'ModalidadController@index')->name('modalidad');
+Route::get('/modalidad/{idmodalidad}/edit', 'ModalidadController@edit')->name('modalidad.editar');
+Route::get('/modalidad/{idmodalidad}/delete', 'ModalidadController@destroy')->name('modalidad.eliminar');
+Route::get('/modalidad/crear', 'ModalidadController@create')->name('modalidad.crear');
+Route::post('/modalidad/guardar', 'ModalidadController@store')->name('modalidad.guardar');
+Route::post('/modalidad/actualizar', 'ModalidadController@update')->name('modalidad.actualizar');
+
 

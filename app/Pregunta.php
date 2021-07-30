@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Preguntas extends Model
+class Pregunta extends Model
 {
-    protected $table = "preguntas";
+    protected $table = "pregunta";
     protected $primaryKey = "codPregunta";
     public $timestamps = false;  //para que no trabaje con los campos fecha 
 

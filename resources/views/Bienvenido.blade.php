@@ -13,7 +13,7 @@
 a
 </h1>
 
-<a href="" class="btn btn-success">
+<a href="{{route('probarArchivos')}}" class="btn btn-success">
     Generar registros
 </a>
 

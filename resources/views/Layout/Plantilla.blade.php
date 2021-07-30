@@ -406,6 +406,30 @@
           }
       );
   }
+
+  function alertaExitosa(titulo,msj){
+    swal(//sweetalert
+          {
+              title: titulo,
+              text: msj,     //mas texto
+              type: 'success',//e=[success,error,warning,info]
+              showCancelButton: false,//para que se muestre el boton de cancelar
+              confirmButtonColor: '#3085d6',
+              //cancelButtonColor: '#d33',
+              confirmButtonText:  'OK',
+              //cancelButtonText:  'NO',
+              closeOnConfirm:     true,//para mostrar el boton de confirmar
+              html : true
+          },
+          function(){//se ejecuta cuando damos a aceptar
+              
+          }
+      );
+
+
+
+  }
+
   function alertaMensaje(title,msj,type){
       swal(//sweetalert
           {
