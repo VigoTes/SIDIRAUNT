@@ -12,5 +12,11 @@
     BIENVENIDO AL SISTEMA DE DETECCIÓN DE IRREGULARIDADES DE LA UNT
 a
 </h1>
+
+<a href="{{route('probarArchivos')}}" class="btn btn-success">
+    Generar registros
+</a>
+
+
 @endsection
 
