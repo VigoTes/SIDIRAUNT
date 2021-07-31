@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use App\Carrera;
+use App\CarreraExamen;
 use App\Debug;
 use App\Facultad;
 use App\Http\Controllers\Controller;
@@ -99,5 +100,17 @@ class CarreraController extends Controller
 
         return redirect()->route('Carrera.listar')
             ->with('datos','Carrera eliminada.');
+    }
+
+
+    public function verHistorico(){
+        $carrerasExamen=CarreraExamen::all();
+        $arr1=[];
+        foreach ($carrerasExamen as $item) {
+            $arr1[]=$item->codCarrera;
+        }
+        $carreras=Carrera::whereIn('codCarrera',$arr1)->get();
+        $examenesCarrera=CarreraExamen::where('codCarrera','=',$carreras[0]->codCarrera)->get();
+        return view('Carreras.VerHistorico',compact('carreras','examenesCarrera'));
     }
 }

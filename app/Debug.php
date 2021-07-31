@@ -47,6 +47,13 @@ class Debug extends Model
 
     }
     
+    public static function imprimirVector($vector){
+        $cadena ="";
+        foreach ($vector as $value) {
+            $cadena = $cadena.",".$value;
+        }
+        error_log($cadena);
+    }
 
 
 

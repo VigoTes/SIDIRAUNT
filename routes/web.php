@@ -21,6 +21,8 @@ Route::get('/Carrera/{id}/editar', 'CarreraController@editar')->name('Carrera.ed
 Route::post('/Carrera/update', 'CarreraController@update')->name('Carrera.update');
 Route::get('/Carrera/{id}/eliminar', 'CarreraController@eliminar')->name('Carrera.eliminar');
 
+Route::get('/Carrera/VerHistorico', 'CarreraController@verHistorico')->name('Carrera.verHistorico');
+
 /* RUTAS PARA INGRESO Y REGISTRO DE USUARIO Y CLIENTE */
 
 
@@ -93,7 +95,7 @@ Route::get('/Examen/{id}/Director/IniciarProcesamiento','ExamenController@proces
 
 Route::post('/examenes/director/guardar','ExamenController@guardar')->name('Examen.Director.Guardar');
 
-
+Route::get('/Examenes/{id}/VerReporteIrregularidades','ExamenController@VerReporteIrregularidades')->name('Examen.VerReporteIrregularidades');
 
 
 

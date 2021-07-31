@@ -73,7 +73,12 @@
 
 
  
-      
+      <li class="nav-item">
+        <a href="{{route('Carrera.verHistorico')}}" class="nav-link">
+          <i class="far fa-address-card nav-icon"></i>
+          <p>Carreras</p>
+        </a>
+      </li>
 
       <li class="nav-item">
         <a href="{{route('Examen.Director.Listar')}}" class="nav-link">

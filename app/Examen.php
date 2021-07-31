@@ -88,19 +88,60 @@ class Examen extends Model
         
         $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
  
+        $cant = 0;
         while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
-            Debug::imprimir($linea);
-            //$segundoCaracter = is_num $linea
+            if(mb_strlen($linea)>5) //si no es una linea de datos
+            {   
+                 
+                //$linea = utf8_encode($linea);
+                
+                $vector = mb_str_split($linea);
 
+                $segundoCaracter = $vector[1];
+                if(is_numeric($segundoCaracter))
+                {
+                    //AQUI YA SE PUEDE DECIR QUE LA LINEA DE DATOS ES DE POSTULANTE
+                    
+                    //                                      posicion inicial , longitud
+                    $orden =                mb_substr($linea,1,4);
+                    $carnet=                mb_substr($linea,6,4);
+                    $apellidosYNombres=     trim(mb_substr($linea,13,43));
+                    $puntajeAPT=            trim(mb_substr($linea,56,7));
+                    $puntajeCON=            trim(mb_substr($linea,65,7));
+                    $puntajeTotal=          trim(mb_substr($linea,74,7));
+                    $puntajeMinimo=         trim(mb_substr($linea,83,7));
+                    $escuela=               trim(mb_substr($linea,94,26));
+                    $observaciones =        mb_substr($linea,120,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
+                    
+                    $vectorColumnas = [
+                            'codExamen'=>$this->codExamen,
+                            'respuestasJSON'=>"A",
+                            'orden'=>$orden,
+                            'carnet'=>$carnet,
+                            'apellidosYNombres'=>$apellidosYNombres,
+                            'puntajeAPT'=>$puntajeAPT,
+                            'puntajeCON'=>$puntajeCON,
+                            'puntajeTotal'=>$puntajeTotal,
+                            'puntajeMinimo'=>$puntajeMinimo,
+                            'escuela'=>$escuela,
+                            'observaciones'=>$observaciones
+                        ];
+                    
+                    Debug::imprimirVector($vectorColumnas);   
+                    
+                    //Debug::imprimir($linea);
+
+                    $cant++;
+                }
+            }
 
         }
         
+        Debug::mensajeSimple('la cantidad de postulantes es:'.$cant);
 
 
     }
-
-
-
+ 
 
 
 

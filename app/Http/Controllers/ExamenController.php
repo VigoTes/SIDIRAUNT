@@ -37,6 +37,10 @@ class ExamenController extends Controller
 
     }
 
+    public function VerReporteIrregularidades($id){
+        return view('Examenes.VerReporteIrregularidades');
+    }
+
 
     public function guardar(Request $request){
         try{

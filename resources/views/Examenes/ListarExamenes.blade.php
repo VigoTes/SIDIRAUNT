@@ -119,7 +119,9 @@
                       Iniciar procesamiento
                     </button>
                 @endif
-
+                <a class="btn btn-info btn-sm" href="{{route('Examen.VerReporteIrregularidades',$itemExamen->codExamen)}}">
+                  Reporte Irregularidades
+                </a>
               </td>
       
             </tr>

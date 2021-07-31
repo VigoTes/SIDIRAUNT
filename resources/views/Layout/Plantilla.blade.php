@@ -499,9 +499,9 @@
 
 </script>
 
-
-@yield('script')
 <link rel="stylesheet" href="/adminlte/dist/css/sweetalert.css">
+@yield('script')
+
 
 </body>
 </html>
