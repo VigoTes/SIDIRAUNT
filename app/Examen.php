@@ -62,10 +62,10 @@ class Examen extends Model
     //lee el archivo de las preguntas y las inserta en la base de datos
     public function procesarArchivoPreguntas(){
             
-        $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoPreguntas(),'r');
+        $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoPreguntas(),'r'); //abrimos el archivo en modo lectura (reader)
 
         $nroPregunta = 1;
-        while ($linea = fgets($archivo)) {
+        while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
             $respuesta = substr($linea,1,1);
             $enunciado = substr($linea,4,(strlen($linea)-6)); //Son 6 porque 4 son de inicio (la respuesta) y los otros dos son de fin de linea e inicio de linea
             
@@ -80,6 +80,22 @@ class Examen extends Model
             $nroPregunta++;
         }
         
+
+    }
+
+    public function procesarArchivoRespuestas(){
+
+        
+        $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
+ 
+        while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
+            Debug::imprimir($linea);
+            //$segundoCaracter = is_num $linea
+
+
+        }
+        
+
 
     }
 

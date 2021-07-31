@@ -263,9 +263,7 @@
 <script src="{{ asset('plugins/bootstrap-sweetalert/sweetalert.min.js') }}"></script>
 
 
-<script src="{{ asset('dist/js/admin/app.js') }}"></script>
  
-
 <script type="application/javascript">
 
   var menuLateralOcultado = true;
@@ -494,6 +492,9 @@
 
 
   }
+
+
+
 
 
 </script>

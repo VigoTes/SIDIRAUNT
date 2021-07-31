@@ -16,6 +16,10 @@ Route::get('/facultad/{id}/eliminar', 'FacultadController@eliminar')->name('facu
 //CARRERAS
 Route::get('/Carrera/listar', 'CarreraController@listar')->name('Carrera.listar');
 Route::get('/Carrera/crear', 'CarreraController@crear')->name('Carrera.crear');
+Route::post('/Carrera/guardar', 'CarreraController@guardar')->name('Carrera.guardar');
+Route::get('/Carrera/{id}/editar', 'CarreraController@editar')->name('Carrera.editar');
+Route::post('/Carrera/update', 'CarreraController@update')->name('Carrera.update');
+Route::get('/Carrera/{id}/eliminar', 'CarreraController@eliminar')->name('Carrera.eliminar');
 
 /* RUTAS PARA INGRESO Y REGISTRO DE USUARIO Y CLIENTE */
 

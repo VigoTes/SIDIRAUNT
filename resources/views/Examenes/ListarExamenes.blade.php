@@ -8,7 +8,7 @@
   <div class="loader text-center" id="pantallaCarga">
     <br>
     <br><br><br><br><br><br><br><br>
-    <h1>Procesando examen...</h1>
+    <h1 id="tituloCargando">Cargando página</h1>
   </div>
 @endsection
 
@@ -144,6 +144,7 @@
         
         //$(".loader").fadeOut("slow");
         //$(".loader").show();  //para mostrar la pantalla de carga
+
         $(".loader").hide();  //para mostrar la pantalla de carga
 
     });
@@ -156,6 +157,7 @@
 
     function iniciarProcesamiento(){
 
+      document.getElementById('tituloCargando').innerHTML="Procesando examen...";
 
       $(".loader").show();//para mostrar la pantalla de carga
 
@@ -167,9 +169,11 @@
           
           if(data==1){
               alertaExitosa('¡Enhorabuena!','Examen procesado exitosamente')
+              setTimeout(function(){
+                  location.reload();
+              },100);
           }else{
               alerta('Examen error');
-
           }
           $(".loader").fadeOut("slow");
       }

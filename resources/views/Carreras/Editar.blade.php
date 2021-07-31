@@ -1,7 +1,7 @@
 @extends('Layout.Plantilla')
 
 @section('titulo')
-    Crear Examen
+    Editar Carrera
 @endsection
 @section('estilos')
     <link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">
@@ -10,14 +10,14 @@
 
 @section('contenido')
 
-<form id="frmCrearCarrera" name="frmCrearCarrera" role="form" action="{{route("Carrera.guardar")}}" class="form-horizontal form-groups-bordered" method="post">
+<form id="frmEditarCarrera" name="frmEditarCarrera" role="form" action="{{route("Carrera.update")}}" class="form-horizontal form-groups-bordered" method="post">
 
-@csrf 
-
+    @csrf 
+    <input type="hidden" name="codCarrera" id="codCarrera" value="{{$carrera->codCarrera}}">
 
 <div class="well">
     <H3 style="text-align: center;">
-        Nueva Carrera
+        Editar Carrera
     </H3>
 </div>
 
@@ -36,14 +36,14 @@
                         <label class="" style="">Nombre:</label>
                         <div class="">
                             <input type="text" class="form-control" id="nombre" name="nombre" 
-                                value="" placeholder="Nombre..." >
+                                value="{{$carrera->nombre}}" placeholder="Nombre..." >
                         </div>
                     </div>
                     <div class="col">
                         <label class="" style="">Abreviacion:</label>
                         <div class="">
                             <input type="text" class="form-control" id="abreviacion" name="abreviacion" 
-                                value="" placeholder="Abreviacion..." >
+                                value="{{$carrera->abreviacionMayus}}" placeholder="Abreviacion..." >
                         </div>
                     </div>
 
@@ -55,7 +55,7 @@
                             <select class="form-control" name="codArea" id="codArea">
                                 <option value="-1">- Areas -</option>
                             @foreach ($areas as $itemArea)
-                                <option value="{{$itemArea->codArea}}">
+                                <option value="{{$itemArea->codArea}}" {{$itemArea->codArea==$carrera->codAreaActual ? "selected" : ""}} >
                                     {{$itemArea->descripcion}}
                                 </option>
                             @endforeach
@@ -69,7 +69,7 @@
                                 <option value="-1">- Facultades -</option>
                             @foreach ($facultades as $itemFacultad)
                                 
-                                <option value="{{$itemFacultad->codFacultad}}">
+                                <option value="{{$itemFacultad->codFacultad}}" {{$itemFacultad->codFacultad==$carrera->codFacultad ? "selected" : ""}} >
                                     {{$itemFacultad->nombre}}
                                 </option>
                             @endforeach
@@ -124,7 +124,7 @@
             return;
         }
         
-        document.frmCrearCarrera.submit(); // enviamos el formulario	
+        document.frmEditarCarrera.submit(); // enviamos el formulario	
     }
 
     function validarFormulario(){

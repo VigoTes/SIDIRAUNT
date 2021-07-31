@@ -9,6 +9,7 @@ use App\Examen;
 use App\Fecha;
 use App\Http\Controllers\Controller;
 use App\Modalidad;
+use App\Pregunta;
 use App\Sede;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -133,15 +134,18 @@ class ExamenController extends Controller
 
     }
 
-    public function procesar(){
+    public function procesar($codExamen){
 
-        //$examen = Examen::findOrFail(1);
+
+        $examen = Examen::findOrFail($codExamen);
+
+        Pregunta::where('codExamen','=',$examen->codExamen)->delete();
         //$examen->procesarArchivoPreguntas();
-        for ($i=0; $i < 10000; $i++) { 
-            Debug::mensajeSimple($i);
-        }
-
+        $examen->procesarArchivoRespuestas();
+        
         return "1";
+
+
     }   
 
     

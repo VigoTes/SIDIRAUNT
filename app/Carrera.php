@@ -14,4 +14,11 @@ class Carrera extends Model
     protected $fillable = [
        'nombre', 'codAreaActual', 'codFacultad'
     ];
+
+    public function getArea(){
+        return Area::findOrFail($this->codAreaActual);
+    }
+    public function getFacultad(){
+        return Facultad::findOrFail($this->codFacultad);
+    }
 }

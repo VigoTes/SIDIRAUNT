@@ -41,6 +41,11 @@ class Debug extends Model
         ');
 
     } 
+
+    public static function imprimir($msj){
+        error_log($msj);
+
+    }
     
 
 
