@@ -17,10 +17,8 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Escuela</th>
+                    <th>Area</th>
                     <th>Facultad</th>
-                    <th>Ultimo puntaje aprobado</th>
-                    <th>Ultimo puntaje minimo ingresante</th>
-                    <th>Ultimo puntaje mayor</th>
                     <th>Historico</th>
                 </tr>
             </thead>
@@ -28,12 +26,10 @@
               @foreach($carreras as $itemCarrera)
               <tr>
                 <td>{{$itemCarrera->nombre}}</td>
+                <td>{{$itemCarrera->getArea()->descripcion}}</td>
                 <td>{{$itemCarrera->getFacultad()->nombre}}</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
                 <td>
-                    <a href="" class="btn btn-info btn-sm" title="Ver Reposición">Ver historico</a>
+                    <a href="{{route('Carrera.actualizarHistorico',$itemCarrera->codCarrera)}}" class="btn btn-info btn-sm" title="Ver Reposición">Ver historico</a>
                 </td>
               </tr>
               @endforeach 
@@ -44,7 +40,7 @@
 <div class="card">
     <div class="card-header border-1">
         <div class="d-flex justify-content-between">
-            <h3 class="card-title">HISTORICO DE INGENIERIA DE SISTEMAS:</h3>
+            <h3 class="card-title">HISTORICO DE {{strtoupper($carreraSelected->nombre)}}:</h3>
         </div>
     </div>
     <div class="card-body">
@@ -68,10 +64,10 @@
                 <tbody>
                   @foreach($examenesCarrera as $itemExamen)
                     <tr>
-                      <td>80.424</td>
-                      <td>140.142</td>
-                      <td>165.230</td>
-                      <td>2021-I</td>
+                      <td>{{$itemExamen->puntajeMinimoPermitido}}</td>
+                      <td>{{$itemExamen->puntajeMinimoPostulante}}</td>
+                      <td>{{$itemExamen->puntajeMaximoPostulante}}</td>
+                      <td>{{$itemExamen->periodo}}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -90,6 +86,8 @@
 @section('script')
 <script src="../../plugins/chart.js/Chart.min.js"></script>
 <script>
+    //console.log(<?php echo json_encode($puntajesMinimoPermitido); ?>);
+
     $(function () {
       /* ChartJS
        * -------
@@ -104,10 +102,21 @@
       //var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
   
       var areaChartData = {
-        labels  : ['2020-I', '2020-II', '2021-I', '2021-II'],
+        labels  : <?php echo json_encode($periodos); ?>,
         datasets: [
           {
-            label               : 'Puntaje Mayor',
+            label               : 'Puntaje Aprobatorio',
+            backgroundColor     : 'rgba(100,190,200,0.9)',
+            borderColor         : 'rgba(100,190,200,0.8)',
+            pointRadius          : false,
+            pointColor          : '#3b8bba',
+            pointStrokeColor    : 'rgba(100,190,200,1)',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(100,190,200,1)',
+            data                : <?php echo json_encode($puntajesMinimoPermitido); ?>
+          },
+          {
+            label               : 'Puntaje Minimo',
             backgroundColor     : 'rgba(60,141,188,0.9)',
             borderColor         : 'rgba(60,141,188,0.8)',
             pointRadius          : false,
@@ -115,10 +124,10 @@
             pointStrokeColor    : 'rgba(60,141,188,1)',
             pointHighlightFill  : '#fff',
             pointHighlightStroke: 'rgba(60,141,188,1)',
-            data                : [28, 48, 40, 19]
+            data                : <?php echo json_encode($puntajesMinimoPostulante); ?>
           },
           {
-            label               : 'Minimo Ingresante',
+            label               : 'Puntaje Maximo',
             backgroundColor     : 'rgba(210, 214, 222, 1)',
             borderColor         : 'rgba(210, 214, 222, 1)',
             pointRadius         : false,
@@ -126,7 +135,7 @@
             pointStrokeColor    : '#c1c7d1',
             pointHighlightFill  : '#fff',
             pointHighlightStroke: 'rgba(220,220,220,1)',
-            data                : [65, 59, 80, 81]
+            data                : <?php echo json_encode($puntajesMaximoPostulante); ?>
           },
         ]
       }
@@ -167,6 +176,7 @@
       var lineChartData = $.extend(true, {}, areaChartData)
       lineChartData.datasets[0].fill = false;
       lineChartData.datasets[1].fill = false;
+      lineChartData.datasets[2].fill = false;
       lineChartOptions.datasetFill = false
   
       var lineChart = new Chart(lineChartCanvas, {

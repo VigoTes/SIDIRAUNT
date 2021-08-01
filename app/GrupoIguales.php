@@ -14,4 +14,12 @@ class GrupoIguales extends Model
     protected $fillable = [
        'codAnalisis','puntajeAP','puntajeCON','puntajeTotal','correctas','incorrectas','respuestasJSON','vectorExamenPostulable'
     ];
+
+    public function identificador(){
+        return printf('%04d', $this->codGrupo).'';
+    }
+    public function cantidadPostulantes(){
+        $arr = explode(',', $this->vectorExamenPostulable);
+        return count($arr);
+    }
 }

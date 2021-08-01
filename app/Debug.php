@@ -55,6 +55,17 @@ class Debug extends Model
         error_log($cadena);
     }
 
-
+    //retorna una cadena tipo _DCAXCEXCBECBXXADAEEEDBADBCAACDDDDXDXAXXAEEDABCAECAXBECCECCEAEXXAXXXBCCCDCEBEDADXEEXBAEXDEADCBABBBCEA
+    //EL _ inicial es para que cada pregunta  corresponda a su ubicacion en el vector [1] es la 1ra pregunta 
+    public static function generarRespuestasAleatorias() {
+        $length = 100;
+        $characters = 'ABCDEX';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return "_".$randomString;
+    } 
 
 }

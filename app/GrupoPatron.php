@@ -14,4 +14,16 @@ class GrupoPatron extends Model
     protected $fillable = [
        'codAnalisis','nroIncorrectas','nroCorrectas','puntajeAdquirido','respuestasCoincidentesJSON','vectorExamenPostulante'
     ];
+
+
+    public function identificador(){
+        return printf('%04d', $this->codGrupoPatron).'';
+    }
+    public function cantidadPostulantes(){
+        $arr = explode(',', $this->vectorExamenPostulante);
+        return count($arr);
+    }
+    public function respuestasResumen(){
+        return substr($this->respuestasCoincidentesJSON, 0, 10);
+    }
 }
