@@ -92,7 +92,25 @@ class ExamenController extends Controller
     }
 
     public function getModalExamenesIguales($codGrupo){
-        return view('Examenes.Modales.ModalExamenesIguales');
+        $solucionario=Examen::findOrFail(1)->getStringRespuestas();
+        $respuestasProbando="_ABXBBDBXBXBXBBBBBXXXBDXBXXBXBBDXXXXXBBBBXXXBXBBDXXBBXXBXXBBBXBBXBXBXXBAXXXBXXDXBBBXBXXXBBBXXXBXXXXAX";
+        $arr=['clave'=>[],'color'=>[]];
+        for ($i=0; $i < strlen($respuestasProbando); $i++) { 
+            if(substr($respuestasProbando,$i, 1)=='X'){
+                $arr['clave'][]=" ";
+            }else{
+                $arr['clave'][]=substr($respuestasProbando,$i, 1);
+            }
+            
+            if(substr($respuestasProbando,$i, 1)==substr($solucionario,$i, 1)){
+                $arr['color'][]="green";
+            }else{
+                $arr['color'][]="red";
+            }
+            
+        }
+
+        return view('Examenes.Modales.ModalExamenesIguales',compact('arr','respuestasProbando','solucionario'));
     }
     public function getModalGrupoRespuestasIguales($codGrupo){
         return view('Examenes.Modales.ModalGrupoRespuestasIguales');
@@ -202,10 +220,15 @@ class ExamenController extends Controller
 
         $examen = Examen::findOrFail($codExamen);
 
-        Pregunta::where('codExamen','=',$examen->codExamen)->delete();
-        //$examen->procesarArchivoPreguntas();
-        $examen->procesarArchivoRespuestas();
         
+        //$examen->procesarArchivoPreguntas();
+        //$examen->procesarArchivoRespuestas();
+        AnalisisExamen::where('codExamen','=',$codExamen)->delete();
+        GrupoIguales::where('codGrupo','>','0')->delete();
+        
+        return $examen->generarReporteIrregularidad();
+
+
         return "1";
 
 

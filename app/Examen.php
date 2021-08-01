@@ -89,9 +89,11 @@ class Examen extends Model
     public function procesarArchivoRespuestas(){
         //comentar esto
         ExamenPostulante::where('codExamenPostulante','>','0')->delete();
-        
+        User::where('codUsuario','>','0')->delete();
+        Actor::where('codActor','>','0')->delete();
+
         $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
- 
+        
         $cant = 0;
         while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
             if(mb_strlen($linea)>5) //si no es una linea de datos
@@ -115,8 +117,8 @@ class Examen extends Model
                     $puntajeTotal=          trim(mb_substr($linea,74,7));
                     $puntajeMinimo=         trim(mb_substr($linea,83,7));
                     $escuela=               trim(mb_substr($linea,94,26));
-                    $respuestas =           mb_substr($linea,120,101);
-                    $observaciones =        mb_substr($linea,222,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
+                    $respuestas =           mb_substr($linea,119,101);
+                    $observaciones =        mb_substr($linea,221,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
                     
                     
                     $vectorColumnas = [
@@ -160,6 +162,28 @@ class Examen extends Model
         return "_".$cadena;
     }
 
+
+
+
+
+    public function generarReporteIrregularidad(){
+        $analisis = new AnalisisExamen();
+        $analisis->codExamen = $this->codExamen;
+        
+        $analisis->save();
+
+        return $analisis->generarGruposIguales();
+        $analisis->generarGruposPatron();
+        $analisis->generarPostulantesElevados();
+
+
+    }
+
+
+
+
+
+    /* ESTO ES PARA GENERAR LA CADENA DE RESPUESTAS DE CADA POSTULANTE, EN TEORIA NO SE USARÁ EN EL SISTEMA PORQUE YA VIENE INCLUIDO */
     public function generarRespuestasPostulantes(){
 
 

@@ -22,4 +22,10 @@ class GrupoIguales extends Model
         $arr = explode(',', $this->vectorExamenPostulable);
         return count($arr);
     }
+
+
+    public function añadirExamenPostulante($codExamenPostulante){
+        $this->vectorExamenPostulante = $this->vectorExamenPostulante.",".$codExamenPostulante;
+        $this->save();
+    }
 }
