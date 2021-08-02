@@ -63,12 +63,59 @@ class ExamenPostulante extends Model
         $examenPostulante->codCarrera = $carrera->codCarrera;
         $examenPostulante->orden = $array['orden'];
         $examenPostulante->nroCarnet = $array['nroCarnet'];
-        
         $examenPostulante->codCondicion = $condicion->codCondicion;
-
+        $examenPostulante->nroCorrectas = $array['correctasEincorrectas']['correctas'];
+        $examenPostulante->nroIncorrectas = $array['correctasEincorrectas']['incorrectas'];
+        
         $examenPostulante->save();
+
+        
+    }
+    /* 
+        retorna un vector con las respuestas iguales, de forma:
+        [ posicion  rpta
+            '4' => 'A',
+            '10' => 'B',
+            '25' => 'D',
+            '67' => 'A'
+        ]
+    */
+    
+    public static function compararRespuestas($cad1,$cad2){
+        $vector = [];
+        for ($i=1; $i <= 100; $i++) { 
+            if($cad1[$i] == 'X'|| $cad2[$i] == 'X')
+            {
+                //no tomar en cuenta esa
+            }else{ //si ambos marcaron esa pregunta
+                if($cad1[$i] == $cad2[$i]){
+                    $vector[$i]= $cad1[$i];
+                }
+            }
+            
+        }
+        return $vector;
+    }
+
+
+
+    public function getCantidadRespuestasMarcadas(){
+        return $this->nroCorrectas + $this->nroIncorrectas;
+        
 
     }
 
 
+
+    public function getTasaTolerancia($listaTasas){
+        
+        foreach ($listaTasas as $tasa) {
+            if($tasa->valorMinimo < $this->puntajeTotal && $this->puntajeTotal < $tasa->valorMaximo ){
+                return $tasa->valorTasa;
+            }
+        }
+
+        
+
+    }
 }

@@ -204,7 +204,7 @@
                     </td>
                 </tr>
                 @endforeach
-                
+                <!--
                 <tr>
                     <td>0001</td>
                     <td>15</td>
@@ -217,6 +217,7 @@
                         </button>
                     </td>
                 </tr>
+            -->
             </tbody>
         </table>
     </div>
@@ -231,11 +232,11 @@
         <table class="table table-sm">
             <thead class="thead-dark">
                 <tr>
-                    <th>Patron ID</th>
-                    <th>Cantidad de estudiantes</th>
-                    <th>Cantidad de Preguntas</th>
+                    <th width="7%">Patron ID</th>
+                    <th width="10%"># Estudiantes</th>
+                    <th width="10%"># Preguntas</th>
                     <th>Detalle</th>
-                    <th>Ver</th>
+                    <th width="5%">Ver</th>
                 </tr>
             </thead>
             <tbody>
@@ -252,7 +253,7 @@
                     </td>
                 </tr>
                 @endforeach
-                
+                <!--
                 <tr>
                     <td>0001</td>
                     <td>15</td>
@@ -264,6 +265,7 @@
                         </button>
                     </td>
                 </tr>
+                -->
             </tbody>
         </table>
     </div>

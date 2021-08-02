@@ -3,6 +3,8 @@
 use App\CondicionPostulacion;
 use App\Debug;
 use App\Examen;
+use App\ExamenPostulante;
+use App\GrupoPatron;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -41,16 +43,9 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
 Route::get('/probandoCosas',function(){
+    
 
-    //APTITUD: {"buenas":"10","malas":"02"} /////// CONOCIMIENTOS:{"buenas":"06","malas":"04"}
-    // _ABBBBBBBBABBBBBBBBBABBBBBBBBBB BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBD
-    //  AXXXXCXBXXBXXBXXBBXABXXBXXXEXB XXXXXXXXXBXXBXXAXXXXXXXXXXXXXXXBXXXXXXDXXXXDBXXXXXBXXXXXXBXXXXXXXXXXEX
-
-    //CON  ..-.--...-
-
-
-
-
+    return GrupoPatron::buscar('{"1":"A","2":"A","3":"B","8":"B","13":"B","15":"B","23":"B","31":"B","54":"B","59":"B","71":"B","79":"B","94":"B"}',40);
 
     //   posBuenas=[12,19,20,4,24,8,17,9,3,18]  posMalas[29,25,26,23,6,22]
     //                       EADBEECDCEADDAAECDBEBDDCEAEADC      

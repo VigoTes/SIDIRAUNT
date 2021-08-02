@@ -50,7 +50,7 @@ class Debug extends Model
     public static function imprimirVector($vector){
         $cadena ="";
         foreach ($vector as $value) {
-            $cadena = $cadena.",".$value;
+            $cadena = $cadena.",".json_encode($value);
         }
         error_log($cadena);
     }

@@ -17,13 +17,30 @@ class GrupoPatron extends Model
 
 
     public function identificador(){
-        return printf('%04d', $this->codGrupoPatron).'';
+        $number = $this->codGrupoPatron;
+        $length = 4;
+        return substr(str_repeat(0, $length).$number, - $length);
     }
     public function cantidadPostulantes(){
         $arr = explode(',', $this->vectorExamenPostulante);
         return count($arr);
     }
     public function respuestasResumen(){
-        return substr($this->respuestasCoincidentesJSON, 0, 10);
+        return substr($this->respuestasCoincidentesJSON, 0, 120);
     }
+
+
+    public function añadirExamenPostulante($codExamenPostulante){
+        $this->vectorExamenPostulante = $this->vectorExamenPostulante.",".$codExamenPostulante;
+        $this->save();
+    }
+
+    public static function buscar($vectorRespuestasIguales,$codAnalisis){
+        return GrupoPatron::where('codAnalisis','=',$codAnalisis)
+            ->where('respuestasCoincidentesJSON','=',$vectorRespuestasIguales)
+            ->get();
+
+
+    }
+
 }

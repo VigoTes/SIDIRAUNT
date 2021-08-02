@@ -14,8 +14,12 @@ class Actor extends Model
 
 
     protected $fillable = [
-       'apellidos', 'nombres', 'codUsuario', 'codTipoActor', 'dni'
+       'apellidosYnombres', 'codUsuario', 'codTipoActor'
     ];
+
+    public function getExamenPostulante($codExamen){
+        return ExamenPostulante::where('codExamen','=',$codExamen)->where('codActor','=',$this->codActor)->get()[0];
+    }
 
     public static function getActorLogeado(){
         $codUsuario = Auth::id();         
@@ -49,8 +53,9 @@ class Actor extends Model
         
     }
 
-    
+    /*
     public function getNombreCompleto(){
         return $this->apellidos.' '.$this->nombres;
     }
+    */
 }

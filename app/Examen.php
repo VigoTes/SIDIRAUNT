@@ -85,12 +85,14 @@ class Examen extends Model
         
 
     }
-
+    
     public function procesarArchivoRespuestas(){
         //comentar esto
         ExamenPostulante::where('codExamenPostulante','>','0')->delete();
         User::where('codUsuario','>','0')->delete();
         Actor::where('codActor','>','0')->delete();
+        $respuestasCorrectas = $this->getStringRespuestas();
+
 
         $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
         
@@ -119,7 +121,7 @@ class Examen extends Model
                     $escuela=               trim(mb_substr($linea,94,26));
                     $respuestas =           mb_substr($linea,119,101);
                     $observaciones =        mb_substr($linea,221,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
-                    
+                    $correctasEincorrectas = Examen::calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas); //calculamos la cantidad de correctas e incorrectas del postulante
                     
                     $vectorColumnas = [
                             'codExamen'=>$this->codExamen,
@@ -132,7 +134,8 @@ class Examen extends Model
                             'puntajeTotal'=>$puntajeTotal,
                             'puntajeMinimo'=>$puntajeMinimo,
                             'escuela'=>$escuela,
-                            'observaciones'=>$observaciones
+                            'observaciones'=>$observaciones,
+                            'correctasEincorrectas'=>$correctasEincorrectas
                         ];
                     
                     Debug::imprimirVector($vectorColumnas);   
@@ -162,7 +165,28 @@ class Examen extends Model
         return "_".$cadena;
     }
 
+    public static function calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas){
+        
+        $respuestasCorrectas = str_split($respuestasCorrectas);
+        $respuestas = str_split($respuestas);
+        
+        $correctas = 0;
+        $incorrectas = 0;
+        for ($i=1; $i <= 100 ; $i++) { 
+            if($respuestas[$i]!='X'){ //si se marcó
+                if($respuestas[$i]== $respuestasCorrectas[$i]) //si marcó bien
+                    $correctas++;
+                else
+                    $incorrectas++;
+            }
+        }
 
+        return [
+            'correctas'=>$correctas,
+            'incorrectas'=>$incorrectas
+        ];
+
+    }
 
 
 
@@ -171,11 +195,12 @@ class Examen extends Model
         $analisis->codExamen = $this->codExamen;
         
         $analisis->save();
-
-        return $analisis->generarGruposIguales();
+        
+        //$analisis->generarGruposIguales();
         $analisis->generarGruposPatron();
-        $analisis->generarPostulantesElevados();
-
+        
+        //$analisis->generarPostulantesElevados();
+        return "si llegamos";
 
     }
 
@@ -355,6 +380,78 @@ class Examen extends Model
 
         }
         return $respuestasPosibles[$pos];
+
+    }
+
+
+
+    /* 
+    Le entra:
+        un vector de posiciones y respuestas
+        [
+            '2' =>'A',
+            '6' => 'B',
+            '16'=> 'D'
+
+
+        ]
+        un objeto examen
+    Sale:
+        un vector de tipo 
+            [
+                'nroCorrectas' => 15,
+                'nroIncorrectas'=> 5,
+                'puntajeAdquirido'=> 125.12
+
+            ]
+    */
+    public static function compararVectorEspecialPosiciones($vectorPosicionesRespuestas,$examen){
+        $preguntasCorrectas = $examen->getStringRespuestas();
+        $posCON = $examen->valoracionPositivaCON;
+        $posAPT = $examen->valoracionPositivaAPT;
+
+        $negCON = $examen->valoracionNegativaCON;
+        $negAPT = $examen->valoracionNegativaAPT;
+
+        $nroCorrectasCON = 0;
+        $nroIncorrectasCON = 0;
+        
+        $nroCorrectasAPT = 0;
+        $nroIncorrectasAPT = 0;
+        
+        $puntoDivisionAPTyCON = 30; //esto deberia salir de $examen
+
+        foreach ($vectorPosicionesRespuestas as $key => $value) {
+            if($key < $puntoDivisionAPTyCON){ //apt
+                if($vectorPosicionesRespuestas[$key] == $preguntasCorrectas[$key] ) //
+                {
+                    $nroCorrectasAPT++;
+                }else{
+                    $nroIncorrectasAPT++;
+                }
+
+            }else{//CON
+                if($vectorPosicionesRespuestas[$key] == $preguntasCorrectas[$key] ) //
+                {
+                    $nroCorrectasCON++;
+                }else{
+                    $nroIncorrectasCON++;
+                }
+
+            }
+          
+        }
+
+        $puntajeAdquirido = 
+            $nroCorrectasCON*$posCON + $nroIncorrectasCON*$negCON + 
+            $nroCorrectasAPT*$posAPT + $nroIncorrectasAPT*$negAPT;
+
+        return [
+            'nroCorrectas'=> $nroCorrectasAPT + $nroCorrectasCON,
+            'nroIncorrectas'=> $nroIncorrectasAPT + $nroIncorrectasCON,
+            'puntajeAdquirido'=> $puntajeAdquirido
+        ];
+        
 
     }
 

@@ -16,6 +16,7 @@ use App\Modalidad;
 use App\PostulantesElevados;
 use App\Pregunta;
 use App\Sede;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -45,8 +46,7 @@ class ExamenController extends Controller
     public function VerReporteIrregularidad($id){
 
         $examen=Examen::findOrFail($id);
-        $analisis=AnalisisExamen::findOrFail($examen->codExamen);
-
+        $analisis = AnalisisExamen::where('codExamen','=',$id)->get()[0];
         /*
         $pieGruposIguales=[
             "labels"=>['Chrome','IE','FireFox','Safari','Opera','Navigator'],
@@ -92,8 +92,12 @@ class ExamenController extends Controller
     }
 
     public function getModalExamenesIguales($codGrupo){
-        $solucionario=Examen::findOrFail(1)->getStringRespuestas();
-        $respuestasProbando="_ABXBBDBXBXBXBBBBBXXXBDXBXXBXBBDXXXXXBBBBXXXBXBBDXXBBXXBXXBBBXBBXBXBXXBAXXXBXXDXBBBXBXXXBBBXXXBXXXXAX";
+        $grupoIguales=GrupoIguales::findOrFail($codGrupo);
+        $analisis=AnalisisExamen::findOrFail($grupoIguales->codAnalisis);
+
+        //$respuestasProbando="_ABXBBDBXBXBXBBBBBXXXBDXBXXBXBBDXXXXXBBBBXXXBXBBDXXBBXXBXXBBBXBBXBXBXXBAXXXBXXDXBBBXBXXXBBBXXXBXXXXAX";
+        $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
+        $respuestasProbando=$grupoIguales->respuestasJSON;
         $arr=['clave'=>[],'color'=>[]];
         for ($i=0; $i < strlen($respuestasProbando); $i++) { 
             if(substr($respuestasProbando,$i, 1)=='X'){
@@ -110,10 +114,39 @@ class ExamenController extends Controller
             
         }
 
-        return view('Examenes.Modales.ModalExamenesIguales',compact('arr','respuestasProbando','solucionario'));
+        //para los postulantes
+        $postulantesArr = explode(',', $grupoIguales->vectorExamenPostulante);
+        $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
+
+        return view('Examenes.Modales.ModalExamenesIguales',compact('arr','respuestasProbando','solucionario','grupoIguales','postulantes','analisis'));
     }
     public function getModalGrupoRespuestasIguales($codGrupo){
-        return view('Examenes.Modales.ModalGrupoRespuestasIguales');
+        $grupoPatrones=GrupoPatron::findOrFail($codGrupo);
+        $analisis=AnalisisExamen::findOrFail($grupoPatrones->codAnalisis);
+
+        $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
+        $respuestasProbando=json_decode($grupoPatrones->respuestasCoincidentesJSON,true);
+        $arr=['clave'=>["_"],'color'=>["black"]];
+        for ($i=1; $i <= 100; $i++) { 
+            if(isset($respuestasProbando[$i])){
+                $arr['clave'][]=$respuestasProbando[$i];
+                if($respuestasProbando[$i]==substr($solucionario,$i, 1)){
+                    $arr['color'][]="green";
+                }else{
+                    $arr['color'][]="red";
+                }
+            }else{
+                $arr['clave'][]=" ";
+                $arr['color'][]="black";
+            }
+            
+        }
+        //para los postulantes
+        $postulantesArr = explode(',', $grupoPatrones->vectorExamenPostulante);
+        $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
+
+
+        return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
     }
     public function getModalPreguntasDePostulante($codPostulanteElevado){
         return view('Examenes.Modales.ModalPreguntasDePostulante');
@@ -219,12 +252,15 @@ class ExamenController extends Controller
 
 
         $examen = Examen::findOrFail($codExamen);
-
+        AnalisisExamen::where('codExamen','=',$codExamen)->delete();
+        GrupoIguales::where('codGrupo','>','0')->delete();
+        //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
+        //Pregunta::where('codPregunta','>','0')->delete();
+        //User::where('codUsuario','>','0')->delete();
+        
         
         //$examen->procesarArchivoPreguntas();
         //$examen->procesarArchivoRespuestas();
-        AnalisisExamen::where('codExamen','=',$codExamen)->delete();
-        GrupoIguales::where('codGrupo','>','0')->delete();
         
         return $examen->generarReporteIrregularidad();
 
