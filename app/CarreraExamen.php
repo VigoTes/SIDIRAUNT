@@ -12,6 +12,6 @@ class CarreraExamen extends Model
 
 
     protected $fillable = [
-       'cantidadVacantes','codExamen','codCarrera','codArea'
+       'cantidadVacantes','codExamen','codCarrera','puntajeMinimoPostulante','puntajeMaximoPostulante','puntajeMinimoPermitido'
     ];
 }

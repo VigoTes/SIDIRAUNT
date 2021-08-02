@@ -3,13 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Actor;
+use App\AnalisisExamen;
 use App\Area;
 use App\Debug;
 use App\Examen;
+use App\ExamenPostulante;
 use App\Fecha;
+use App\GrupoIguales;
+use App\GrupoPatron;
 use App\Http\Controllers\Controller;
 use App\Modalidad;
+use App\PostulantesElevados;
+use App\Pregunta;
 use App\Sede;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -36,6 +43,114 @@ class ExamenController extends Controller
 
     }
 
+    public function VerReporteIrregularidad($id){
+
+        $examen=Examen::findOrFail($id);
+        $analisis = AnalisisExamen::where('codExamen','=',$id)->get()[0];
+        /*
+        $pieGruposIguales=[
+            "labels"=>['Chrome','IE','FireFox','Safari','Opera','Navigator'],
+            "value"=>[700,500,400,600,300,100],
+            "color"=>[sprintf('#%06X', mt_rand(0, 0xFFFFFF)), '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
+        ];
+        
+        $pieGruposIguales['labels'][]='xdxd';
+        $pieGruposIguales['value'][]=200;
+        $pieGruposIguales['color'][]=sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        $pieGruposPatron=$pieGruposIguales;
+        */
+
+
+
+        //para las 3 tablas
+        $gruposIguales=GrupoIguales::where('codAnalisis','=',$analisis->codAnalisis)->get();
+        $gruposPatron=GrupoPatron::where('codAnalisis','=',$analisis->codAnalisis)->get();
+        $postulantesElevados=PostulantesElevados::where('codAnalisis','=',$analisis->codAnalisis)->get();
+        //para los 3 pie
+        $pieGruposIguales=['labels'=>[],'value'=>[],'color'=>[]];
+        foreach ($gruposIguales as $item) {
+            $pieGruposIguales['labels'][]=$item->identificador();
+            $pieGruposIguales['value'][]=$item->cantidadPostulantes();
+            $pieGruposIguales['color'][]=sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        }
+        $pieGruposPatron=['labels'=>[],'value'=>[],'color'=>[]];
+        foreach ($gruposPatron as $item) {
+            $pieGruposPatron['labels'][]=$item->identificador();
+            $pieGruposPatron['value'][]=$item->cantidadPostulantes();
+            $pieGruposPatron['color'][]=sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        }
+        $piePostulantesElevados=[
+            "labels"=>['CRECIMIENTO ANORMAL','CRECIMIENTO ESTANDAR'],
+            "value"=>[count($postulantesElevados),$examen->asistentes-count($postulantesElevados)],
+            "color"=>[sprintf('#%06X', mt_rand(0, 0xFFFFFF)), sprintf('#%06X', mt_rand(0, 0xFFFFFF))]
+        ];
+
+
+
+        return view('Examenes.VerReporteIrregularidades',compact('examen','analisis','gruposIguales','gruposPatron','postulantesElevados',
+                                                                    'pieGruposIguales','pieGruposPatron','piePostulantesElevados'));
+    }
+
+    public function getModalExamenesIguales($codGrupo){
+        $grupoIguales=GrupoIguales::findOrFail($codGrupo);
+        $analisis=AnalisisExamen::findOrFail($grupoIguales->codAnalisis);
+
+        //$respuestasProbando="_ABXBBDBXBXBXBBBBBXXXBDXBXXBXBBDXXXXXBBBBXXXBXBBDXXBBXXBXXBBBXBBXBXBXXBAXXXBXXDXBBBXBXXXBBBXXXBXXXXAX";
+        $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
+        $respuestasProbando=$grupoIguales->respuestasJSON;
+        $arr=['clave'=>[],'color'=>[]];
+        for ($i=0; $i < strlen($respuestasProbando); $i++) { 
+            if(substr($respuestasProbando,$i, 1)=='X'){
+                $arr['clave'][]=" ";
+            }else{
+                $arr['clave'][]=substr($respuestasProbando,$i, 1);
+            }
+            
+            if(substr($respuestasProbando,$i, 1)==substr($solucionario,$i, 1)){
+                $arr['color'][]="green";
+            }else{
+                $arr['color'][]="red";
+            }
+            
+        }
+
+        //para los postulantes
+        $postulantesArr = explode(',', $grupoIguales->vectorExamenPostulante);
+        $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
+
+        return view('Examenes.Modales.ModalExamenesIguales',compact('arr','respuestasProbando','solucionario','grupoIguales','postulantes','analisis'));
+    }
+    public function getModalGrupoRespuestasIguales($codGrupo){
+        $grupoPatrones=GrupoPatron::findOrFail($codGrupo);
+        $analisis=AnalisisExamen::findOrFail($grupoPatrones->codAnalisis);
+
+        $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
+        $respuestasProbando=json_decode($grupoPatrones->respuestasCoincidentesJSON,true);
+        $arr=['clave'=>["_"],'color'=>["black"]];
+        for ($i=1; $i <= 100; $i++) { 
+            if(isset($respuestasProbando[$i])){
+                $arr['clave'][]=$respuestasProbando[$i];
+                if($respuestasProbando[$i]==substr($solucionario,$i, 1)){
+                    $arr['color'][]="green";
+                }else{
+                    $arr['color'][]="red";
+                }
+            }else{
+                $arr['clave'][]=" ";
+                $arr['color'][]="black";
+            }
+            
+        }
+        //para los postulantes
+        $postulantesArr = explode(',', $grupoPatrones->vectorExamenPostulante);
+        $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
+
+
+        return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
+    }
+    public function getModalPreguntasDePostulante($codPostulanteElevado){
+        return view('Examenes.Modales.ModalPreguntasDePostulante');
+    }
 
     public function guardar(Request $request){
         try{
@@ -133,16 +248,37 @@ class ExamenController extends Controller
 
     }
 
-    public function procesar(){
+    public function procesar($codExamen){
 
-        //$examen = Examen::findOrFail(1);
+
+        $examen = Examen::findOrFail($codExamen);
+        AnalisisExamen::where('codExamen','=',$codExamen)->delete();
+        GrupoIguales::where('codGrupo','>','0')->delete();
+        //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
+        //Pregunta::where('codPregunta','>','0')->delete();
+        //User::where('codUsuario','>','0')->delete();
+        
+        
         //$examen->procesarArchivoPreguntas();
-        for ($i=0; $i < 10000; $i++) { 
-            Debug::mensajeSimple($i);
-        }
+        //$examen->procesarArchivoRespuestas();
+        
+        return $examen->generarReporteIrregularidad();
+
 
         return "1";
+
+
     }   
+
+
+    public function generarRespuestasPostulantes($codExamen){
+        
+        $examen = Examen::findOrFail($codExamen);
+
+        //Pregunta::where('codExamen','=',$examen->codExamen)->delete();
+        return $examen->generarRespuestasPostulantes();
+
+    }
 
     
 

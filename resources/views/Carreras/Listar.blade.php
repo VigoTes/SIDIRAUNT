@@ -51,9 +51,10 @@
     <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
         <thead class="thead-dark">
             <tr>
+                <th>Abreviacion</th>
                 <th>Nombre</th>
-                <th>Facultad</th>
                 <th>Area</th>
+                <th>Facultad</th>
                 <th>Opciones</th>
             </tr>
         </thead>
@@ -61,14 +62,15 @@
         
         @foreach($carreras as $itemCarrera)
             <tr>
+                <td>{{$itemCarrera->abreviacionMayus}}</td>
                 <td>{{$itemCarrera->nombre}}</td>
-                <td>{{$itemCarrera->codFacultad}}</td>
-                <td>{{$itemCarrera->codAreaActual}}</td>
+                <td>{{$itemCarrera->getArea()->descripcion}}</td>
+                <td>{{$itemCarrera->getFacultad()->nombre}}</td>
                 <td>
-                    <a href=""><i class="fas fa-edit" style="color:#3084D7; font-size: 20px;"></i></a>
-                    <!--
-                    <a href="" ><i class="fas fa-trash-alt fa-fw" style="color:#3084D7; font-size: 20px;"></i></a>
-                    -->
+                    <a href="{{route("Carrera.editar",$itemCarrera->codCarrera)}}"><i class="fas fa-edit" style="color:#3084D7; font-size: 20px;"></i></a>
+
+                    <a href="{{route("Carrera.eliminar",$itemCarrera->codCarrera)}}" ><i class="fas fa-trash-alt fa-fw" style="color:#3084D7; font-size: 20px;"></i></a>
+
                 </td>
             </tr>
         @endforeach

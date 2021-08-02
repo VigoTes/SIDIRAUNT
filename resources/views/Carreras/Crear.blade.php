@@ -10,7 +10,7 @@
 
 @section('contenido')
 
-<form id="frmCarrera" name="frmCarrera" role="form" action="" class="form-horizontal form-groups-bordered" method="post">
+<form id="frmCrearCarrera" name="frmCrearCarrera" role="form" action="{{route("Carrera.guardar")}}" class="form-horizontal form-groups-bordered" method="post">
 
 @csrf 
 
@@ -37,6 +37,13 @@
                         <div class="">
                             <input type="text" class="form-control" id="nombre" name="nombre" 
                                 value="" placeholder="Nombre..." >
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="" style="">Abreviacion:</label>
+                        <div class="">
+                            <input type="text" class="form-control" id="abreviacion" name="abreviacion" 
+                                value="" placeholder="Abreviacion..." >
                         </div>
                     </div>
 
@@ -117,32 +124,20 @@
             return;
         }
         
-        document.frmExamen.submit(); // enviamos el formulario	
+        document.frmCrearCarrera.submit(); // enviamos el formulario	
     }
 
     function validarFormulario(){
 
-        limpiarEstilos(['nroVacantes','nroPostulantes','valoracionPositivaCON','valoracionPositivaAPT','valoracionNegativaCON','valoracionNegativaAPT'
-           , 'año','fechaRendicion','codModalidad','codSede','codArea']);
-
+        limpiarEstilos(['nombre','codArea','codFacultad','abreviacion']);
         msjError = "";
 
-        msjError = validarPositividadYNulidad(msjError,'nroVacantes','Vacantes');
-        msjError = validarPositividadYNulidad(msjError,'nroPostulantes','Postulantes');
-
-        msjError = validarPositividadYNulidad(msjError,'valoracionPositivaCON','Valoración Positiva de pregunta Aptitud');
-        msjError = validarPositividadYNulidad(msjError,'valoracionPositivaAPT','Valoración Positiva de pregunta Conocimiento');
-        msjError = validarPositividadYNulidad(msjError,'valoracionNegativaCON','Valoración Negativa de pregunta Aptitud');
-        msjError = validarPositividadYNulidad(msjError,'valoracionNegativaAPT','Valoración Negativa de pregunta Conocimiento');
+        msjError = validarTamañoMaximoYNulidad(msjError,'nombre',200,'Nombre');
+        msjError = validarTamañoMaximoYNulidad(msjError,'abreviacion',50,'Abreviacion');
         
-
-        msjError = validarTamañoMaximoYNulidad(msjError,'año',4,'Año');
-        msjError = validarTamañoMaximoYNulidad(msjError,'fechaRendicion',10,'');
-        
-        msjError = validarSelect(msjError,'codModalidad','-1','Modalidad');
-        msjError = validarSelect(msjError,'codSede','-1','Sede');
         msjError = validarSelect(msjError,'codArea','-1','Area');
-         
+        msjError = validarSelect(msjError,'codFacultad','-1','Facultad');
+
         return msjError;
 
     }

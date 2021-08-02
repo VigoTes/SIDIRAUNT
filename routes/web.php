@@ -1,6 +1,10 @@
 <?php
 
+use App\CondicionPostulacion;
 use App\Debug;
+use App\Examen;
+use App\ExamenPostulante;
+use App\GrupoPatron;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +20,13 @@ Route::get('/facultad/{id}/eliminar', 'FacultadController@eliminar')->name('facu
 //CARRERAS
 Route::get('/Carrera/listar', 'CarreraController@listar')->name('Carrera.listar');
 Route::get('/Carrera/crear', 'CarreraController@crear')->name('Carrera.crear');
+Route::post('/Carrera/guardar', 'CarreraController@guardar')->name('Carrera.guardar');
+Route::get('/Carrera/{id}/editar', 'CarreraController@editar')->name('Carrera.editar');
+Route::post('/Carrera/update', 'CarreraController@update')->name('Carrera.update');
+Route::get('/Carrera/{id}/eliminar', 'CarreraController@eliminar')->name('Carrera.eliminar');
+
+Route::get('/Carrera/VerHistorico', 'CarreraController@verHistorico')->name('Carrera.verHistorico');
+Route::get('/Carrera/{id}/VerHistorico', 'CarreraController@actualizarHistorico')->name('Carrera.actualizarHistorico');
 
 /* RUTAS PARA INGRESO Y REGISTRO DE USUARIO Y CLIENTE */
 
@@ -31,43 +42,22 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
-
-
 Route::get('/probandoCosas',function(){
-    /* 
-        aptitud: 
-            correcta -> 4.070
-            incorrecta -> 1.019
-    */
-    $valorCorrecta = 4.07;
-    $valorIncorrecta = 1.019;
-    $cantidadPreguntasAptitud = 40;
-    $vector = [55.949,49.853,47.815,59.006,46.790,44.764,66.133,51.891,40.688,38.650,47.809,56.974,49.847,26.440,47.815,36.618,40.688,56.974,29.491,34.586,39.669,41.707,40.688,39.681,45.777,37.631,40.694,27.459,46.796,26.440,37.637,42.726,38.656,51.885,42.726,44.758,48.834,53.917,39.675,37.637,47.815,26.440,42.726,28.484,33.567,26.446,44.758,29.497,42.726,32.542];
-    $cadena = "";
-    $adicion ="";
-    foreach($vector as $item){
-        $band = true;
-         
-        //para cada valor, le buscamos combinaciones de valores que generen ese numero 
-        for ($i=0; $i < 40 && $band; $i++) {  
-            for ($j=0; $j < 40 && $band; $j++) { 
-                if($i*$valorCorrecta - $j*$valorIncorrecta == $item)
-                {
-                    $adicion = $item." i=".$i." j=".$j."  /";
-                    $band = false;
-                }
-            } 
-
-        }
-
-        if($band){
-            $adicion= $item." noV /";
-        }
-
-        $cadena = $cadena.$adicion."<br>";
-    }
     
-    return $cadena;
+
+    return GrupoPatron::buscar('{"1":"A","2":"A","3":"B","8":"B","13":"B","15":"B","23":"B","31":"B","54":"B","59":"B","71":"B","79":"B","94":"B"}',40);
+
+    //   posBuenas=[12,19,20,4,24,8,17,9,3,18]  posMalas[29,25,26,23,6,22]
+    //                       EADBEECDCEADDAAECDBEBDDCEAEADC      
+    $respuestasCorrectas = "_EADBEECDCEADDAAECDBEBDDCEAEADC"; 
+    $vectorAPT = 
+        [
+            'buenas'=>30,
+            'malas'=>0,
+        ];
+
+    return Examen::respuestasAleatoriasDePostulante($respuestasCorrectas, $vectorAPT,1,30);
+
 
 });
 
@@ -87,9 +77,16 @@ Route::post('/Examen/Director/CargarResultados','ExamenController@cargarResultad
 Route::get('/Examen/{id}/Director/IniciarProcesamiento','ExamenController@procesar')->name('Examen.Director.Procesar');
 
 
+Route::get('/Examen/{id}/Director/generarRespuestasPostulantes','ExamenController@generarRespuestasPostulantes')->name('Examen.Director.generarRespuestasPostulantes');
+
+
 Route::post('/examenes/director/guardar','ExamenController@guardar')->name('Examen.Director.Guardar');
 
-
+Route::get('/Examen/{id}/VerReporteIrregularidades','ExamenController@VerReporteIrregularidad')->name('Examen.VerReporteIrregularidades');
+//modales
+Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalExamenesIguales','ExamenController@getModalExamenesIguales');
+Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalGrupoRespuestasIguales','ExamenController@getModalGrupoRespuestasIguales');
+Route::get('/Examen/VerReporteIrregularidades/{codPostulanteElevado}/ModalPreguntasDePostulante','ExamenController@getModalPreguntasDePostulante');
 
 
 
