@@ -115,7 +115,12 @@ class ExamenController extends Controller
         }
 
         //para los postulantes
-        $postulantesArr = explode(',', $grupoIguales->vectorExamenPostulante);
+        $examenPostulanteArr = explode(',', $grupoIguales->vectorExamenPostulante);
+        $examenPostulante=ExamenPostulante::whereIn('codExamenPostulante',$examenPostulanteArr)->get();
+        $postulantesArr=[];
+        foreach ($examenPostulante as $item) {
+            $postulantesArr[]=$item->codActor;
+        }
         $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
 
         return view('Examenes.Modales.ModalExamenesIguales',compact('arr','respuestasProbando','solucionario','grupoIguales','postulantes','analisis'));
@@ -142,7 +147,12 @@ class ExamenController extends Controller
             
         }
         //para los postulantes
-        $postulantesArr = explode(',', $grupoPatrones->vectorExamenPostulante);
+        $examenPostulanteArr = explode(',', $grupoPatrones->vectorExamenPostulante);
+        $examenPostulante=ExamenPostulante::whereIn('codExamenPostulante',$examenPostulanteArr)->get();
+        $postulantesArr=[];
+        foreach ($examenPostulante as $item) {
+            $postulantesArr[]=$item->codActor;
+        }
         $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
 
 
