@@ -112,6 +112,7 @@ class AnalisisExamen extends Model
         $cantidadExamenesPostulantes = count($listaExamenes);
         $examen = Examen::findOrFail($this->codExamen);
         $cantidadMinimaDePreguntasParaPatron = 5; //aqui jalar de parametros
+        $cantidadMinimaDePuntajeAdquirido = 20;
         $listaTasas= Tasa::All();
 
         for ($i=0; $i < $cantidadExamenesPostulantes - 1 ; $i++) {
@@ -132,8 +133,8 @@ class AnalisisExamen extends Model
                     if($cantRespuestasMarcadas*$tasa < count($vectorRespuestasIguales) && count($vectorRespuestasIguales) > $cantidadMinimaDePreguntasParaPatron
                     ) //
                     {
+
                         $listaGrupos = GrupoPatron::buscar($vectorRespuestasIguales,$this->codAnalisis); //vemos si ya hay un grupoPatron con ese JSON, aumentamos 1 en ese 
-                        
                         if(count($listaGrupos)>0)
                         {
                             $grupo = $listaGrupos[0];
@@ -144,17 +145,22 @@ class AnalisisExamen extends Model
                         else{
 
                             $vectorCorrectasIncorrectasPuntajes = Examen::compararVectorEspecialPosiciones($vectorRespuestasIguales,$examen); 
-                            $grupo = new GrupoPatron();
-                            $grupo->codAnalisis = $this->codAnalisis;
-                            $grupo->nroCorrectas = $vectorCorrectasIncorrectasPuntajes['nroCorrectas'];
-                            $grupo->nroIncorrectas = $vectorCorrectasIncorrectasPuntajes['nroIncorrectas'];
-                            $grupo->puntajeAdquirido = $vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'];
-                            
+                        
+                            if($vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'] > $cantidadMinimaDePuntajeAdquirido){
+                                    
+                                $grupo = new GrupoPatron();
+                                $grupo->codAnalisis = $this->codAnalisis;
+                                $grupo->nroCorrectas = $vectorCorrectasIncorrectasPuntajes['nroCorrectas'];
+                                $grupo->nroIncorrectas = $vectorCorrectasIncorrectasPuntajes['nroIncorrectas'];
+                                $grupo->puntajeAdquirido = $vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'];
+                                
 
-                            $grupo->respuestasCoincidentesJSON = json_encode($vectorRespuestasIguales);
- 
-                            $grupo->vectorExamenPostulante = $listaExamenes[$i]->codExamenPostulante.",".$listaExamenes[$j]->codExamenPostulante;
-                            $grupo->save();
+                                $grupo->respuestasCoincidentesJSON = json_encode($vectorRespuestasIguales);
+    
+                                $grupo->vectorExamenPostulante = $listaExamenes[$i]->codExamenPostulante.",".$listaExamenes[$j]->codExamenPostulante;
+                                $grupo->save();
+                        
+                            }
                         }
 
 
