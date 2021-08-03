@@ -13,11 +13,14 @@ class ExamenPostulante extends Model
 
 
     protected $fillable = [
-       'codExamen', 'respuestasJSON','puntajeAP','puntajeCON','puntajeTotal','codActor','codCarrera','orden','codCondicion'
+       'codExamen', 'respuestasJSON','puntajeAPT','puntajeCON','puntajeTotal','codActor','codCarrera','orden','codCondicion','nroCorrectas','nroIncorrectas'
     ];
 
     public function getCarrera(){
         return Carrera::findOrFail($this->codCarrera);
+    }
+    public function getCondicion(){
+        return CondicionPostulacion::findOrFail($this->codCondicion);
     }
 
     /*

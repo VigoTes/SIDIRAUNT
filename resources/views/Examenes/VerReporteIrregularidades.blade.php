@@ -302,29 +302,12 @@
                         <a href="#" class="btn btn-warning btn-sm" title="Ver Reposición"><i class="fas fa-eye"></i></a>
                     </td>
                     <td>
-                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante({{$itemPostulante->codPostulanteElevado}})"
+                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante({{$itemPostulante->codPostulanteElevado}},{{$itemPostulante->postulante()->codUsuario}})"
                             data-toggle="modal" data-target="#ModalPreguntasDePostulante"><i class="fas fa-list-ol"></i>
                         </button>
                     </td>
                 </tr>
                 @endforeach
-                <!--
-                <tr>
-                    <td>Miguel Moreira</td>
-                    <td>0845192</td>
-                    <td>Ingenieria Mecanica</td>
-                    <td>60.010</td>
-                    <td>300.039</td>
-                    <td>
-                        <a href="#" class="btn btn-warning btn-sm" title="Ver Reposición"><i class="fas fa-eye"></i></a>
-                    </td>
-                    <td>
-                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante(1)"
-                            data-toggle="modal" data-target="#ModalPreguntasDePostulante"><i class="fas fa-list-ol"></i>
-                        </button>
-                    </td>
-                </tr>
-                -->
             </tbody>
         </table>
     </div>
@@ -534,10 +517,10 @@
         document.getElementById('TitleGrupoRespuestasIguales').innerHTML="Patron "+completarZeros(codGrupo,4)+" - Grupo de respuestas iguales";
         obtenerModal('/Examen/VerReporteIrregularidades/'+codGrupo+'/ModalGrupoRespuestasIguales','BodyGrupoRespuestasIguales');
     }
-    function actualizarModalPreguntasDePostulante(codPostulanteElevado){
+    function actualizarModalPreguntasDePostulante(codPostulanteElevado,codUsuario){
         limpiarModal('TitlePreguntasDePostulante','BodyPreguntasDePostulante');
 
-        document.getElementById('TitlePreguntasDePostulante').innerHTML="Preguntas respondidas - Postulante "+completarZeros(codPostulanteElevado,7)+" - Examen Ordinario 2019-II";
+        document.getElementById('TitlePreguntasDePostulante').innerHTML="Preguntas respondidas - Postulante "+completarZeros(codUsuario,7)+" - Examen {{$examen->getModalidad()->nombre}} {{$examen->periodo}}";
         obtenerModal('/Examen/VerReporteIrregularidades/'+codPostulanteElevado+'/ModalPreguntasDePostulante','BodyPreguntasDePostulante');
     }
 </script>

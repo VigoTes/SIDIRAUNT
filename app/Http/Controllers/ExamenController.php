@@ -179,29 +179,32 @@ class ExamenController extends Controller
         return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
     }
     public function getModalPreguntasDePostulante($codPostulanteElevado){
-        $postulanteElevado=GrupoPatron::findOrFail($codPostulanteElevado);
+        
+        $postulanteElevado=PostulantesElevados::findOrFail($codPostulanteElevado);
         $analisis=AnalisisExamen::findOrFail($postulanteElevado->codAnalisis);
         $examenPostulante=ExamenPostulante::findOrFail($postulanteElevado->codExamenPostulante);
-
+        
         $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
-        $respuestasProbando=json_decode($examenPostulante->respuestasJSON,true);
-        $arr=['clave'=>["_"],'color'=>["black"]];
-        for ($i=1; $i <= 100; $i++) { 
-            if(isset($respuestasProbando[$i])){
-                $arr['clave'][]=$respuestasProbando[$i];
-                if($respuestasProbando[$i]==substr($solucionario,$i, 1)){
-                    $arr['color'][]="green";
-                }else{
-                    $arr['color'][]="red";
-                }
-            }else{
+        $respuestasProbando=$examenPostulante->respuestasJSON;
+        $arr=['clave'=>[],'color'=>[]];
+        for ($i=0; $i < strlen($respuestasProbando); $i++) { 
+            if(substr($respuestasProbando,$i, 1)=='X'){
                 $arr['clave'][]=" ";
-                $arr['color'][]="black";
+            }else{
+                $arr['clave'][]=substr($respuestasProbando,$i, 1);
+            }
+            
+            if(substr($respuestasProbando,$i, 1)==substr($solucionario,$i, 1)){
+                $arr['color'][]="green";
+            }else{
+                $arr['color'][]="red";
             }
             
         }
+        
+        //return $respuestasProbando;
 
-        return view('Examenes.Modales.ModalPreguntasDePostulante',compact('respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
+        return view('Examenes.Modales.ModalPreguntasDePostulante',compact('arr','respuestasProbando','solucionario','postulanteElevado','analisis'));
     }
 
     public function guardar(Request $request){
