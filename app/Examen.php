@@ -88,9 +88,9 @@ class Examen extends Model
     
     public function procesarArchivoRespuestas(){
         //comentar esto
-        ExamenPostulante::where('codExamenPostulante','>','0')->delete();
-        User::where('codUsuario','>','0')->delete();
-        Actor::where('codActor','>','0')->delete();
+        //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
+        //User::where('codUsuario','>','0')->delete();
+        //Actor::where('codActor','>','0')->delete();
         $respuestasCorrectas = $this->getStringRespuestas();
 
 
@@ -196,10 +196,10 @@ class Examen extends Model
         
         $analisis->save();
         
-        //$analisis->generarGruposIguales();
-        $analisis->generarGruposPatron();
+        $analisis->generarGruposIguales();
+        $analisis->generarPreGruposPatron();
         
-        //$analisis->generarPostulantesElevados();
+        $analisis->generarPostulantesElevados();
         return "si llegamos";
 
     }
@@ -221,7 +221,7 @@ class Examen extends Model
         $tolerancia = 0.001;
 
         //comentar esto
-        ExamenPostulante::where('codExamenPostulante','>','0')->delete();
+        //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
         $html = "";
         $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
         

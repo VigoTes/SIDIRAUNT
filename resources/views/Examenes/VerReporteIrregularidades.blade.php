@@ -5,7 +5,7 @@
 
 @section('contenido')
 <br>
-
+@include('Layout.MensajeEmergenteDatos')
 <div class="card">
     <!--
     <div class="card-header border-0">
@@ -15,6 +15,7 @@
         </div>
     </div>
     -->
+
     <div class="card-body">
         <div class="d-flex">
             <div class="row">
@@ -307,7 +308,7 @@
                     </td>
                 </tr>
                 @endforeach
-                
+                <!--
                 <tr>
                     <td>Miguel Moreira</td>
                     <td>0845192</td>
@@ -323,6 +324,7 @@
                         </button>
                     </td>
                 </tr>
+                -->
             </tbody>
         </table>
     </div>
@@ -331,9 +333,12 @@
     <i class="fas fa-arrow-left"></i> 
     Regresar al Menu
 </a>
+@if($examen->codEstado!=4 && $examen->codEstado!=5)
 <button type="button" id="" class="btn btn-danger float-right"
     data-toggle="modal" data-target="#ModalConfirmacion"><i class="fas fa-exclamation-triangle"></i> Registrar decision del CU
-</button>
+</button>    
+@endif
+
 <br><br>
 
 
@@ -417,29 +422,36 @@
                             <img class="profile-user-img img-fluid img-circle" src="../../img/usuario.png" alt="User profile picture">
                         </div>
                         <br>
-                        <form id="" name="" action="" method="POST">
+                        <form id="formAprobar" name="formAprobar" action="{{route("Examen.Consejo.aprobarExamen")}}" method="POST">
                             @csrf
+                            <input type="hidden" name="codExamen" id="codExamen" value="{{$examen->codExamen}}">
                             <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="Contraseña">
+                                <input type="password" class="form-control" placeholder="Contraseña" id="contraseña" name="contraseña">
+                                <!--
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-lock"></span>
                                     </div>
                                 </div>
+                                -->
                             </div>
                             <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="Repetir contraseña">
+                                <input type="password" class="form-control" placeholder="Repetir contraseña"  id="contraseña2" name="contraseña2">
+                                <!--
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-lock"></span>
                                     </div>
                                 </div>
+                                -->
                             </div>
                             <div class="input-group mb-3">
                                 <p class="" style="margin-bottom: 0" >Nuevo Estado: </p>
                                 <div class="w-100"></div>
-                                <select class="form-control" name="" id="">
-                                    <option value="1">Aprobado</option>
+                                <select class="form-control" name="codEstado" id="codEstado">
+                                    @foreach($estados as $item)
+                                    <option value="{{$item->codEstado}}">{{$item->descripcion}}</option>    
+                                    @endforeach
                                 </select>
                             </div>
                         </form>
@@ -450,7 +462,7 @@
                         <i class="fas fa-times"></i> Cancelar
                     </button>
 
-                    <button type="button" class="m-1 btn btn-success" onclick="clickGuardarNuevoResEsp()">
+                    <button type="button" class="m-1 btn btn-success" onclick="clickAprobarExamen()">
                         <i class="fas fa-save"></i> Guardar
                     </button>   
                 </div>
@@ -460,9 +472,40 @@
 </div>
 
 @endsection
-
+@include('Layout.ValidatorJS')
 @section('script')
 <script>
+    function clickAprobarExamen(){
+        msje = validar();
+        if(msje!="")
+            {
+                alerta(msje);
+                return false;
+            }
+        
+        confirmar('¿Seguro de actualizar el estado del examen?','info','formAprobar');
+        
+    }
+    function validar(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
+        contraseñaDelConsejo="Consejo";
+        msj='';
+        
+        limpiarEstilos(['contraseña','contraseña2']);
+        msj = validarTamañoMaximoYNulidad(msj,'contraseña',200,'Nueva Contraseña');
+        msj = validarTamañoMaximoYNulidad(msj,'contraseña2',200,'Repetir Nueva Contraseña');
+        msj = validarContenidosIguales(msj,'contraseña','contraseña2','Las contraseñas nuevas deben coincidir');
+        /*
+        contra = document.getElementById('contraseña').value;
+        if(contra!=contraseñaDelConsejo && msj==''){
+            console.log(contra);
+            msj='CONTRASEÑA ERRONEA';
+        }
+        */
+        return msj;
+    }
+
+
+
     function completarZeros(num,cantidadZeros) {
         return "0".repeat(cantidadZeros-num.toString().length)+''+num;
     }

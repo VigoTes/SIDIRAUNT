@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ExamenPostulante extends Model
 {
@@ -59,7 +60,7 @@ class ExamenPostulante extends Model
         $examenPostulante->puntajeAPT = $array['puntajeAPT'];
         $examenPostulante->puntajeCON = $array['puntajeCON'];
         $examenPostulante->puntajeTotal = $array['puntajeTotal'];
-        $examenPostulante->codActor = Actor::All()->last()->codActor;
+        $examenPostulante->codActor = $postulante->codActor;
         $examenPostulante->codCarrera = $carrera->codCarrera;
         $examenPostulante->orden = $array['orden'];
         $examenPostulante->nroCarnet = $array['nroCarnet'];
@@ -114,8 +115,65 @@ class ExamenPostulante extends Model
                 return $tasa->valorTasa;
             }
         }
+    }
 
+
+    /* 
+    le entra:
+        objeto mismo this
+        $vectorPatron = [ 
+            '2' => 'B',
+            '5' => 'C',
+        ]//en este objeto se supone que no llegarán las X
+
+    le sale:
+        Si el vector contiene ese patron (si todas las respuestas del patron coinciden con las de este examenPostulante)
+    
+    */
+    public function tienePatron($vectorPatron){
+        $respuestasAlumno = str_split($this->respuestasJSON);
         
+        foreach ($vectorPatron as $nroPregunta => $rptaPregunta) {
+            if ($respuestasAlumno[$nroPregunta] != $vectorPatron[$nroPregunta])
+                return false; 
+
+        }
+
+        return true;
 
     }
+
+    /* 
+    Le entra:
+
+    
+    */
+    public function respondioAsi($nroPregunta,$respuestaEsperada){
+
+
+    }
+
+    //retorna el anterior objeto examen postulante,  del mismo actor (o sea los datos del anterior examen rendido)
+    //si no rendió ningun otro, no retorna nada
+    public function getAnteriorExamenPostulante(){
+
+        $fechaRendicionActual = $this->getExamen()->fechaRendicion;
+
+        $listaExamenesPostAnteriores=DB::TABLE('examen_postulante')
+        ->JOIN('examen', 'examen.codExamen', '=', 'examen_postulante.codExamen')
+        ->SELECT('examen_postulante.codExamenPostulante')
+        ->where('examen.fechaRendicion','<',$fechaRendicionActual)
+        ->where('examen_postulante.codActor','=',$this->codActor)
+        ->orderBy('examen.fechaRendicion')
+        ->get();
+        
+        return ExamenPostulante::findOrFail($listaExamenesPostAnteriores[0]->codExamenPostulante);
+        
+    }
+
+    public function getExamen(){
+        return Examen::findOrFail($this->codExamen);
+
+    }
+
 }

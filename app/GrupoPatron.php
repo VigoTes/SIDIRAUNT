@@ -32,7 +32,7 @@ class GrupoPatron extends Model
 
     public function añadirExamenPostulante($codExamenPostulante){
         $this->vectorExamenPostulante = $this->vectorExamenPostulante.",".$codExamenPostulante;
-        $this->save();
+        
     }
 
     public static function buscar($vectorRespuestasIguales,$codAnalisis){

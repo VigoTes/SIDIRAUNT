@@ -22,7 +22,10 @@ class PostulantesElevados extends Model
         return ExamenPostulante::findOrFail($this->codExamenPostulante);
     }
     public function postulante(){
-        $examen=$this->examenActual;
+        $examen=$this->examenActual();
         return Actor::findOrFail($examen->codActor);
     }
+
+
+
 }

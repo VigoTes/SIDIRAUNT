@@ -6,6 +6,7 @@ use App\Actor;
 use App\AnalisisExamen;
 use App\Area;
 use App\Debug;
+use App\EstadoExamen;
 use App\Examen;
 use App\ExamenPostulante;
 use App\Fecha;
@@ -44,7 +45,7 @@ class ExamenController extends Controller
     }
 
     public function VerReporteIrregularidad($id){
-
+        $estados=EstadoExamen::whereIn('codEstado',[4,5])->get();
         $examen=Examen::findOrFail($id);
         $analisis = AnalisisExamen::where('codExamen','=',$id)->get()[0];
         /*
@@ -87,8 +88,27 @@ class ExamenController extends Controller
 
 
 
-        return view('Examenes.VerReporteIrregularidades',compact('examen','analisis','gruposIguales','gruposPatron','postulantesElevados',
+        return view('Examenes.VerReporteIrregularidades',compact('estados','examen','analisis','gruposIguales','gruposPatron','postulantesElevados',
                                                                     'pieGruposIguales','pieGruposPatron','piePostulantesElevados'));
+    }
+
+    public function aprobarExamen(Request $request){
+        $examen=Examen::findOrFail($request->codExamen);
+
+        //VALIDACION
+        $representanteConsejo=Actor::where('codTipoActor','=',2)->get()[0];
+        $representanteConsejo=User::findOrFail($representanteConsejo->codUsuario);
+        if($request->contraseña!=$representanteConsejo->contraseña){
+            return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
+            ->with('datos','CONTRASEÑA ERRONEA');
+        }
+
+        
+        $examen->codEstado=$request->codEstado;
+        $examen->save();
+
+        return redirect()->route('Examen.Director.Listar')
+            ->with('datos','Examen '.EstadoExamen::findOrFail($examen->codEstado)->descripcion.'');
     }
 
     public function getModalExamenesIguales($codGrupo){
@@ -159,7 +179,29 @@ class ExamenController extends Controller
         return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
     }
     public function getModalPreguntasDePostulante($codPostulanteElevado){
-        return view('Examenes.Modales.ModalPreguntasDePostulante');
+        $postulanteElevado=GrupoPatron::findOrFail($codPostulanteElevado);
+        $analisis=AnalisisExamen::findOrFail($postulanteElevado->codAnalisis);
+        $examenPostulante=ExamenPostulante::findOrFail($postulanteElevado->codExamenPostulante);
+
+        $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
+        $respuestasProbando=json_decode($examenPostulante->respuestasJSON,true);
+        $arr=['clave'=>["_"],'color'=>["black"]];
+        for ($i=1; $i <= 100; $i++) { 
+            if(isset($respuestasProbando[$i])){
+                $arr['clave'][]=$respuestasProbando[$i];
+                if($respuestasProbando[$i]==substr($solucionario,$i, 1)){
+                    $arr['color'][]="green";
+                }else{
+                    $arr['color'][]="red";
+                }
+            }else{
+                $arr['clave'][]=" ";
+                $arr['color'][]="black";
+            }
+            
+        }
+
+        return view('Examenes.Modales.ModalPreguntasDePostulante',compact('respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
     }
 
     public function guardar(Request $request){
@@ -262,15 +304,15 @@ class ExamenController extends Controller
 
 
         $examen = Examen::findOrFail($codExamen);
-        AnalisisExamen::where('codExamen','=',$codExamen)->delete();
-        GrupoIguales::where('codGrupo','>','0')->delete();
+        //AnalisisExamen::where('codExamen','=',$codExamen)->delete();
+        //GrupoIguales::where('codGrupo','>','0')->delete();
         //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
         //Pregunta::where('codPregunta','>','0')->delete();
         //User::where('codUsuario','>','0')->delete();
         
         
-        //$examen->procesarArchivoPreguntas();
-        //$examen->procesarArchivoRespuestas();
+        $examen->procesarArchivoPreguntas();
+        $examen->procesarArchivoRespuestas();
         
         return $examen->generarReporteIrregularidad();
 
