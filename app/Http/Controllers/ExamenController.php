@@ -6,6 +6,7 @@ use App\Actor;
 use App\AnalisisExamen;
 use App\Area;
 use App\Debug;
+use App\EstadoExamen;
 use App\Examen;
 use App\ExamenPostulante;
 use App\Fecha;
@@ -44,7 +45,7 @@ class ExamenController extends Controller
     }
 
     public function VerReporteIrregularidad($id){
-
+        $estados=EstadoExamen::whereIn('codEstado',[4,5])->get();
         $examen=Examen::findOrFail($id);
         $analisis = AnalisisExamen::where('codExamen','=',$id)->get()[0];
         /*
@@ -87,8 +88,33 @@ class ExamenController extends Controller
 
 
 
-        return view('Examenes.VerReporteIrregularidades',compact('examen','analisis','gruposIguales','gruposPatron','postulantesElevados',
+        return view('Examenes.VerReporteIrregularidades',compact('estados','examen','analisis','gruposIguales','gruposPatron','postulantesElevados',
                                                                     'pieGruposIguales','pieGruposPatron','piePostulantesElevados'));
+    }
+
+    public function aprobarExamen(Request $request){
+        $examen=Examen::findOrFail($request->codExamen);
+
+        //VALIDACION DE SI ES CONSEJO UNIVERSITARIO
+        if(!Actor::getActorLogeado()->esConsejoUniversitario()){
+            return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
+                ->with('datos','USTED NO ES CONSEJO UNIVERSITARIO');
+        }
+
+        //VALIDACION DE SI LA CONTRA ESTA CORRECTA
+        $hashp=Actor::getActorLogeado()->getUsuario()->password;
+        $password=$request->get('contraseña');
+        if(!password_verify($password,$hashp)){
+            return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
+                ->with('datos','CONTRASEÑA ERRONEA');
+        }
+
+        
+        $examen->codEstado=$request->codEstado;
+        $examen->save();
+
+        return redirect()->route('Examen.Director.Listar')
+            ->with('datos','Examen '.EstadoExamen::findOrFail($examen->codEstado)->descripcion.'');
     }
 
     public function getModalExamenesIguales($codGrupo){
@@ -159,7 +185,32 @@ class ExamenController extends Controller
         return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
     }
     public function getModalPreguntasDePostulante($codPostulanteElevado){
-        return view('Examenes.Modales.ModalPreguntasDePostulante');
+        
+        $postulanteElevado=PostulantesElevados::findOrFail($codPostulanteElevado);
+        $analisis=AnalisisExamen::findOrFail($postulanteElevado->codAnalisis);
+        $examenPostulante=ExamenPostulante::findOrFail($postulanteElevado->codExamenPostulante);
+        
+        $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
+        $respuestasProbando=$examenPostulante->respuestasJSON;
+        $arr=['clave'=>[],'color'=>[]];
+        for ($i=0; $i < strlen($respuestasProbando); $i++) { 
+            if(substr($respuestasProbando,$i, 1)=='X'){
+                $arr['clave'][]=" ";
+            }else{
+                $arr['clave'][]=substr($respuestasProbando,$i, 1);
+            }
+            
+            if(substr($respuestasProbando,$i, 1)==substr($solucionario,$i, 1)){
+                $arr['color'][]="green";
+            }else{
+                $arr['color'][]="red";
+            }
+            
+        }
+        
+        //return $respuestasProbando;
+
+        return view('Examenes.Modales.ModalPreguntasDePostulante',compact('arr','respuestasProbando','solucionario','postulanteElevado','analisis'));
     }
 
     public function guardar(Request $request){
@@ -171,10 +222,7 @@ class ExamenController extends Controller
             $examen = new Examen();
             $examen->año = $request -> año;
             $examen->fechaRendicion = Fecha::formatoParaSQL($request -> fechaRendicion);
-            $examen->nroVacantes= $request -> nroVacantes;
-            $examen->nroPostulantes= $request -> nroPostulantes;
-            $examen->asistentes= $request -> asistentes;
-            $examen->ausentes= $request -> ausentes;
+            
             $examen->codModalidad= $request -> codModalidad;
             $examen->codSede= $request -> codSede;
             $examen->codEstado= 1;
@@ -258,28 +306,36 @@ class ExamenController extends Controller
 
     }
 
-    public function procesar($codExamen){
+    public function analizarExamen($codExamen){
+        $examen = Examen::findOrFail($codExamen);
+        
+        $examen->generarReporteIrregularidad();
 
+        
+
+
+        $examen->codEstado = 6;
+        $examen->save();
+        return "1";
+    }   
+
+    public function IniciarLecturaDatos($codExamen){
 
         $examen = Examen::findOrFail($codExamen);
-        AnalisisExamen::where('codExamen','=',$codExamen)->delete();
-        GrupoIguales::where('codGrupo','>','0')->delete();
+        //AnalisisExamen::where('codExamen','=',$codExamen)->delete();
+        //GrupoIguales::where('codGrupo','>','0')->delete();
         //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
         //Pregunta::where('codPregunta','>','0')->delete();
         //User::where('codUsuario','>','0')->delete();
         
         
-        //$examen->procesarArchivoPreguntas();
-        //$examen->procesarArchivoRespuestas();
-        
-        return $examen->generarReporteIrregularidad();
-
-
+        $examen->procesarArchivoPreguntas();
+        $examen->procesarArchivoRespuestas();
+        $examen->codEstado = 7;
+        $examen->save();
         return "1";
 
-
-    }   
-
+    }
 
     public function generarRespuestasPostulantes($codExamen){
         

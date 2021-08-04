@@ -4,31 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modalidad;
+use App\Sede;
 
-class ModalidadController extends Controller
+class SedeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
+        $sedes = Sede::all();
 
-        $modalidades = Modalidad::all();
-
-        return view('Modalidades.listar', compact('modalidades'));
+        return view('Sedes.listar', compact('sedes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
-        return view('Modalidades.crear');
+        return view('Sedes.crear');
     }
 
     /**
@@ -39,15 +28,15 @@ class ModalidadController extends Controller
      */
     public function store(Request $request)
     {
-        $modalidad = new Modalidad();
+        $sede = new Sede();
         
-        $modalidad->nombre = request()->nombre;
+        $sede->nombre = request()->nombre;
     
-        $modalidad->save();
+        $sede->save();
 
-        $message = 'Fue registrada la modalidad'. $modalidad->name .' exitosamente';
+        $message = 'Fue registrada la sede'. $sede->name .' exitosamente';
 
-        return redirect()->route('modalidad')->with('message', $message);
+        return redirect()->route('sede')->with('message', $message);
     }
 
     /**
@@ -69,9 +58,9 @@ class ModalidadController extends Controller
      */
     public function edit($id)
     {
-        $modalidad = Modalidad::find($id);
+        $sede = Sede::find($id);
 
-        return view('Modalidad.editar', compact(['modalidad']));
+        return view('Sedes.editar', compact(['sede']));
     }
 
     /**
@@ -83,13 +72,13 @@ class ModalidadController extends Controller
      */
     public function update(Request $request)
     {
-        $modalidad = Modalidad::find(request()->codModalidad);
+        $sede = Sede::find(request()->codSede);
 
-        $modalidad->nombre = request()->nombre;
+        $sede->nombre = request()->nombre;
 
-        $modalidad->save();
+        $sede->save();
 
-        return redirect()->route('modalidad')->with('message', 'Modalidad actualizada correctamente!');
+        return redirect()->route('sede')->with('message', 'Sede actualizada correctamente!');
 
     }
 
@@ -101,8 +90,9 @@ class ModalidadController extends Controller
      */
     public function destroy($id)
     {
-        Modalidad::destroy($id);
+        Sede::destroy($id);
 
-        return redirect()->route('modalidad')->with('message', 'Registro eliminado correctamente!');
+        return redirect()->route('sede')->with('message', 'Registro eliminado correctamente!');
     }
+
 }

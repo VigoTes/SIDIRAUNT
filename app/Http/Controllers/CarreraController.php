@@ -120,7 +120,7 @@ class CarreraController extends Controller
         ->SELECT('carrera_examen.puntajeMinimoPermitido as puntajeMinimoPermitido', 'carrera_examen.puntajeMinimoPostulante as puntajeMinimoPostulante',
                 'carrera_examen.puntajeMaximoPostulante as puntajeMaximoPostulante','examen.periodo as periodo')
         ->where('carrera_examen.codCarrera','=',$carreraSelected->codCarrera)->get();
-
+        
         $puntajesMinimoPermitido=[];
         $puntajesMinimoPostulante=[];
         $puntajesMaximoPostulante=[];

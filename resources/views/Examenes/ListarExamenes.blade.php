@@ -46,6 +46,12 @@
             Registrar examen
         </a>
       </div>
+
+      <a href="/borrarTodo" class = "btn btn-danger" style="margin-bottom: 5px;"> 
+        <i class="fas fa-trash"> </i> 
+          Borrar datos de examenes y analisis
+      </a>
+
       <div class="col-md-10">
         <form class="form-inline float-right">
 
@@ -84,8 +90,9 @@
       <thead class="thead-dark">
         <tr>
            <th>Año</th>
-         <th>Modalidad</th>
-        
+            <th>Fecha</th>
+           <th>Modalidad</th>
+          
          <th>Estado</th>
           <th>Opciones</th>
         </tr>
@@ -98,7 +105,9 @@
               <td>
                 {{$itemExamen->año}}
               </td>
-
+              <td>
+                {{$itemExamen->fechaRendicion}}
+              </td>
               <td>
                 {{$itemExamen->getModalidad()->nombre}}
               </td>
@@ -108,20 +117,43 @@
                 {{$itemExamen->getEstado()->descripcion}}
               </td>
               <td>
+
+                @if($itemExamen->tieneResultados())
+                  <a class="btn btn-success btn-sm" href="{{route('Examen.VerPostulantes',$itemExamen->codExamen)}}">
+                    Ver postulantes
+                  </a>
+                    
+                @endif
+
+
                 @if($itemExamen->verificarEstado('Creado'))
                     <a class="btn btn-success btn-sm" href="{{route('Examen.Director.VerCargar',$itemExamen->codExamen)}}">
                         Cargar resultados
-
                     </a>
                 @endif
-                @if($itemExamen->verificarEstado('Resultados Cargados'))
-                    <button type="button" onclick="clickIniciarProcesamiento({{$itemExamen->codExamen}})" class="btn btn-success btn-sm" href="">
-                      Iniciar procesamiento
+
+
+                @if($itemExamen->verificarEstado('Archivos Cargados'))
+                  <button type="button" onclick="clickLeerDatos({{$itemExamen->codExamen}})" class="btn btn-success btn-sm" href="">
+                    Leer Datos
+                  </button>
+                @endif
+                
+
+                @if($itemExamen->verificarEstado('Datos Insertados'))
+                    <button type="button" onclick="clickIniciarAnalisis({{$itemExamen->codExamen}})" class="btn btn-success btn-sm" href="">
+                      Iniciar análisis
                     </button>
                 @endif
-                <a class="btn btn-info btn-sm" href="{{route('Examen.VerReporteIrregularidades',$itemExamen->codExamen)}}">
-                  Reporte Irregularidades
-                </a>
+                    
+                  
+                @if($itemExamen->tieneAnalisis())
+                  <a class="btn btn-info btn-sm" href="{{route('Examen.VerReporteIrregularidades',$itemExamen->codExamen)}}">
+                    Reporte Irregularidades
+                  </a>
+                @endif
+           
+
               </td>
       
             </tr>
@@ -152,18 +184,18 @@
     });
 
     codExamenAProcesar = "";
-    function clickIniciarProcesamiento(codExamen){
+    function clickIniciarAnalisis(codExamen){
         codExamenAProcesar = codExamen;
-        confirmarConMensaje("Confirmar","¿Desea iniciar el procesamiento de datos del examen? Esto podría tardar","warning",iniciarProcesamiento);
+        confirmarConMensaje("Confirmar","¿Desea iniciar el análisis de datos del examen? Esto podría tardar","warning",iniciarAnalisis);
     }
 
-    function iniciarProcesamiento(){
+    function iniciarAnalisis(){
 
-      document.getElementById('tituloCargando').innerHTML="Procesando examen...";
+      document.getElementById('tituloCargando').innerHTML="Analizando examen...";
 
       $(".loader").show();//para mostrar la pantalla de carga
 
-      $.get('/Examen/'+codExamenAProcesar+'/Director/IniciarProcesamiento',
+      $.get('/Examen/'+codExamenAProcesar+'/Director/analizarExamen',
       function(data)
       {     
           console.log("IMPRIMIENDO DATA como llegó:");
@@ -181,6 +213,41 @@
       }
       );
     }
+
+
+
+    function clickLeerDatos(codExamen){
+        codExamenAProcesar = codExamen;
+        confirmarConMensaje("Confirmar","¿Desea iniciar la lectura de datos del examen? Esto podría tardar","warning",iniciarLectura);
+
+    }
+
+    
+    function iniciarLectura(){
+
+      document.getElementById('tituloCargando').innerHTML="Leyendo datos del examen...";
+
+      $(".loader").show();//para mostrar la pantalla de carga
+
+      $.get('/Examen/'+codExamenAProcesar+'/Director/IniciarLecturaDatos',
+        function(data)
+        {     
+            console.log("IMPRIMIENDO DATA como llegó:");
+            console.log(data);
+            
+            if(data==1){
+                alertaExitosa('¡Enhorabuena!','Examen procesado exitosamente')
+                setTimeout(function(){
+                    location.reload();
+                },100);
+            }else{
+                alerta('Examen error');
+            }
+            $(".loader").fadeOut("slow");
+        }
+      );
+    }
+
 
 
 </script>

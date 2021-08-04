@@ -61,7 +61,23 @@ class Examen extends Model
 
     }
 
+    //retorna true si ya fue cargado el archivo con los resultados 
+    public function tieneResultados(){
+        return $this->verificarEstadoVarios(['Aprobado','Cancelado','Analizado','Datos Insertados']);
+    }
+    public function verificarEstadoVarios($vectorNombresEstados){
+        foreach ($vectorNombresEstados as $nombreEstado ) {
+            if($this->verificarEstado($nombreEstado))
+                return true;
+        }
+        return false;
 
+    }
+
+
+    public function tieneAnalisis(){
+        return count(AnalisisExamen::where('codExamen','=',$this->codExamen)->get()) > 0;
+    }
     //lee el archivo de las preguntas y las inserta en la base de datos
     public function procesarArchivoPreguntas(){
             
@@ -88,10 +104,24 @@ class Examen extends Model
     
     public function procesarArchivoRespuestas(){
         //comentar esto
-        ExamenPostulante::where('codExamenPostulante','>','0')->delete();
-        User::where('codUsuario','>','0')->delete();
-        Actor::where('codActor','>','0')->delete();
+        //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
+        //User::where('codUsuario','>','0')->delete();
+        //Actor::where('codActor','>','0')->delete();
         $respuestasCorrectas = $this->getStringRespuestas();
+            
+        /* 
+            INGRESA
+            ING. 2-
+            NO INGRESA
+            AUSENTE
+        */
+        $listaCondiciones = CondicionPostulacion::All();
+        $conteoCondiciones = [
+            'INGRESA'=>0,
+            'ING. 2-'=>0,
+            'NO INGR'=>0,
+            'AUSENTE'=>0
+        ];//para calculo de cant ausentes,ingresantes, no ingresantes y  postulantes totales 
 
 
         $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
@@ -123,6 +153,8 @@ class Examen extends Model
                     $observaciones =        mb_substr($linea,221,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
                     $correctasEincorrectas = Examen::calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas); //calculamos la cantidad de correctas e incorrectas del postulante
                     
+                    $conteoCondiciones[$observaciones] ++;
+
                     $vectorColumnas = [
                             'codExamen'=>$this->codExamen,
                             'respuestasJSON'=>$respuestas,
@@ -139,7 +171,7 @@ class Examen extends Model
                         ];
                     
                     Debug::imprimirVector($vectorColumnas);   
-                    ExamenPostulante::registrar($vectorColumnas);
+                    ExamenPostulante::registrar($vectorColumnas,$listaCondiciones);
 
                     //Debug::imprimir($linea);
 
@@ -148,10 +180,14 @@ class Examen extends Model
             }
 
         }
-        
+        Debug::mensajeSimple('Conteo general: ' . json_encode($conteoCondiciones));
         Debug::mensajeSimple('la cantidad de postulantes es:'.$cant);
 
-
+        $this->nroVacantes = $conteoCondiciones['INGRESA'];
+        $this->ausentes = $conteoCondiciones['AUSENTE'];
+        $this->asistentes = $conteoCondiciones['INGRESA'] + $conteoCondiciones['NO INGR'] + $conteoCondiciones['ING. 2-'];
+        $this->nroPostulantes = $cant;
+        $this->save();
     }
  
     //obtiene un string de tipo "_ABBBBBBBBABBBBBBBBBABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBD
@@ -196,10 +232,19 @@ class Examen extends Model
         
         $analisis->save();
         
-        //$analisis->generarGruposIguales();
-        $analisis->generarGruposPatron();
+        $analisis->generarGruposIguales();
+        $analisis->generarPreGruposPatron();
         
-        //$analisis->generarPostulantesElevados();
+        $analisis->generarPostulantesElevados();
+
+   
+        $tasas = $analisis->calcularTasaIrregularidad();
+        $analisis->tasaGI = $tasas['tasaGI'];
+        $analisis->tasaGP = $tasas['tasaGP'];
+        $analisis->tasaPE = $tasas['tasaPE'];
+        $analisis->tasaIrregularidad = $tasas['tasaIrregularidad'];
+        $analisis->save();
+
         return "si llegamos";
 
     }
@@ -221,7 +266,7 @@ class Examen extends Model
         $tolerancia = 0.001;
 
         //comentar esto
-        ExamenPostulante::where('codExamenPostulante','>','0')->delete();
+        //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
         $html = "";
         $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
         

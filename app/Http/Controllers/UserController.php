@@ -25,7 +25,7 @@ class UserController extends Controller
             'password'=>'required',
         ],
         [
-            'usuario.required'=>'Ingrese E-mail', 
+            'usuario.required'=>'Ingrese usuario', 
             'password.required'=>'Ingrese Contraseña',
         ]);
             $usuario=$request->get('usuario');
@@ -39,10 +39,10 @@ class UserController extends Controller
                 {
                         // Preguntamos si es admin o no
                     //LogeoHistorial::registrarLogeo();
-                    if($usuario=='admin')
+                    if($usuario=='CONSEJO')
                     {
 
-                        //SI INGRESÓ EL ADMIN 
+                        //SI INGRESÓ DEL CONSEJO UNIVERSITARIO 
                         if(Auth::attempt($request->only('usuario','password'))){ //este attempt es para que el Auth se inicie
                              
                             return redirect()->route('user.home');
@@ -55,6 +55,7 @@ class UserController extends Controller
                         }
     
                     }
+                    
                 }
                 else{
                     return back()->withErrors(['password'=>'Contraseña no válida'])->withInput([request('password')]);
@@ -95,7 +96,7 @@ class UserController extends Controller
     public function cerrarSesion(){
         Auth::logout();
          
-        return redirect()->route('user.verLogin');  
+        return redirect()->route('user.home');  
     }
 
 

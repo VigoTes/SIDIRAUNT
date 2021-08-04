@@ -21,6 +21,22 @@ class Actor extends Model
         return ExamenPostulante::where('codExamen','=',$codExamen)->where('codActor','=',$this->codActor)->get()[0];
     }
 
+
+    public static function esConsejoUniversitario(){
+        if(is_null(Auth::id())){
+            return false;
+        }else{
+            $actor=Actor::getActorLogeado();
+            if($actor->codTipoActor==2){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        
+    }
+
     public static function getActorLogeado(){
         $codUsuario = Auth::id();         
         $actores = Actor::where('codUsuario','=',$codUsuario)->get();
@@ -38,6 +54,24 @@ class Actor extends Model
             return false;
         }
         return $actores[0]; 
+    }
+    public static function hayActorLogeado(){
+        $codUsuario = Auth::id();         
+        $actores = Actor::where('codUsuario','=',$codUsuario)->get();
+
+        if(is_null(Auth::id())){
+            return false;
+        }
+
+
+        if(count($actores)<0) //si no encontró el empleado de este user 
+        {
+
+            Debug::mensajeError('Empleado','    getEmpleadoLogeado() ');
+           
+            return false;
+        }
+        return true; 
     }
         
 
