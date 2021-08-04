@@ -222,10 +222,7 @@ class ExamenController extends Controller
             $examen = new Examen();
             $examen->año = $request -> año;
             $examen->fechaRendicion = Fecha::formatoParaSQL($request -> fechaRendicion);
-            $examen->nroVacantes= $request -> nroVacantes;
-            $examen->nroPostulantes= $request -> nroPostulantes;
-            $examen->asistentes= $request -> asistentes;
-            $examen->ausentes= $request -> ausentes;
+            
             $examen->codModalidad= $request -> codModalidad;
             $examen->codSede= $request -> codSede;
             $examen->codEstado= 1;
@@ -313,6 +310,10 @@ class ExamenController extends Controller
         $examen = Examen::findOrFail($codExamen);
         
         $examen->generarReporteIrregularidad();
+
+        
+
+
         $examen->codEstado = 6;
         $examen->save();
         return "1";

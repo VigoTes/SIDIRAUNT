@@ -116,7 +116,12 @@ class Examen extends Model
             AUSENTE
         */
         $listaCondiciones = CondicionPostulacion::All();
-        
+        $conteoCondiciones = [
+            'INGRESA'=>0,
+            'ING. 2-'=>0,
+            'NO INGR'=>0,
+            'AUSENTE'=>0
+        ];//para calculo de cant ausentes,ingresantes, no ingresantes y  postulantes totales 
 
 
         $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
@@ -148,6 +153,8 @@ class Examen extends Model
                     $observaciones =        mb_substr($linea,221,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
                     $correctasEincorrectas = Examen::calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas); //calculamos la cantidad de correctas e incorrectas del postulante
                     
+                    $conteoCondiciones[$observaciones] ++;
+
                     $vectorColumnas = [
                             'codExamen'=>$this->codExamen,
                             'respuestasJSON'=>$respuestas,
@@ -173,10 +180,14 @@ class Examen extends Model
             }
 
         }
-        
+        Debug::mensajeSimple('Conteo general: ' . json_encode($conteoCondiciones));
         Debug::mensajeSimple('la cantidad de postulantes es:'.$cant);
 
-
+        $this->nroVacantes = $conteoCondiciones['INGRESA'];
+        $this->ausentes = $conteoCondiciones['AUSENTE'];
+        $this->asistentes = $conteoCondiciones['INGRESA'] + $conteoCondiciones['NO INGR'] + $conteoCondiciones['ING. 2-'];
+        $this->nroPostulantes = $cant;
+        $this->save();
     }
  
     //obtiene un string de tipo "_ABBBBBBBBABBBBBBBBBABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBD
@@ -225,6 +236,15 @@ class Examen extends Model
         $analisis->generarPreGruposPatron();
         
         $analisis->generarPostulantesElevados();
+
+   
+        $tasas = $analisis->calcularTasaIrregularidad();
+        $analisis->tasaGI = $tasas['tasaGI'];
+        $analisis->tasaGP = $tasas['tasaGP'];
+        $analisis->tasaPE = $tasas['tasaPE'];
+        $analisis->tasaIrregularidad = $tasas['tasaIrregularidad'];
+        $analisis->save();
+
         return "si llegamos";
 
     }

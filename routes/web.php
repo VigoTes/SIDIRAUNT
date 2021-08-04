@@ -55,10 +55,14 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
 Route::get('/probandoCosas',function(){
-    
-
-    $analisis = AnalisisExamen::findOrFail(69);
-    return $analisis->generarPostulantesElevados();
+     
+    $analisis = AnalisisExamen::findOrFail(80);
+    $tasas = $analisis->calcularTasaIrregularidad();
+    $analisis->tasaGI = $tasas['tasaGI'];
+    $analisis->tasaGP = $tasas['tasaGP'];
+    $analisis->tasaPE = $tasas['tasaPE'];
+    $analisis->tasaIrregularidad = $tasas['tasaIrregularidad'];
+    $analisis->save();
 
 });
 

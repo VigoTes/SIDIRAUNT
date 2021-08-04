@@ -46,6 +46,12 @@
             Registrar examen
         </a>
       </div>
+
+      <a href="/borrarTodo" class = "btn btn-danger" style="margin-bottom: 5px;"> 
+        <i class="fas fa-trash"> </i> 
+          Borrar datos de examenes y analisis
+      </a>
+
       <div class="col-md-10">
         <form class="form-inline float-right">
 

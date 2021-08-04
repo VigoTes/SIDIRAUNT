@@ -15,6 +15,10 @@ class AnalisisExamen extends Model
        'tasaIrregularidad','codExamen'
     ];
 
+    public function getExamen(){
+        return Examen::findOrFail($this->codExamen);
+    }
+
 
 
 
@@ -334,9 +338,59 @@ class AnalisisExamen extends Model
         return "OK";
     }
 
+    public function calcularTasaIrregularidad(){
+        $examen = $this->getExamen();
+
+        $nroAsistentes = $examen->asistentes;
+        $porcentajeUnificadorGI = Parametros::getTasa('porcentajeUnificadorGI');
+        $porcentajeUnificadorGP = Parametros::getTasa('porcentajeUnificadorGP');
+        $porcentajeUnificadPE = Parametros::getTasa('porcentajeUnificadPE');
+        
+        $pesoTasaGI = Parametros::getTasa('pesoTasaGI');
+        $pesoTasaGP = Parametros::getTasa('pesoTasaGP');
+        $pesoTasaPE = Parametros::getTasa('pesoTasaPE');
+        
+
+        //                
+        $cantPertenecientesEI = 0;
+        $listaEI =GrupoIguales::where('codAnalisis','=',$this->codAnalisis)->get();
+        foreach ($listaEI as  $grupoIgual) {
+            $cantPertenecientesEI += count( explode(','  ,  $grupoIgual->vectorExamenPostulante) );  
+        }
+        $tasaGI = $cantPertenecientesEI/($nroAsistentes*$porcentajeUnificadorGI);
+
+ 
+        $cantPertenecientesGP = 0;
+        $listaGP = GrupoPatron::where('codAnalisis','=',$this->codAnalisis)->get();
+        foreach ($listaGP as  $grupoPatron) {
+            $cantPertenecientesGP += count( explode(','  ,  $grupoPatron->vectorExamenPostulante) );  
+        }
+        $tasaGP = $cantPertenecientesGP/($nroAsistentes*$porcentajeUnificadorGP);
 
 
 
+ 
+        $listaPE = PostulantesElevados::where('codAnalisis','=',$this->codAnalisis)->get();
+        $cantPertenecientesPE = count($listaPE);
+        $tasaPE = $cantPertenecientesPE/($nroAsistentes*$porcentajeUnificadPE);
+        
+
+
+        $tasaIrregularidad = 
+                $pesoTasaGI * $tasaGI + 
+                $pesoTasaGP*$tasaGP + 
+                $pesoTasaPE *$tasaPE;
+
+        return [
+            'tasaGI'=> $tasaGI,
+            'tasaGP'=> $tasaGP,
+            'tasaPE'=> $tasaPE,
+            'tasaIrregularidad' => $tasaIrregularidad
+        ];
+        
+    }
+
+     
 
 
 }

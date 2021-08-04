@@ -62,18 +62,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         </select>
                     </div>
                     <div class="w-100"></div>
-                   
-                    <div class="col">
-
-                        
-                        <label class="" style="">Vacantes:</label>
-                        
-                        
-                        <div class="">
-                            <input type="number" class="form-control" id="nroVacantes" name="nroVacantes" 
-                                value="" placeholder="Cantidad vacantes" >
-                        </div>
-                    </div>
+                    
                     <div class="col">
 
                         
@@ -142,17 +131,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
 
 
                     </div>
-                    <div class="col">
-
-                        
-                        <label class="" style="">Postulantes:</label>
-                        
-                        
-                        <div class="">
-                            <input type="number" class="form-control" id="nroPostulantes" name="nroPostulantes" 
-                                value="" placeholder="Nombre..." >
-                        </div>
-                    </div>
+                    
                     <div class="col">
 
                         
@@ -231,9 +210,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
 
         msjError = "";
 
-        msjError = validarPositividadYNulidad(msjError,'nroVacantes','Vacantes');
-        msjError = validarPositividadYNulidad(msjError,'nroPostulantes','Postulantes');
-
+         
         msjError = validarPositividadYNulidad(msjError,'valoracionPositivaCON','Valoración Positiva de pregunta Aptitud');
         msjError = validarPositividadYNulidad(msjError,'valoracionPositivaAPT','Valoración Positiva de pregunta Conocimiento');
         msjError = validarPositividadYNulidad(msjError,'valoracionNegativaCON','Valoración Negativa de pregunta Aptitud');
