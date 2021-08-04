@@ -8,6 +8,7 @@ use App\Examen;
 use App\ExamenPostulante;
 use App\GrupoIguales;
 use App\GrupoPatron;
+use App\Parametros;
 use App\PostulantesElevados;
 use App\Pregunta;
 use App\Tasa;
@@ -36,6 +37,10 @@ Route::get('/Carrera/VerHistorico', 'CarreraController@verHistorico')->name('Car
 Route::get('/Carrera/{id}/VerHistorico', 'CarreraController@actualizarHistorico')->name('Carrera.actualizarHistorico');
 
 /* RUTAS PARA INGRESO Y REGISTRO DE USUARIO Y CLIENTE */
+Route::get('/login', 'UserController@verLogin')->name('user.verLogin'); //para desplegar la vista del Login
+Route::post('/ingresar', 'UserController@logearse')->name('user.logearse');
+Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesion');
+
 
 
 Route::get('/', 'UserController@home')->name('user.home');
@@ -60,6 +65,11 @@ Route::get('/probandoCosas',function(){
 
 Route::get('/probandoCosas2',function(){
     
+
+    
+    return 0;
+
+
     $examenPostulante = ExamenPostulante::findOrFail(26344);
     
     return $examenPostulante->getAnteriorExamenPostulante();
@@ -83,6 +93,13 @@ Route::get('/borrarTodo',function(){
     User::where('contraseña','=','123')->delete();
     Actor::where('codTipoActor','=',1)->delete();
 
+    //Seteamos todos los examenes como archivos cargados
+    $listaExamenes = Examen::All();
+    foreach ($listaExamenes as $examen) {
+        $examen->codEstado = 8;
+        $examen->save();
+    }
+    
 
 });
 
@@ -90,7 +107,7 @@ Route::get('/borrarTodo',function(){
 
 /* *********************************** EXAMENES ************************************* */
 
-
+Route::get('/Examen/{id}/verPostulantes','ExamenPostulanteController@listarDeExamen')->name('Examen.VerPostulantes');
 
 Route::get('/Examenes/Director/Listar','ExamenController@listar')->name('Examen.Director.Listar');
 
@@ -99,8 +116,8 @@ Route::get('/Examenes/Director/Crear','ExamenController@Crear')->name('Examen.Di
 Route::get('/Examen/{id}/Director/VerCargarResultados','ExamenController@verCargarResultados')->name('Examen.Director.VerCargar');
 Route::post('/Examen/Director/CargarResultados','ExamenController@cargarResultados')->name('Examen.Director.cargarResultados');
 
-Route::get('/Examen/{id}/Director/IniciarProcesamiento','ExamenController@procesar')->name('Examen.Director.Procesar');
-
+Route::get('/Examen/{id}/Director/analizarExamen','ExamenController@analizarExamen')->name('Examen.Director.analizarExamen');
+Route::get('/Examen/{id}/Director/IniciarLecturaDatos','ExamenController@IniciarLecturaDatos')->name('Examen.Director.IniciarLecturaDatos');
 
 Route::get('/Examen/{id}/Director/generarRespuestasPostulantes','ExamenController@generarRespuestasPostulantes')->name('Examen.Director.generarRespuestasPostulantes');
 

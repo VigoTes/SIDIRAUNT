@@ -316,7 +316,7 @@
     <i class="fas fa-arrow-left"></i> 
     Regresar al Menu
 </a>
-@if($examen->codEstado!=4 && $examen->codEstado!=5)
+@if($examen->codEstado!=4 && $examen->codEstado!=5 && App\Actor::esConsejoUniversitario())
 <button type="button" id="" class="btn btn-danger float-right"
     data-toggle="modal" data-target="#ModalConfirmacion"><i class="fas fa-exclamation-triangle"></i> Registrar decision del CU
 </button>    

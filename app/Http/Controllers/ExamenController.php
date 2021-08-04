@@ -95,12 +95,18 @@ class ExamenController extends Controller
     public function aprobarExamen(Request $request){
         $examen=Examen::findOrFail($request->codExamen);
 
-        //VALIDACION
-        $representanteConsejo=Actor::where('codTipoActor','=',2)->get()[0];
-        $representanteConsejo=User::findOrFail($representanteConsejo->codUsuario);
-        if($request->contraseña!=$representanteConsejo->contraseña){
+        //VALIDACION DE SI ES CONSEJO UNIVERSITARIO
+        if(!Actor::getActorLogeado()->esConsejoUniversitario()){
             return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
-            ->with('datos','CONTRASEÑA ERRONEA');
+                ->with('datos','USTED NO ES CONSEJO UNIVERSITARIO');
+        }
+
+        //VALIDACION DE SI LA CONTRA ESTA CORRECTA
+        $hashp=Actor::getActorLogeado()->getUsuario()->password;
+        $password=$request->get('contraseña');
+        if(!password_verify($password,$hashp)){
+            return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
+                ->with('datos','CONTRASEÑA ERRONEA');
         }
 
         
@@ -303,8 +309,16 @@ class ExamenController extends Controller
 
     }
 
-    public function procesar($codExamen){
+    public function analizarExamen($codExamen){
+        $examen = Examen::findOrFail($codExamen);
+        
+        $examen->generarReporteIrregularidad();
+        $examen->codEstado = 6;
+        $examen->save();
+        return "1";
+    }   
 
+    public function IniciarLecturaDatos($codExamen){
 
         $examen = Examen::findOrFail($codExamen);
         //AnalisisExamen::where('codExamen','=',$codExamen)->delete();
@@ -316,15 +330,11 @@ class ExamenController extends Controller
         
         $examen->procesarArchivoPreguntas();
         $examen->procesarArchivoRespuestas();
-        
-        return $examen->generarReporteIrregularidad();
-
-
+        $examen->codEstado = 7;
+        $examen->save();
         return "1";
 
-
-    }   
-
+    }
 
     public function generarRespuestasPostulantes($codExamen){
         

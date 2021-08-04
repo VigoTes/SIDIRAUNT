@@ -61,7 +61,23 @@ class Examen extends Model
 
     }
 
+    //retorna true si ya fue cargado el archivo con los resultados 
+    public function tieneResultados(){
+        return $this->verificarEstadoVarios(['Aprobado','Cancelado','Analizado','Datos Insertados']);
+    }
+    public function verificarEstadoVarios($vectorNombresEstados){
+        foreach ($vectorNombresEstados as $nombreEstado ) {
+            if($this->verificarEstado($nombreEstado))
+                return true;
+        }
+        return false;
 
+    }
+
+
+    public function tieneAnalisis(){
+        return count(AnalisisExamen::where('codExamen','=',$this->codExamen)->get()) > 0;
+    }
     //lee el archivo de las preguntas y las inserta en la base de datos
     public function procesarArchivoPreguntas(){
             
@@ -92,6 +108,15 @@ class Examen extends Model
         //User::where('codUsuario','>','0')->delete();
         //Actor::where('codActor','>','0')->delete();
         $respuestasCorrectas = $this->getStringRespuestas();
+            
+        /* 
+            INGRESA
+            ING. 2-
+            NO INGRESA
+            AUSENTE
+        */
+        $listaCondiciones = CondicionPostulacion::All();
+        
 
 
         $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
@@ -139,7 +164,7 @@ class Examen extends Model
                         ];
                     
                     Debug::imprimirVector($vectorColumnas);   
-                    ExamenPostulante::registrar($vectorColumnas);
+                    ExamenPostulante::registrar($vectorColumnas,$listaCondiciones);
 
                     //Debug::imprimir($linea);
 

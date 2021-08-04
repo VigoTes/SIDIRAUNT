@@ -18,7 +18,7 @@ class ModalidadController extends Controller
 
         $modalidades = Modalidad::all();
 
-        return view('Modalidad.listar', compact('modalidades'));
+        return view('Modalidades.listar', compact('modalidades'));
     }
 
     /**
@@ -28,7 +28,7 @@ class ModalidadController extends Controller
      */
     public function create(Request $request)
     {
-        return view('Modalidad.crear');
+        return view('Modalidades.crear');
     }
 
     /**

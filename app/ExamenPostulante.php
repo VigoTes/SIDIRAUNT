@@ -23,12 +23,16 @@ class ExamenPostulante extends Model
         return CondicionPostulacion::findOrFail($this->codCondicion);
     }
 
+    public function getActor(){
+
+        return Actor::findOrFail($this->codActor);
+    }
     /*
     le ingresa un vector con la linea de resultados, 
         si el postulante no existe, le crea un perfil y le añade este examen a examenPostulante
         si ya existe, le añade este examen a ExamenPostulante 
     */
-    public static function registrar($array){
+    public static function registrar($array,$listaCondiciones){
         
         $listaPostulantes = Actor::where('apellidosYnombres','=',$array['apellidosYnombres'])->get();
         if(count($listaPostulantes)==0){ //No existe el postulante en la BD, le creamos un perfil
@@ -36,6 +40,8 @@ class ExamenPostulante extends Model
             $usuario = new User();
             $usuario->usuario =  mb_substr($array['apellidosYnombres'],0,7).rand(1000,9999);
             $usuario->contraseña = "123";
+            $usuario->password = "123";
+            
             $usuario->save();
 
             $postulante = new Actor();
@@ -54,7 +60,9 @@ class ExamenPostulante extends Model
         $carrera = Carrera::where('abreviacionMayus','=',$array['escuela'])->get()[0];
 
         Debug::mensajeSimple('condicionPostulacion="'.$array['observaciones'].'"');
-        $condicion = CondicionPostulacion::where('nombre','like',$array['observaciones']."%")->get()[0]; //AQUI ME QUEDE
+        //$condicion = CondicionPostulacion::where('nombre','like',$array['observaciones']."%")->get()[0]; //Codigo anterior, es dms lento
+        $codCondicion = ExamenPostulante::calcularCodCondicion($array['observaciones'],$listaCondiciones);
+        
         
 
         $examenPostulante = new ExamenPostulante();
@@ -67,7 +75,7 @@ class ExamenPostulante extends Model
         $examenPostulante->codCarrera = $carrera->codCarrera;
         $examenPostulante->orden = $array['orden'];
         $examenPostulante->nroCarnet = $array['nroCarnet'];
-        $examenPostulante->codCondicion = $condicion->codCondicion;
+        $examenPostulante->codCondicion = $codCondicion;
         $examenPostulante->nroCorrectas = $array['correctasEincorrectas']['correctas'];
         $examenPostulante->nroIncorrectas = $array['correctasEincorrectas']['incorrectas'];
         
@@ -75,6 +83,28 @@ class ExamenPostulante extends Model
 
         
     }
+
+    /* 
+    Le entra:
+        lista de condiciones existentes
+        string de los 7 primeros caracteres leidos del txt INGRESO/ING. 2-
+    Le sale:
+        Codigo de la condicion que le corresponde 
+    */
+    public static function calcularCodCondicion($stringCondicion,$listaCondiciones){
+        foreach ($listaCondiciones as $cond) {
+            $vectorCondiciones[$cond->codCondicion] = $cond->nombre;
+            if(str_starts_with($cond->nombre,$stringCondicion)){
+                return $cond->codCondicion;
+            } 
+        }
+
+        return 0;
+    }
+
+
+
+
     /* 
         retorna un vector con las respuestas iguales, de forma:
         [ posicion  rpta
@@ -170,8 +200,12 @@ class ExamenPostulante extends Model
         ->orderBy('examen.fechaRendicion')
         ->get();
         
-        return ExamenPostulante::findOrFail($listaExamenesPostAnteriores[0]->codExamenPostulante);
-        
+        if(count($listaExamenesPostAnteriores) >0)
+        {
+            return ExamenPostulante::findOrFail($listaExamenesPostAnteriores[0]->codExamenPostulante);
+        }
+
+        return "";
     }
 
     public function getExamen(){

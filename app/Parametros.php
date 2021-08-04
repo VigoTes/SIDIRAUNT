@@ -14,4 +14,9 @@ class Parametros extends Model
     protected $fillable = [
        'campo', 'valor'
     ];
+
+    public static function getTasa($nombre){
+        $obj = Parametros::where('campo','=',$nombre)->get()[0];
+        return $obj->valor;
+    }
 }

@@ -26,7 +26,15 @@ class GrupoPatron extends Model
         return count($arr);
     }
     public function respuestasResumen(){
-        return substr($this->respuestasCoincidentesJSON, 0, 120);
+        $resumen="";
+        $respuestasProbando=json_decode($this->respuestasCoincidentesJSON,true);
+        for ($i=1; $i <= 100; $i++) { 
+            if(isset($respuestasProbando[$i])){
+                $resumen=$resumen.', '.$i.'.'.$respuestasProbando[$i];
+            }
+            
+        }
+        return substr($resumen, 1,120)." ...";
     }
 
 

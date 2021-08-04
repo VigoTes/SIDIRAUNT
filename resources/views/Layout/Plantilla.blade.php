@@ -114,9 +114,15 @@
           </a>
       </li>
       
-      <a class="btn btn-primary"  title="Volver al Inicio" href="{{route('user.home')}}" >
+      <a class="btn btn-info"  title="Volver al Inicio" href="{{route('user.home')}}" style="margin-right: 6px">
         Home
       </a>
+      @if(!App\Actor::hayActorLogeado())
+      <a class="btn btn-primary"  title="Volver al Inicio" href="{{route('user.verLogin')}}">
+        Login
+      </a>
+      @endif
+      
 
       {{-- <a class="btn btn-primary" onclick="clickeoButton()" title="Volver al Inicio" href="#" >
         CLICK AQUI
@@ -126,21 +132,24 @@
 
     </ul>
     
-
+    <!--
     <ul class="navbar-nav ml-auto" style="margin-right:10%;">
-      <!-- Messages Dropdown Menu --> {{-- VER CARRITO RAPIDAMENTE --}}
+      {{-- VER CARRITO RAPIDAMENTE --}}
       
       @include('Layout.Notificaciones.Solicitudes')
       
     </ul>
-      
+    -->
 
 
 
 
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu --> {{-- VER CARRITO RAPIDAMENTE --}}
+      @if(App\Actor::hayActorLogeado())
         @include('Layout.Notificaciones.Usuario')
+      @endif
+        
     </ul>
       
 
@@ -170,23 +179,22 @@
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
       
-      
+      @if(App\Actor::hayActorLogeado())
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <img src="/img/usuario.png" class="img-circle elevation-2" alt="User Image">
         </div>
-
-      
-            <div class="info">
-              <a href="/verMisDatos" class="d-block"></a>
-             
-                <label for="" style="color: rgb(255, 255, 255))">
-                 Diego Vigo, Admin
-                </label>
-      
-            </div>
-   
+        <div class="info">
+          <a href="/verMisDatos" class="d-block"></a>
+          
+            <label for="" style="color: rgb(255, 255, 255))">
+              {{  (App\Actor::getActorLogeado()->apellidosYnombres ) }}
+            </label>
+  
+        </div>
       </div>
+      @endif
+      
 
       
 <!-- Sidebar Menu -->
@@ -262,7 +270,7 @@
 <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>    
 <script src="{{ asset('plugins/bootstrap-sweetalert/sweetalert.min.js') }}"></script>
 
-
+<script src="{{ asset('dist/js/admin/app.js') }}"></script>
  
 <script type="application/javascript">
 
@@ -464,7 +472,7 @@
           },
           function(value){//se ejecuta cuando damos a aceptar
               if(value)
-                location.href = "{{route('user.cerrarSesion')}}"
+                location.href = "{{route('user.cerrarSesion')}}";
           }
       );
 
@@ -498,8 +506,8 @@
 
 
 </script>
-
 <link rel="stylesheet" href="/adminlte/dist/css/sweetalert.css">
+
 @yield('script')
 
 

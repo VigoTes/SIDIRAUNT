@@ -304,7 +304,7 @@ class AnalisisExamen extends Model
     */
     public function generarPostulantesElevados(){
 
-        $tasaToleranciaSubida = 0.8; //si la diferencia es de mas del 80% del examen anterior, es una irregularidad
+        $tasaToleranciaSubida = Parametros::getTasa('tasaToleranciaSubida'); //si la diferencia es de mas del 80% del examen anterior, es una irregularidad
         $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
         foreach ($listaExamenes as $examenPostulante) {
             $examenAnterior = $examenPostulante->getAnteriorExamenPostulante();
