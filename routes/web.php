@@ -15,7 +15,7 @@ use App\Tasa;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Storage;
 
 //AREA
 Route::resource('area','AreaController');
@@ -55,14 +55,15 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
 Route::get('/probandoCosas',function(){
-     
-    $analisis = AnalisisExamen::findOrFail(80);
-    $tasas = $analisis->calcularTasaIrregularidad();
-    $analisis->tasaGI = $tasas['tasaGI'];
-    $analisis->tasaGP = $tasas['tasaGP'];
-    $analisis->tasaPE = $tasas['tasaPE'];
-    $analisis->tasaIrregularidad = $tasas['tasaIrregularidad'];
-    $analisis->save();
+
+    //$examen = Examen::findOrFail(1);
+    //return Storage::disk('examenes')->url($examen->getNombreArchivoPreguntas());
+    $archivo = fopen('/Examen-000001-preguntas.txt','r'); //abrimos el archivo en modo lectura (reader)
+    $cad="";
+    while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
+      $cad.=$linea."<br>";
+    }
+    return $cad;
 
 });
 

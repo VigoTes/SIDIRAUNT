@@ -1,6 +1,6 @@
 @extends('Layout.Plantilla')
 @section('titulo')
-    Flujograma
+    Inicio
 @endsection
 
 @section('contenido')
@@ -8,14 +8,10 @@
 
 <h1 class="text-center">
 
+    BIENVENIDO AL SISTEMA DE DETECCIÓN DE IRREGULARIDADES EN LOS RESULTADOS DE ADMISIÓN DE LA UNT
 
-    BIENVENIDO AL SISTEMA DE DETECCIÓN DE IRREGULARIDADES DE LA UNT
-a
 </h1>
 
-<a href="{{route('probarArchivos')}}" class="btn btn-success">
-    Generar registros
-</a>
 
 
 @endsection

@@ -6,43 +6,12 @@
         <a href="#" class="nav-link">
           <i class="far fa-building nav-icon"></i>
           <p>
-            PRIMER NIVEL
+            CRUDs
             <i class="right fas fa-angle-left"></i>
           </p>
         </a>
         <ul class="nav nav-treeview">
-         
-
-              <li class="nav-item">
-                <a href=" " class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>SUBNIVEL 1</p>
-                </a>
-              </li>
-          
-         
-              <li class="nav-item">
-                <a href=" " class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>GerenteS</p>
-                </a>
-              </li>
-          
-
-              <li class="nav-item">
-                <a href=" " class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Administrador</p>
-                </a>
-              </li>
-
-            
-              <li class="nav-item">
-                <a href=" " class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contador</p>
-                </a>
-              </li>
+      
            
               <li class="nav-item">
                 <a href="{{route('area.index')}}" class="nav-link">

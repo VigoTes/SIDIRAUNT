@@ -78,9 +78,12 @@ class Examen extends Model
     public function tieneAnalisis(){
         return count(AnalisisExamen::where('codExamen','=',$this->codExamen)->get()) > 0;
     }
+
+
+
     //lee el archivo de las preguntas y las inserta en la base de datos
     public function procesarArchivoPreguntas(){
-            
+             
         $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoPreguntas(),'r'); //abrimos el archivo en modo lectura (reader)
 
         $nroPregunta = 1;
@@ -154,7 +157,7 @@ class Examen extends Model
                     $correctasEincorrectas = Examen::calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas); //calculamos la cantidad de correctas e incorrectas del postulante
                     
                     $conteoCondiciones[$observaciones] ++;
-
+                    
                     $vectorColumnas = [
                             'codExamen'=>$this->codExamen,
                             'respuestasJSON'=>$respuestas,

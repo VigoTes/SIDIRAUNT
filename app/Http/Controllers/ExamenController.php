@@ -226,7 +226,8 @@ class ExamenController extends Controller
             $examen->codModalidad= $request -> codModalidad;
             $examen->codSede= $request -> codSede;
             $examen->codEstado= 1;
-
+            $examen->codArea = $request->codArea;
+            $examen->periodo = $request->periodo;
             $examen->valoracionPositivaCON = $request->valoracionPositivaCON; 
             $examen->valoracionPositivaAPT = $request->valoracionPositivaAPT; 
             $examen->valoracionNegativaCON = $request->valoracionNegativaCON; 
@@ -273,7 +274,7 @@ class ExamenController extends Controller
             DB::beginTransaction();   
                         
             $examen = Examen::findOrFail($request->codExamen);
-            $examen->codEstado = 2;
+            $examen->codEstado = 8;
             $examen->save();
             
             $archivoRespuestas = $request->file('archivoRespuestas'); 

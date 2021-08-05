@@ -45,28 +45,18 @@
         <form class="form-inline float-right">
 
           <label style="" for="">
-            Fecha:
+            
             
           </label>
+ 
+              <input type="text"  class="form-control" name="fechaFin" id="fechaFin" style="text-align: center"
+                   value="" style="text-align:center;font-size: 10pt;" placeholder="Buscar por nombre...">
+             
 
-          <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px">
-            <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio" style="text-align: center"
-                   value=" " style="text-align:center;font-size: 10pt;">
-            <div class="input-group-btn">                                        
-                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-            </div>
-          </div>
-           - 
-          <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px">
-            <input type="text"  class="form-control" name="fechaFin" id="fechaFin" style="text-align: center"
-                   value=" " style="text-align:center;font-size: 10pt;">
-            <div class="input-group-btn">                                        
-                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-            </div>
-          </div>
-
-
-          <button class="btn btn-success " type="submit">Buscar</button>
+          <button class="btn btn-success " type="submit">
+            Buscar
+            <i class="fas fa-search"></i>
+          </button>
         </form>
       </div>
     </div>
@@ -85,7 +75,7 @@
          <th>Puntaje APT</th>
           <th>Puntaje CON</th>
           <th>Puntaje Total</th>
-          <th>Puntaje Minimo</th>
+        
           <th>Escuela</th>
           <th>Condición</th>
         </tr>
@@ -101,8 +91,7 @@
                 <td>{{$examenPostulante->puntajeAPT}}</td>
                 <td>{{$examenPostulante->puntajeCON}}</td>
                 <td>{{$examenPostulante->puntajeTotal}}</td>
-                <td>a</td>
-               
+             
                 <td>{{$examenPostulante->getCarrera()->nombre}}</td>
                 <td>{{$examenPostulante->getCondicion()->nombre}}</td>
                 

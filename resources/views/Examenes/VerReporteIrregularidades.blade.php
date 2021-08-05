@@ -166,7 +166,7 @@
                 <div class="contanier">
                     <br><br><br>
                     <h5 style="text-align: center; font-weight: bold">TASA DE IRREGULARIDAD DE LOS RESULTADOS</h5>
-                    <h1 style="text-align: center; color: red; font-weight: bold">{{$analisis->tasaIrregularidad}}%</h1>
+                    <h1 style="text-align: center; color: red; font-weight: bold">{{$analisis->tasaIrregularidad*100}}%</h1>
                 </div>
             </div>
         </div>

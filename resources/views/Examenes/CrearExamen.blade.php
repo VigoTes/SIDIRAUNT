@@ -48,6 +48,18 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                                 value="" placeholder="Nombre..." >
                         </div>
                     </div>
+
+                    <div class="col">
+
+                        
+                        <label class="" style="">Periodo:</label>
+                        
+                        
+                        <div class="">
+                            <input type="text" class="form-control" id="periodo" name="periodo" 
+                                value="" placeholder="2020-I" >
+                        </div>
+                    </div>
                     <div class="col">
 
                         
@@ -71,7 +83,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <div class="">
                             <input type="number" class="form-control" id="valoracionPositivaCON" name="valoracionPositivaCON" 
-                                value="" placeholder="3.612" >
+                                value="" placeholder="4.079" >
                         </div>
                     </div>
                     <div class="col">
@@ -82,7 +94,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <div class="">
                             <input type="number" class="form-control" id="valoracionPositivaAPT" name="valoracionPositivaAPT" 
-                                value="" placeholder="4.0101" >
+                                value="" placeholder="4.070" >
                         </div>
                     </div>
 
@@ -96,7 +108,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <div class="">
                             <input type="number" class="form-control" id="valoracionNegativaCON" name="valoracionNegativaCON" 
-                                value="" placeholder="3.612" >
+                                value="" placeholder="-1.021" >
                         </div>
                     </div>
                     <div class="col">
@@ -107,7 +119,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <div class="">
                             <input type="number" class="form-control" id="valoracionNegativaAPT" name="valoracionNegativaAPT" 
-                                value="" placeholder="4.0101" >
+                                value="" placeholder="-1.019" >
                         </div>
                     </div>
 
@@ -141,8 +153,9 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         <div class="">
                            
                             <select class="form-control" name="codSede" id="codSede">
-                            @foreach ($listaSedes as $sede)
                                 <option value="-1">- Sedes -</option>
+                            @foreach ($listaSedes as $sede)
+                               
                                 <option value="{{$sede->codSede}}">
                                     {{$sede->nombre}}
                                 </option>
@@ -152,6 +165,27 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     </div>
                     
 
+                    
+                    <div class="col">
+
+                        
+                        <label class="" style="">Area:</label>
+                        
+                        
+                        <div class="">
+                           
+                            <select class="form-control" name="codArea" id="codArea">
+                                <option value="-1">- Areas -</option>
+                            @foreach ($listaAreas as $area)
+                               
+                                <option value="{{$area->codArea}}">
+                                    {{$area->descripcion}}
+                                </option>
+                            @endforeach
+                        </select>
+                        </div>
+                    </div>
+                    
 
 
                     <div class="w-100"></div>
@@ -205,8 +239,8 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
 
     function validarFormulario(){
 
-        limpiarEstilos(['nroVacantes','nroPostulantes','valoracionPositivaCON','valoracionPositivaAPT','valoracionNegativaCON','valoracionNegativaAPT'
-           , 'año','fechaRendicion','codModalidad','codSede','codArea']);
+        limpiarEstilos(['valoracionPositivaCON','valoracionPositivaAPT','valoracionNegativaCON','valoracionNegativaAPT'
+           , 'año','fechaRendicion','codModalidad','codSede']);
 
         msjError = "";
 
@@ -222,7 +256,6 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
         
         msjError = validarSelect(msjError,'codModalidad','-1','Modalidad');
         msjError = validarSelect(msjError,'codSede','-1','Sede');
-        msjError = validarSelect(msjError,'codArea','-1','Area');
          
         return msjError;
 

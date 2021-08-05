@@ -88,7 +88,7 @@ class AnalisisExamen extends Model
         }
 
 
-        return $listaExamenes[1];
+        //return $listaExamenes[1];
          
     }
     
@@ -135,7 +135,7 @@ class AnalisisExamen extends Model
                     Debug::mensajeSimple('generarGruposPatron iterando'.$i."/".$j."// ".$listaExamenes[$i]->nroCarnet."  cantidadLimite=".$cantRespuestasMarcadas*$tasa."  cantidadRespIguales=".count($vectorRespuestasIguales)); 
                     
                     if($cantRespuestasMarcadas*$tasa < count($vectorRespuestasIguales) && count($vectorRespuestasIguales) > $cantidadMinimaDePreguntasParaPatron
-                    ) //
+                    ) 
                     {
                         Debug::mensajeSimple('---------- IRREGULARIDAD DETECTADA nroCarnet:'.$listaExamenes[$i]->nroCarnet);
                         $listaGrupos = GrupoPatron::buscar($vectorRespuestasIguales,$this->codAnalisis); //vemos si ya hay un grupoPatron con ese JSON, aumentamos 1 en ese 
@@ -165,7 +165,7 @@ class AnalisisExamen extends Model
 
 
                     
-                    }//si no, cortamos el reocrrido de j porque si no fue igual el proximo siguiente, los demás tampoco (esta ordenado segun las respuestas)
+                    }//si 
                     else
                     {
                         Debug::mensajeSimple('cortamos el j='.$j);

@@ -2,8 +2,8 @@
 <html>
 <head>
 	 <meta charset="utf-8"/>
-     <title>CEDEPAS Norte | Login</title>
-	 <link rel="shortcut icon" href="/img/LogoCedepas.png" type="image/png">
+     <title>SIDIRAUNT | Login</title>
+	 <link rel="shortcut icon" href="/img/LOGO ICON.png" type="image/png">
   
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta content="width=device-width, initial-scale=1.0" name="viewport"/>      
@@ -59,19 +59,16 @@
 						<input id="ingresar" name="ingresar" type="submit" class="button" value="Ingresar">
 					</div>
 					<div class="group">
-						<a href="{{route('user.home')}}" class='button' style="text-align: center; background: #5e816d">
+						<a href="{{route('user.home')}}" class='button' style="text-align: center; background: #2a3bbd">
                             <i class="fas fa-arrow-left"></i> 
                             Regresar al Menu
                         </a>
 					</div>
-					<div class="hr"></div>
-
 				</div>
-	
 			</div>
 			<div style="text-align: center">
-				<img src="/img/LogoCedepas.png"
-				width="200" height="140" >
+				<img src="/img/LOGO SIDIRAUNT.png"
+				width="200" height="200" >
 			</div>
 		</div>
 		
