@@ -353,16 +353,25 @@ class ExamenController extends Controller
 
 
     public function VerPDF($codExamen){
-       
+        $examen = Examen::findOrFail($codExamen);
+        $nombreDescarga = "Examen Admisión UNT ".$examen->getModalidad()->nombre." ".$examen->getArea()->area." ".$examen->periodo.".pdf";
          
-       
-        return response()->file('fonts.rar');
-       
-       
+        return redirect("/examenes/".$examen->getNombreArchivoExamenEscaneado());
         
- 
-    
     }
     
+    
+    //se le pasa el codigo del archivo 
+    function descargarPDF($codExamen){
+        $examen = Examen::findOrFail($codExamen);
+        $nombreDescarga = "Examen Admisión UNT ".$examen->getModalidad()->nombre." ".$examen->getArea()->area." ".$examen->periodo.".pdf";
+         
+
+        //                  no hay error xd
+        return Storage::disk('examenes')->download($examen->getNombreArchivoExamenEscaneado(),$nombreDescarga);
+        
+
+    }
+
 
 }

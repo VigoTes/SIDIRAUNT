@@ -56,7 +56,10 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
 Route::get('/probandoCosas',function(){
-
+    
+    return Storage::disk('examenes')->download('robots.txt');
+    
+    
     //$examen = Examen::findOrFail(1);
     //return Storage::disk('examenes')->url($examen->getNombreArchivoPreguntas());
     $archivo = fopen('/Examen-000001-preguntas.txt','r'); //abrimos el archivo en modo lectura (reader)
@@ -70,9 +73,6 @@ Route::get('/probandoCosas',function(){
 
 
 Route::get('/probandoCosas2',function(){
-    
-    $examen = Examen::findOrFail(1);
-    return $examen->generarCarrerasExamen();
     
 
 });
@@ -120,6 +120,7 @@ Route::get('/Examen/{id}/Director/analizarExamen','ExamenController@analizarExam
 Route::get('/Examen/{id}/Director/IniciarLecturaDatos','ExamenController@IniciarLecturaDatos')->name('Examen.Director.IniciarLecturaDatos');
 
 Route::get('/Examen/{id}/Director/generarRespuestasPostulantes','ExamenController@generarRespuestasPostulantes')->name('Examen.Director.generarRespuestasPostulantes');
+Route::get('/Examen/{id}/descargarPDF/','ExamenController@descargarPDF')->name('Examen.descargarPDF');
 Route::get('/Examen/{id}/VerPDF/','ExamenController@VerPDF')->name('Examen.VerPDF');
 
 

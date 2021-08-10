@@ -122,7 +122,7 @@ class Examen extends Model
     //lee el archivo de las preguntas y las inserta en la base de datos
     public function procesarArchivoPreguntas(){
              
-        $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoPreguntas(),'r'); //abrimos el archivo en modo lectura (reader)
+        $archivo = fopen('examenes/'.$this->getNombreArchivoPreguntas(),'r'); //abrimos el archivo en modo lectura (reader)
 
         $nroPregunta = 1;
         while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
@@ -165,7 +165,7 @@ class Examen extends Model
         ];//para calculo de cant ausentes,ingresantes, no ingresantes y  postulantes totales 
 
 
-        $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
+        $archivo = fopen('examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
         
         $cant = 0;
         while ($linea = fgets($archivo)) { //recorremos cada linea del archivo

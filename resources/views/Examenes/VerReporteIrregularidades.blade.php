@@ -107,10 +107,15 @@
                     </div>
                 </div>
                 <div class="col">    
-                    <a href="#" class='btn btn-info float-right'>
-                        <i class="far fa-file-pdf"></i>Ver examen en PDF
+                    <a href="{{route('Examen.descargarPDF',$examen->codExamen)}}" class='btn btn-info float-right'>
+                        <i class="far fa-file-pdf"></i> Bajar
                     </a>
+                    <a href="{{route('Examen.VerPDF',$examen->codExamen)}}" class='btn btn-info float-right'>
+                        <i class="far fa-file-pdf"></i> Ver 
+                    </a>
+                    
                 </div>
+
             </div>
         </div>
     </div>
