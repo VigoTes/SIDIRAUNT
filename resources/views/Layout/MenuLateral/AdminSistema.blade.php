@@ -12,7 +12,7 @@
         </a>
         <ul class="nav nav-treeview">
       
-           
+
               <li class="nav-item">
                 <a href="{{route('area.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -60,6 +60,14 @@
         <a href="{{route('Examen.Director.Listar')}}" class="nav-link">
           <i class="far fa-address-card nav-icon"></i>
           <p>Examenes</p>
+        </a>
+      </li>
+
+
+      <li class="nav-item">
+        <a href="{{route('Postulante.Listar')}}" class="nav-link">
+          <i class="far fa-address-card nav-icon"></i>
+          <p>Postulantes</p>
         </a>
       </li>
 

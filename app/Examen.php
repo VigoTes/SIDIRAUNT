@@ -23,6 +23,7 @@ class Examen extends Model
     */
 
     
+    
     public function getNombreArchivoRespuestas(){
         return "Examen-".Debug::rellernarCerosIzq($this->codExamen,6)."-respuestas.txt";
     }
@@ -36,6 +37,11 @@ class Examen extends Model
     }
 
     
+
+    public function getFechaRendicion(){
+
+        return Fecha::formatoParaVistas($this->fechaRendicion);
+    }
 
     public function getModalidad(){
 
@@ -80,6 +86,38 @@ class Examen extends Model
     }
 
 
+
+    /* Inserta en la tabla historial "CarreraExamen" la combinacion de los datos actuales que están en Carrera,Examen, asi como los datos estadisticos de cada uno */
+    public function generarCarrerasExamen(){
+
+        $postulaciones = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
+        $vectorCarrerasDeEsteExamen = [];
+        
+        foreach ($postulaciones as $postulacion) {
+            if(!in_array($postulacion->codCarrera,$vectorCarrerasDeEsteExamen))
+                $vectorCarrerasDeEsteExamen[] = $postulacion->codCarrera;
+        }
+
+        $carrerasDeEsteExamen = Carrera::whereIn('codCarrera',$vectorCarrerasDeEsteExamen)->get();   
+        
+        /* Solo insertaremos en la tabla CarreraExamen las carreras de ese examen  */
+
+        foreach ($carrerasDeEsteExamen as $carrera) {
+            $nuevaCE = new CarreraExamen();
+            $nuevaCE-> codExamen = $this->codExamen;
+            $nuevaCE->codCarrera = $carrera->codCarrera;
+ 
+
+            $nuevaCE->puntajeMinimoPostulante = $nuevaCE->getPuntajeMinimoPostulante();
+            $nuevaCE->puntajeMaximoPostulante = $nuevaCE->getPuntajeMaximoPostulante();
+            $nuevaCE->puntajeMinimoPermitido = $nuevaCE->getPuntajeMinimoPermitido();
+            $nuevaCE->cantidadVacantes = $nuevaCE->getCantidadIngresantes();
+            
+            $nuevaCE->save();
+        }
+
+
+    }
 
     //lee el archivo de las preguntas y las inserta en la base de datos
     public function procesarArchivoPreguntas(){
@@ -150,7 +188,7 @@ class Examen extends Model
                     $puntajeAPT=            trim(mb_substr($linea,56,7));
                     $puntajeCON=            trim(mb_substr($linea,65,7));
                     $puntajeTotal=          trim(mb_substr($linea,74,7));
-                    $puntajeMinimo=         trim(mb_substr($linea,83,7));
+                    $puntajeMinimoPermitido=trim(mb_substr($linea,83,7));
                     $escuela=               trim(mb_substr($linea,94,26));
                     $respuestas =           mb_substr($linea,119,101);
                     $observaciones =        mb_substr($linea,221,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
@@ -167,7 +205,7 @@ class Examen extends Model
                             'puntajeAPT'=>$puntajeAPT,
                             'puntajeCON'=>$puntajeCON,
                             'puntajeTotal'=>$puntajeTotal,
-                            'puntajeMinimo'=>$puntajeMinimo,
+                            'puntajeMinimoPermitido'=>$puntajeMinimoPermitido,
                             'escuela'=>$escuela,
                             'observaciones'=>$observaciones,
                             'correctasEincorrectas'=>$correctasEincorrectas

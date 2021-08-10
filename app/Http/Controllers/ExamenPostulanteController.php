@@ -19,8 +19,11 @@ class ExamenPostulanteController extends Controller
     public function listarDeExamen($codExamen){
         $examen = Examen::findOrFail($codExamen);
         $listaExamenes = ExamenPostulante::where('codExamen','=',$codExamen)->get();
-        
+            
         return view('Examenes.ListarPostulantesDeExamen',compact('examen','listaExamenes'));   
 
     }
+
+
+
 }

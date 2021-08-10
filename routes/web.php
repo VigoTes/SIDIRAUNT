@@ -2,6 +2,7 @@
 
 use App\Actor;
 use App\AnalisisExamen;
+use App\CarreraExamen;
 use App\CondicionPostulacion;
 use App\Debug;
 use App\Examen;
@@ -70,14 +71,8 @@ Route::get('/probandoCosas',function(){
 
 Route::get('/probandoCosas2',function(){
     
-
-    
-    return 0;
-
-
-    $examenPostulante = ExamenPostulante::findOrFail(26344);
-    
-    return $examenPostulante->getAnteriorExamenPostulante();
+    $examen = Examen::findOrFail(1);
+    return $examen->generarCarrerasExamen();
     
 
 });
@@ -89,7 +84,7 @@ Route::get('/borrarTodo',function(){
     Pregunta::where('codPregunta','>','0')->delete();
     ExamenPostulante::where('codExamen','>','0')->delete();
     AnalisisExamen::where('codAnalisis','>','0')->delete();
- 
+    CarreraExamen::where('codExamen','>','0')->delete();
 
     GrupoIguales::where('codAnalisis','>','0')->delete();
     GrupoPatron::where('codAnalisis','>',0)->delete();
@@ -125,6 +120,7 @@ Route::get('/Examen/{id}/Director/analizarExamen','ExamenController@analizarExam
 Route::get('/Examen/{id}/Director/IniciarLecturaDatos','ExamenController@IniciarLecturaDatos')->name('Examen.Director.IniciarLecturaDatos');
 
 Route::get('/Examen/{id}/Director/generarRespuestasPostulantes','ExamenController@generarRespuestasPostulantes')->name('Examen.Director.generarRespuestasPostulantes');
+Route::get('/Examen/{id}/VerPDF/','ExamenController@VerPDF')->name('Examen.VerPDF');
 
 
 Route::post('/examenes/director/guardar','ExamenController@guardar')->name('Examen.Director.Guardar');
@@ -133,14 +129,15 @@ Route::get('/Examen/{id}/VerReporteIrregularidades','ExamenController@VerReporte
 //modales
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalExamenesIguales','ExamenController@getModalExamenesIguales');
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalGrupoRespuestasIguales','ExamenController@getModalGrupoRespuestasIguales');
-Route::get('/Examen/VerReporteIrregularidades/{codPostulanteElevado}/ModalPreguntasDePostulante','ExamenController@getModalPreguntasDePostulante');
+Route::get('/Examen/VerReporteIrregularidades/{codExamenPostulante}/ModalPreguntasDePostulante','ExamenController@getModalPreguntasDePostulante');
 Route::post('/Examen/Consejo/AprobarExamen','ExamenController@aprobarExamen')->name('Examen.Consejo.aprobarExamen');
 
 
 
 
-
-
+Route::get('/Postulante/listar','PostulanteController@listar')->name('Postulante.Listar'); 
+Route::get('/Postulante/verPerfil/{codPostulante}','PostulanteController@verPerfil')->name('Postulante.VerPerfil'); 
+/*                     en realidad es codActor */
 
 
 
