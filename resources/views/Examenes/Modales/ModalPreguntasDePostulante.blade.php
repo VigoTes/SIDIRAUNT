@@ -6,7 +6,7 @@
                     <div class="col-4">    
                         <div class="">
                             <input type="text" class="form-control"  
-                                value="{{$postulanteElevado->postulante()->apellidosYnombres}}"  readonly>
+                                value="{{$examenPostulante->getActor()->apellidosYnombres}}"  readonly>
                         </div>
                     </div>
                     <div class="col-1">
@@ -15,7 +15,7 @@
                     <div class="col">    
                         <div class="">
                             <input type="text" class="form-control"  
-                                value="{{$postulanteElevado->examenActual()->getCarrera()->nombre}}"  readonly>
+                                value="{{$examenPostulante->getCarrera()->nombre}}"  readonly>
                         </div>
                     </div>
                     <div class="col-1">
@@ -24,7 +24,7 @@
                     <div class="col">    
                         <div class="">
                             <input type="text" class="form-control"  
-                                value="{{$postulanteElevado->examenActual()->getCondicion()->nombre}}"  readonly>
+                                value="{{$examenPostulante->getCondicion()->nombre}}"  readonly>
                         </div>
                     </div>
     
@@ -99,7 +99,7 @@
                             <div class="col">    
                                 <div class="">
                                     <input type="text" class="form-control"  
-                                        value="{{$postulanteElevado->examenActual()->puntajeAPT}}"  readonly>
+                                        value="{{$examenPostulante->puntajeAPT}}"  readonly>
                                 </div>
                             </div>
                             <div class="col">
@@ -108,7 +108,7 @@
                             <div class="col">    
                                 <div class="">
                                     <input type="text" class="form-control"  
-                                        value="{{$postulanteElevado->examenActual()->puntajeCON}}"  readonly>
+                                        value="{{$examenPostulante->puntajeCON}}"  readonly>
                                 </div>
                             </div>
                             <div class="col">
@@ -117,7 +117,7 @@
                             <div class="col">    
                                 <div class="">
                                     <input type="text" class="form-control"  
-                                        value="{{$postulanteElevado->examenActual()->puntajeTotal}}"  readonly>
+                                        value="{{$examenPostulante->puntajeTotal}}"  readonly>
                                 </div>
                             </div>
             
@@ -129,7 +129,7 @@
                             <div class="col">    
                                 <div class="">
                                     <input type="text" class="form-control"  
-                                        value="{{$postulanteElevado->examenActual()->nroCorrectas}}"  readonly>
+                                        value="{{$examenPostulante->nroCorrectas}}"  readonly>
                                 </div>
                             </div>
                             <div class="col">
@@ -138,7 +138,7 @@
                             <div class="col">    
                                 <div class="">
                                     <input type="text" class="form-control"  
-                                        value="{{$postulanteElevado->examenActual()->nroIncorrectas}}"  readonly>
+                                        value="{{$examenPostulante->nroIncorrectas}}"  readonly>
                                 </div>
                             </div>
                             <div class="col">
@@ -147,7 +147,7 @@
                             <div class="col">    
                                 <div class="">
                                     <input type="text" class="form-control"  
-                                        value="{{$postulanteElevado->examenActual()->nroCorrectas+$postulanteElevado->examenActual()->nroIncorrectas}}"  readonly>
+                                        value="{{$examenPostulante->nroCorrectas+$examenPostulante->nroIncorrectas}}"  readonly>
                                 </div>
                             </div>
                         </div>

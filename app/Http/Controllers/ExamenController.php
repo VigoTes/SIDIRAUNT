@@ -70,13 +70,13 @@ class ExamenController extends Controller
         //para los 3 pie
         $pieGruposIguales=['labels'=>[],'value'=>[],'color'=>[]];
         foreach ($gruposIguales as $item) {
-            $pieGruposIguales['labels'][]=$item->identificador();
+            $pieGruposIguales['labels'][]='Grupo '.$item->identificador();
             $pieGruposIguales['value'][]=$item->cantidadPostulantes();
             $pieGruposIguales['color'][]=sprintf('#%06X', mt_rand(0, 0xFFFFFF));
         }
         $pieGruposPatron=['labels'=>[],'value'=>[],'color'=>[]];
         foreach ($gruposPatron as $item) {
-            $pieGruposPatron['labels'][]=$item->identificador();
+            $pieGruposPatron['labels'][]='Grupo '.$item->identificador();
             $pieGruposPatron['value'][]=$item->cantidadPostulantes();
             $pieGruposPatron['color'][]=sprintf('#%06X', mt_rand(0, 0xFFFFFF));
         }
@@ -91,6 +91,8 @@ class ExamenController extends Controller
         return view('Examenes.VerReporteIrregularidades',compact('estados','examen','analisis','gruposIguales','gruposPatron','postulantesElevados',
                                                                     'pieGruposIguales','pieGruposPatron','piePostulantesElevados'));
     }
+
+
 
     public function aprobarExamen(Request $request){
         $examen=Examen::findOrFail($request->codExamen);
@@ -184,13 +186,12 @@ class ExamenController extends Controller
 
         return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
     }
-    public function getModalPreguntasDePostulante($codPostulanteElevado){
+    public function getModalPreguntasDePostulante($codExamenPostulante){
+         
         
-        $postulanteElevado=PostulantesElevados::findOrFail($codPostulanteElevado);
-        $analisis=AnalisisExamen::findOrFail($postulanteElevado->codAnalisis);
-        $examenPostulante=ExamenPostulante::findOrFail($postulanteElevado->codExamenPostulante);
+        $examenPostulante=ExamenPostulante::findOrFail($codExamenPostulante);
         
-        $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
+        $solucionario=Examen::findOrFail($examenPostulante->codExamen)->getStringRespuestas();
         $respuestasProbando=$examenPostulante->respuestasJSON;
         $arr=['clave'=>[],'color'=>[]];
         for ($i=0; $i < strlen($respuestasProbando); $i++) { 
@@ -210,7 +211,7 @@ class ExamenController extends Controller
         
         //return $respuestasProbando;
 
-        return view('Examenes.Modales.ModalPreguntasDePostulante',compact('arr','respuestasProbando','solucionario','postulanteElevado','analisis'));
+        return view('Examenes.Modales.ModalPreguntasDePostulante',compact('arr','respuestasProbando','solucionario','examenPostulante'));
     }
 
     public function guardar(Request $request){
@@ -226,7 +227,8 @@ class ExamenController extends Controller
             $examen->codModalidad= $request -> codModalidad;
             $examen->codSede= $request -> codSede;
             $examen->codEstado= 1;
-
+            $examen->codArea = $request->codArea;
+            $examen->periodo = $request->periodo;
             $examen->valoracionPositivaCON = $request->valoracionPositivaCON; 
             $examen->valoracionPositivaAPT = $request->valoracionPositivaAPT; 
             $examen->valoracionNegativaCON = $request->valoracionNegativaCON; 
@@ -273,7 +275,7 @@ class ExamenController extends Controller
             DB::beginTransaction();   
                         
             $examen = Examen::findOrFail($request->codExamen);
-            $examen->codEstado = 2;
+            $examen->codEstado = 8;
             $examen->save();
             
             $archivoRespuestas = $request->file('archivoRespuestas'); 
@@ -331,6 +333,9 @@ class ExamenController extends Controller
         
         $examen->procesarArchivoPreguntas();
         $examen->procesarArchivoRespuestas();
+        $examen->generarCarrerasExamen();
+
+        
         $examen->codEstado = 7;
         $examen->save();
         return "1";
@@ -346,6 +351,27 @@ class ExamenController extends Controller
 
     }
 
+
+    public function VerPDF($codExamen){
+        $examen = Examen::findOrFail($codExamen);
+        $nombreDescarga = "Examen Admisión UNT ".$examen->getModalidad()->nombre." ".$examen->getArea()->area." ".$examen->periodo.".pdf";
+         
+        return redirect("/examenes/".$examen->getNombreArchivoExamenEscaneado());
+        
+    }
     
+    
+    //se le pasa el codigo del archivo 
+    function descargarPDF($codExamen){
+        $examen = Examen::findOrFail($codExamen);
+        $nombreDescarga = "Examen Admisión UNT ".$examen->getModalidad()->nombre." ".$examen->getArea()->area." ".$examen->periodo.".pdf";
+         
+
+        //                  no hay error xd
+        return Storage::disk('examenes')->download($examen->getNombreArchivoExamenEscaneado(),$nombreDescarga);
+        
+
+    }
+
 
 }

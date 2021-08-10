@@ -15,7 +15,7 @@
 <form id="frmExamen" name="frmExamen" role="form" action="{{route('Examen.Director.cargarResultados')}}" 
 class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
 
-<input type="text" name="codExamen" id="codExamen" value="{{$examen->codExamen}}" >
+<input type="hidden" name="codExamen" id="codExamen" value="{{$examen->codExamen}}" >
 @csrf 
 
 
@@ -57,15 +57,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         value="{{$examen->getModalidad()->nombre}}"  readonly >
                     </div>
                     <div class="w-100"></div>
-                    
-                    <div class="col">
-
-                        
-                        <label class="" style="">Vacantes:</label>
-                        
-                        <input type="text" class="form-control"  
-                        value="{{$examen->nroVacantes}}"  readonly >
-                    </div>
+                  
                     <div class="col">
 
                         
@@ -113,13 +105,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
 
 
                     </div>
-                    <div class="col">
-
-                        
-                        <label class="" style="">Postulantes:</label>
-                        <input type="text" class="form-control"  
-                        value="{{$examen->nroPostulantes}}" readonly  >
-                    </div>
+                  
                     <div class="col">
 
                         

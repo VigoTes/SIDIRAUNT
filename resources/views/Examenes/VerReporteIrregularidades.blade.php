@@ -107,10 +107,15 @@
                     </div>
                 </div>
                 <div class="col">    
-                    <a href="#" class='btn btn-info float-right'>
-                        <i class="far fa-file-pdf"></i>Ver examen en PDF
+                    <a href="{{route('Examen.descargarPDF',$examen->codExamen)}}" class='btn btn-info float-right'>
+                        <i class="far fa-file-pdf"></i> Bajar
                     </a>
+                    <a href="{{route('Examen.VerPDF',$examen->codExamen)}}" class='btn btn-info float-right'>
+                        <i class="far fa-file-pdf"></i> Ver 
+                    </a>
+                    
                 </div>
+
             </div>
         </div>
     </div>
@@ -166,7 +171,7 @@
                 <div class="contanier">
                     <br><br><br>
                     <h5 style="text-align: center; font-weight: bold">TASA DE IRREGULARIDAD DE LOS RESULTADOS</h5>
-                    <h1 style="text-align: center; color: red; font-weight: bold">{{$analisis->tasaIrregularidad}}%</h1>
+                    <h1 style="text-align: center; color: red; font-weight: bold">{{$analisis->tasaIrregularidad*100}}%</h1>
                 </div>
             </div>
         </div>
@@ -302,7 +307,7 @@
                         <a href="#" class="btn btn-warning btn-sm" title="Ver Reposición"><i class="fas fa-eye"></i></a>
                     </td>
                     <td>
-                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante({{$itemPostulante->codPostulanteElevado}},{{$itemPostulante->postulante()->codUsuario}})"
+                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante({{$itemPostulante->codExamenPostulante}},{{$itemPostulante->postulante()->codUsuario}})"
                             data-toggle="modal" data-target="#ModalPreguntasDePostulante"><i class="fas fa-list-ol"></i>
                         </button>
                     </td>
@@ -385,6 +390,8 @@
         </div>
     </div>
 </div>
+
+
 
 {{-- MODALE DE CONFIRMACION --}}
 <div class="modal fade" id="ModalConfirmacion" tabindex="-1" aria-labelledby="" aria-hidden="true">
@@ -497,6 +504,8 @@
         document.getElementById(TitleName).innerHTML="";
         document.getElementById(BodyName).innerHTML="";
     }
+
+
     function obtenerModal(Ruta,BodyName){
         $.get(Ruta, function(data){
                 console.log("Mostrar Modal de ruta: "+Ruta);                  
@@ -517,11 +526,14 @@
         document.getElementById('TitleGrupoRespuestasIguales').innerHTML="Patron "+completarZeros(codGrupo,4)+" - Grupo de respuestas iguales";
         obtenerModal('/Examen/VerReporteIrregularidades/'+codGrupo+'/ModalGrupoRespuestasIguales','BodyGrupoRespuestasIguales');
     }
-    function actualizarModalPreguntasDePostulante(codPostulanteElevado,codUsuario){
+
+
+    function actualizarModalPreguntasDePostulante(codExamenPostulante,codUsuario){
         limpiarModal('TitlePreguntasDePostulante','BodyPreguntasDePostulante');
 
         document.getElementById('TitlePreguntasDePostulante').innerHTML="Preguntas respondidas - Postulante "+completarZeros(codUsuario,7)+" - Examen {{$examen->getModalidad()->nombre}} {{$examen->periodo}}";
-        obtenerModal('/Examen/VerReporteIrregularidades/'+codPostulanteElevado+'/ModalPreguntasDePostulante','BodyPreguntasDePostulante');
+        obtenerModal('/Examen/VerReporteIrregularidades/'+codExamenPostulante+'/ModalPreguntasDePostulante','BodyPreguntasDePostulante');
+        
     }
 </script>
 <script src="../../plugins/chart.js/Chart.min.js"></script>
@@ -562,6 +574,9 @@
         var pieOptions     = {
             maintainAspectRatio : false,
             responsive : true,
+            legend: {
+                display: false
+            },
         }
 
         var pieGruposIguales = $('#pieGruposIguales').get(0).getContext('2d')

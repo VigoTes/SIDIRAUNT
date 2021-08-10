@@ -43,7 +43,7 @@ return [
 
     'disks' => [
 
-        'local' => [
+        'local' => [    /* Este linkea el directorio base de download('ARCHIVO')  */
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
@@ -75,7 +75,8 @@ return [
         ],
         'examenes' => [
             'driver' => 'local',
-            'root' => storage_path('app/examenes'),
+            'root' => public_path('/examenes'),
+             
         ],
     ],
 
@@ -89,7 +90,7 @@ return [
     | the locations of the links and the values should be their targets.
     |
     */
-
+/* IGNORA ESTO DIEGO */
     'links' => [
         public_path('storage') => storage_path('app/public'),
         public_path('imagenes') => storage_path('app/imagenes'),

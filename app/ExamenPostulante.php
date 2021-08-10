@@ -71,6 +71,8 @@ class ExamenPostulante extends Model
         $examenPostulante->puntajeAPT = $array['puntajeAPT'];
         $examenPostulante->puntajeCON = $array['puntajeCON'];
         $examenPostulante->puntajeTotal = $array['puntajeTotal'];
+        $examenPostulante->puntajeMinimoPermitido = $array['puntajeMinimoPermitido'];
+        
         $examenPostulante->codActor = $postulante->codActor;
         $examenPostulante->codCarrera = $carrera->codCarrera;
         $examenPostulante->orden = $array['orden'];

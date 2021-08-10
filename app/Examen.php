@@ -23,6 +23,7 @@ class Examen extends Model
     */
 
     
+    
     public function getNombreArchivoRespuestas(){
         return "Examen-".Debug::rellernarCerosIzq($this->codExamen,6)."-respuestas.txt";
     }
@@ -36,6 +37,11 @@ class Examen extends Model
     }
 
     
+
+    public function getFechaRendicion(){
+
+        return Fecha::formatoParaVistas($this->fechaRendicion);
+    }
 
     public function getModalidad(){
 
@@ -78,10 +84,45 @@ class Examen extends Model
     public function tieneAnalisis(){
         return count(AnalisisExamen::where('codExamen','=',$this->codExamen)->get()) > 0;
     }
+
+
+
+    /* Inserta en la tabla historial "CarreraExamen" la combinacion de los datos actuales que están en Carrera,Examen, asi como los datos estadisticos de cada uno */
+    public function generarCarrerasExamen(){
+
+        $postulaciones = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
+        $vectorCarrerasDeEsteExamen = [];
+        
+        foreach ($postulaciones as $postulacion) {
+            if(!in_array($postulacion->codCarrera,$vectorCarrerasDeEsteExamen))
+                $vectorCarrerasDeEsteExamen[] = $postulacion->codCarrera;
+        }
+
+        $carrerasDeEsteExamen = Carrera::whereIn('codCarrera',$vectorCarrerasDeEsteExamen)->get();   
+        
+        /* Solo insertaremos en la tabla CarreraExamen las carreras de ese examen  */
+
+        foreach ($carrerasDeEsteExamen as $carrera) {
+            $nuevaCE = new CarreraExamen();
+            $nuevaCE-> codExamen = $this->codExamen;
+            $nuevaCE->codCarrera = $carrera->codCarrera;
+ 
+
+            $nuevaCE->puntajeMinimoPostulante = $nuevaCE->getPuntajeMinimoPostulante();
+            $nuevaCE->puntajeMaximoPostulante = $nuevaCE->getPuntajeMaximoPostulante();
+            $nuevaCE->puntajeMinimoPermitido = $nuevaCE->getPuntajeMinimoPermitido();
+            $nuevaCE->cantidadVacantes = $nuevaCE->getCantidadIngresantes();
+            
+            $nuevaCE->save();
+        }
+
+
+    }
+
     //lee el archivo de las preguntas y las inserta en la base de datos
     public function procesarArchivoPreguntas(){
-            
-        $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoPreguntas(),'r'); //abrimos el archivo en modo lectura (reader)
+             
+        $archivo = fopen('examenes/'.$this->getNombreArchivoPreguntas(),'r'); //abrimos el archivo en modo lectura (reader)
 
         $nroPregunta = 1;
         while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
@@ -124,7 +165,7 @@ class Examen extends Model
         ];//para calculo de cant ausentes,ingresantes, no ingresantes y  postulantes totales 
 
 
-        $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
+        $archivo = fopen('examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
         
         $cant = 0;
         while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
@@ -147,14 +188,14 @@ class Examen extends Model
                     $puntajeAPT=            trim(mb_substr($linea,56,7));
                     $puntajeCON=            trim(mb_substr($linea,65,7));
                     $puntajeTotal=          trim(mb_substr($linea,74,7));
-                    $puntajeMinimo=         trim(mb_substr($linea,83,7));
+                    $puntajeMinimoPermitido=trim(mb_substr($linea,83,7));
                     $escuela=               trim(mb_substr($linea,94,26));
                     $respuestas =           mb_substr($linea,119,101);
                     $observaciones =        mb_substr($linea,221,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
                     $correctasEincorrectas = Examen::calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas); //calculamos la cantidad de correctas e incorrectas del postulante
                     
                     $conteoCondiciones[$observaciones] ++;
-
+                    
                     $vectorColumnas = [
                             'codExamen'=>$this->codExamen,
                             'respuestasJSON'=>$respuestas,
@@ -164,7 +205,7 @@ class Examen extends Model
                             'puntajeAPT'=>$puntajeAPT,
                             'puntajeCON'=>$puntajeCON,
                             'puntajeTotal'=>$puntajeTotal,
-                            'puntajeMinimo'=>$puntajeMinimo,
+                            'puntajeMinimoPermitido'=>$puntajeMinimoPermitido,
                             'escuela'=>$escuela,
                             'observaciones'=>$observaciones,
                             'correctasEincorrectas'=>$correctasEincorrectas
