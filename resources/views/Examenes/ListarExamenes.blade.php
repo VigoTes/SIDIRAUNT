@@ -51,6 +51,9 @@
         <i class="fas fa-trash"> </i> 
           Borrar datos de examenes y analisis
       </a>  
+
+      
+
 {{-- 
       <div class="col-md-10">
         <form class="form-inline float-right">
@@ -133,8 +136,15 @@
                     </a>
                 @endif
 
-
                 @if($itemExamen->verificarEstado('Archivos Cargados'))
+                  <a onclick="clickPrepararArchivos({{$itemExamen->codExamen}})"  href="#" class="btn btn-success" >
+                    <i class="fas"></i>
+                        Preparar Archivos
+                  </a>
+                @endif
+
+
+                @if($itemExamen->verificarEstado('Archivos Preparados'))
                   <button type="button" onclick="clickLeerDatos({{$itemExamen->codExamen}})" class="btn btn-success btn-sm" href="">
                     Leer Datos
                   </button>
@@ -189,30 +199,12 @@
         codExamenAProcesar = codExamen;
         confirmarConMensaje("Confirmar","¿Desea iniciar el análisis de datos del examen? Esto podría tardar","warning",iniciarAnalisis);
     }
-
     function iniciarAnalisis(){
+      procesarAlgo('/Examen/'+codExamenAProcesar+'/Director/analizarExamen',
+          "Analizando examen...",
+          "Examen procesado exitosamente",
+          "Ha ocurrido un error inesperado en el análisis.")
 
-      document.getElementById('tituloCargando').innerHTML="Analizando examen...";
-
-      $(".loader").show();//para mostrar la pantalla de carga
-
-      $.get('/Examen/'+codExamenAProcesar+'/Director/analizarExamen',
-      function(data)
-      {     
-          console.log("IMPRIMIENDO DATA como llegó:");
-          console.log(data);
-          
-          if(data==1){
-              alertaExitosa('¡Enhorabuena!','Examen procesado exitosamente')
-              setTimeout(function(){
-                  location.reload();
-              },100);
-          }else{
-              alerta('Examen error');
-          }
-          $(".loader").fadeOut("slow");
-      }
-      );
     }
 
 
@@ -222,33 +214,50 @@
         confirmarConMensaje("Confirmar","¿Desea iniciar la lectura de datos del examen? Esto podría tardar","warning",iniciarLectura);
 
     }
+    function iniciarLectura(){
+        procesarAlgo('/Examen/'+codExamenAProcesar+'/Director/IniciarLecturaDatos',
+              "Leyendo datos de los postulantes...",
+              "Lectura de datos finalizada exitosamente",
+              "Ha ocurrido un error en la lectura de datos");
+    }
+
 
     
-    function iniciarLectura(){
+    function clickPrepararArchivos(codExamen){
+        codExamenAProcesar = codExamen;
+        confirmarConMensaje("Confirmar","¿Desea preparar los archivos para la lectura de datos? Esto podría tardar","warning",prepararArchivos);
 
-      document.getElementById('tituloCargando').innerHTML="Leyendo datos del examen...";
+    }
 
+    function prepararArchivos(){
+      procesarAlgo('/Examen/'+codExamenAProcesar+'/Director/PrepararArchivosExamen',
+              "Preparando archivos para la lectura...",
+              "Preparación de archivos finalizada exitosamente, ya puede iniciar con la lectura.",
+              "Ha ocurrido un error en la preparación de archivos.");
+    }
+
+    function procesarAlgo(url,mensajeProcesando,mensajeExito,mensajeError){
+      document.getElementById('tituloCargando').innerHTML=mensajeProcesando;
       $(".loader").show();//para mostrar la pantalla de carga
-
-      $.get('/Examen/'+codExamenAProcesar+'/Director/IniciarLecturaDatos',
-        function(data)
-        {     
+      $.get(url,
+        function(data){     
             console.log("IMPRIMIENDO DATA como llegó:");
             console.log(data);
             
             if(data==1){
-                alertaExitosa('¡Enhorabuena!','Examen procesado exitosamente')
+                alertaExitosa('¡Enhorabuena!',mensajeExito)
                 setTimeout(function(){
                     location.reload();
                 },100);
             }else{
-                alerta('Examen error');
+                alerta(mensajeError);
             }
             $(".loader").fadeOut("slow");
         }
       );
-    }
 
+
+    }
 
 
 </script>

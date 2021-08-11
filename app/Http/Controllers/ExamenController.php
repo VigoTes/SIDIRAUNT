@@ -331,7 +331,6 @@ class ExamenController extends Controller
         //User::where('codUsuario','>','0')->delete();
         
         
-        $examen->procesarArchivoPreguntas();
         $examen->procesarArchivoRespuestas();
         $examen->generarCarrerasExamen();
 
@@ -341,14 +340,21 @@ class ExamenController extends Controller
         return "1";
 
     }
+ 
 
-    public function generarRespuestasPostulantes($codExamen){
-        
+    public function PrepararArchivosExamen($codExamen){
         $examen = Examen::findOrFail($codExamen);
-
+        
+        $examen->procesarArchivoPreguntas();
         //Pregunta::where('codExamen','=',$examen->codExamen)->delete();
-        return $examen->generarRespuestasPostulantes();
 
+
+        
+        $reporteRespuestas = $examen->generarRespuestasPostulantes();
+
+        $examen->codEstado = 9;
+        $examen->save();
+        return 1;
     }
 
 
