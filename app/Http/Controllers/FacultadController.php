@@ -11,12 +11,12 @@ class FacultadController extends Controller
     public function index()
     {
         $facultad = Facultad::get();
-        return view('Facultad.Listar',compact('facultad'));
+        return view('Facultades.Listar',compact('facultad'));
     }
 
     public function create()
     {
-        return view('Facultad.Crear');
+        return view('Facultades.Crear');
     }
 
     public function store(Request $request)
@@ -37,7 +37,7 @@ class FacultadController extends Controller
     public function edit($id)
     {
         $facultad = Facultad::find($id);
-        return view('Facultad.Editar',compact('facultad'));
+        return view('Facultades.Editar',compact('facultad'));
     }
 
     public function update(Request $request, $id)
