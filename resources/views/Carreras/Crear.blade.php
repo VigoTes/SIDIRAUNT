@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label class="" style="">Abreviacion:</label>
+                        <label class="" style="">Abreviación:</label>
                         <div class="">
                             <input type="text" class="form-control" id="abreviacion" name="abreviacion" 
                                 value="" placeholder="Abreviacion..." >
@@ -50,10 +50,10 @@
                     <div class="w-100"></div>
                    
                     <div class="col">
-                        <label class="" style="">Area:</label>
+                        <label class="" style="">Área:</label>
                         <div class="">
                             <select class="form-control" name="codArea" id="codArea">
-                                <option value="-1">- Areas -</option>
+                                <option value="-1">- Áreas -</option>
                             @foreach ($areas as $itemArea)
                                 <option value="{{$itemArea->codArea}}">
                                     {{$itemArea->descripcion}}
@@ -90,7 +90,7 @@
                         
                         <a href="{{route('Examen.Director.Listar')}}" class='btn btn-info float-left'>
                             <i class="fas fa-arrow-left"></i> 
-                            Regresar al Menu
+                            Regresar al Menú
                         </a>
     
                     </div>

@@ -61,7 +61,7 @@
 					<div class="group">
 						<a href="{{route('user.home')}}" class='button' style="text-align: center; background: #2a3bbd">
                             <i class="fas fa-arrow-left"></i> 
-                            Regresar al Menu
+                            Regresar al Menú
                         </a>
 					</div>
 				</div>

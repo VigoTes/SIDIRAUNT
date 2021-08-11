@@ -52,7 +52,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Periodo:</label>
+                        <label class="" style="">Período:</label>
                         
                         
                         <div class="">
@@ -78,7 +78,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Valoracion CON+:</label>
+                        <label class="" style="">Valoración CON+:</label>
                         
                         
                         <div class="">
@@ -89,7 +89,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Valoracion APT+:</label>
+                        <label class="" style="">Valoración APT+:</label>
                         
                         
                         <div class="">
@@ -103,7 +103,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Valoracion CON -:</label>
+                        <label class="" style="">Valoración CON -:</label>
                         
                         
                         <div class="">
@@ -114,7 +114,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Valoracion APT -:</label>
+                        <label class="" style="">Valoración APT -:</label>
                         
                         
                         <div class="">
@@ -169,13 +169,13 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Area:</label>
+                        <label class="" style="">Área:</label>
                         
                         
                         <div class="">
                            
                             <select class="form-control" name="codArea" id="codArea">
-                                <option value="-1">- Areas -</option>
+                                <option value="-1">- Áreas -</option>
                             @foreach ($listaAreas as $area)
                                
                                 <option value="{{$area->codArea}}">
@@ -200,7 +200,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <a href="{{route('Examen.Director.Listar')}}" class='btn btn-info float-left'>
                             <i class="fas fa-arrow-left"></i> 
-                            Regresar al Menu
+                            Regresar al Menú
                         </a>
     
                     </div>

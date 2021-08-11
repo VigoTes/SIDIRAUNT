@@ -61,7 +61,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Valoracion CON+:</label>
+                        <label class="" style="">Valoración CON+:</label>
                         
                         <input type="text" class="form-control"  
                         value="{{$examen->valoracionPositivaCON}}"  readonly>
@@ -69,7 +69,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Valoracion APT+:</label>
+                        <label class="" style="">Valoración APT+:</label>
                         
                         <input type="text" class="form-control"   
                         value="{{$examen->valoracionPositivaAPT}}" readonly >
@@ -80,7 +80,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Valoracion CON -:</label>
+                        <label class="" style="">Valoración CON -:</label>
                         
                         <input type="text" class="form-control"  
                         value="{{$examen->valoracionNegativaCON}}"   readonly>
@@ -88,7 +88,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Valoracion APT -:</label>
+                        <label class="" style="">Valoración APT -:</label>
                         <input type="text" class="form-control"  
                         value="{{$examen->valoracionNegativaAPT}}" readonly >
                     </div>
@@ -161,7 +161,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <a href="{{route('Examen.Director.Listar')}}" class='btn btn-info'>
                             <i class="fas fa-arrow-left"></i> 
-                            Regresar al Menu
+                            Regresar al Menú
                         </a>
     
                         <button type="button" class="btn btn-primary" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 

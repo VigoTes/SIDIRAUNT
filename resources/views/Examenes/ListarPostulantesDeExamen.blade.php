@@ -40,110 +40,111 @@
       <div class="card-body">
         <div class="d-flex">
             <div class="row">
-                <div class="col">
-                    <label class="" style="" >Año:</label>
+                <div class="col-1">
+                    <label class="" style="margin-top: 6px" >Año:</label>
                 </div>  
-                <div class="col">    
-                          
-                            {{$examen->año}}
-                    
+                <div class="col-2">    
+                    <div class="">
+                        <input type="text" class="form-control"  
+                            value="{{$examen->año}}"  readonly>
+                    </div>
                 </div>
-                <div class="col">
-                    <label class="" style="" >Fecha:</label>
+                <div class="col-1">
+                    <label class="" style="margin-top: 6px" >Fecha:</label>
                 </div>  
-                <div class="col">    
-                          
-                            {{$examen->fechaRendicion}}
-                    
+                <div class="col-2">    
+                    <div class="">
+                        <input type="text" class="form-control"  
+                            value="{{$examen->fechaRendicion}}"  readonly>
+                    </div>
                 </div>
-                <div class="col">
-                    <label class="" style="" >Asistentes:</label>
+                <div class="col-1">
+                    <label class="" style="margin-top: 6px" >Asistentes:</label>
                 </div>  
-                <div class="col">    
-                         
-                            {{$examen->asistentes}}
-                   
+                <div class="col-2">    
+                    <div class="">
+                        <input type="text" class="form-control"  
+                            value="{{$examen->asistentes}}"  readonly>
+                    </div>
                 </div>
-
-                <div class="w00"> </div>
-
-                <div class="col">
-                    <label class="" style="" >Modalidad:</label>
-                </div>  
-                <div class="col">    
-                          
-                            {{$examen->getModalidad()->nombre}}
-                    
-                </div>
-                <div class="col">
-                    <label class="" style="" >#Vacantes:</label>
-                </div>  
-                <div class="col">    
-                          
-                            {{$examen->nroVacantes}}
-                    
-                </div>
-                <div class="col">
-                    <label class="" style="" >Ausentes:</label>
-                </div>  
-                <div class="col">    
-                            {{$examen->ausentes}}
-                    
-                </div>
-
-                <div class="w-100"> </div>
-
-                <div class="col">
-                    <label class="" style="" >Área:</label>
-                </div>  
-                <div class="col">    
-                   
-                          
-                            {{$examen->getArea()->area}}
-                 
-                </div>
-                <div class="col">
-                    <label class="" style="" >#Postulantes:</label>
-                </div>  
-                <div class="col">    
-                         
-                            {{$examen->nroPostulantes}}
-                    
-                </div>
-                <div class="col">
-                    <label class="" style=" ">Tasa Ausentismo:</label>
-                </div>  
-                <div class="col">    
-                            {{$examen->ausentes/$examen->nroPostulantes}} %
-                   
-                </div>
-                <div class="col">
-                  <label class="" style=" ">Periodo:</label>
-
-                </div>
-                <div class="col">
-                  {{$examen->periodo}}
-
-                </div>
-                <div class="col"></div>
-                <div class="col"></div>
-                <div>
-                  <a href="{{route('Examen.descargarPDF',$examen->codExamen)}}" class='btn btn-success float-right btn-sm' style="margin-left: 5px">
-                    <i class="fas fa-file-download"></i> Bajar Examen
-                  </a>
-                  <a target="blank-1"  href="{{route('Examen.VerPDF',$examen->codExamen)}}" class='btn btn-success float-right btn-sm' style="margin-left: 5px">
-                    <i class="fas fa-file-pdf"></i> Ver Examen
-                  </a>
-                  <a href="{{route("Examen.ExportarPostulantes",$examen->codExamen)}}" class='btn btn-success float-right btn-sm'>
+                <div class="col-3">    
+                  <a href="{{route("Examen.ExportarPostulantes",$examen->codExamen)}}" class='btn btn-success float-right'>
                     <i class="fas fa-file-excel"></i> Reporte Postulantes
                   </a>
                 </div>
-                
-                
-                <div class="col">    
-                  
+
+                <div class="w-100"> <br> </div>
+
+                <div class="col-1">
+                    <label class="" style="margin-top: 6px" >Modalidad:</label>
+                </div>  
+                <div class="col-2">    
+                    <div class="">
+                        <input type="text" class="form-control"  
+                            value="{{$examen->getModalidad()->nombre}}"  readonly>
+                    </div>
                 </div>
+                <div class="col-1">
+                    <label class="" style="margin-top: 6px" >#Vacantes:</label>
+                </div>  
+                <div class="col-2">    
+                    <div class="">
+                        <input type="text" class="form-control"  
+                            value="{{$examen->nroVacantes}}"  readonly>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <label class="" style="margin-top: 6px" >Ausentes:</label>
+                </div>  
+                <div class="col-2">    
+                    <div class="">
+                        <input type="text" class="form-control"  
+                            value="{{$examen->ausentes}}"  readonly>
+                    </div>
+                </div>
+                
+
+                <div class="w-100"> <br> </div>
+
+                <div class="col-1">
+                    <label class="" style="margin-top: 6px" >Área:</label>
+                </div>  
+                <div class="col-2">    
+                    <div class="">
+                        <input type="text" class="form-control"  
+                            value="{{$examen->getArea()->area}}"  readonly>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <label class="" style="margin-top: 6px" >#Postulantes:</label>
+                </div>  
+                <div class="col-2">    
+                    <div class="">
+                        <input type="text" class="form-control"  
+                            value="{{$examen->nroPostulantes}}"  readonly>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <label class="" style="margin-top: 6px" >Tasa Ausentismo:</label>
+                </div>  
+                <div class="col-2">    
+                    <div class="">
+                        <input type="text" class="form-control"  
+                            value="{{$examen->ausentes/$examen->nroPostulantes}} %"  readonly>
+                    </div>
+                </div>
+                <div class="col-3">    
+                  <a href="{{route('Examen.descargarPDF',$examen->codExamen)}}" class='btn btn-success float-right' style="margin-left: 5px">
+                    <i class="fas fa-file-download"></i> Bajar Examen
+                  </a>
+                  <a target="blank-1"  href="{{route('Examen.VerPDF',$examen->codExamen)}}" class='btn btn-success float-right' style="margin-left: 5px">
+                    <i class="fas fa-file-pdf"></i> Ver Examen
+                  </a>
+
+                </div>
+
             </div>
+
         </div>
       </div>
 
@@ -156,18 +157,18 @@
     <div class="row">
       
       <div class="col-md-10">
-        <form class="form-inline float-right">
+        <form class="form-inline float-left">
 
           <label style="" for="">
             
             
           </label>
  
-              <input type="text"  class="form-control" name="fechaFin" id="fechaFin" style="text-align: center"
-                   value="" style="text-align:center;font-size: 10pt;" placeholder="Buscar por nombre...">
+              <input type="text"  class="form-control float-left" name="fechaFin" id="fechaFin" style="margin-right: 10px"
+                   value="" placeholder="Buscar por nombre...">
              
 
-          <button class="btn btn-success " type="submit">
+          <button class="btn btn-success float-left" type="submit">
             Buscar
             <i class="fas fa-search"></i>
           </button>
@@ -216,7 +217,7 @@
 
                     {{-- ABRE EL MODAL PARA VER LAS RESPUESTAS --}}
                     <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalPreguntasDePostulante" 
-                      onclick="actualizarModalPreguntasDePostulante({{$examenPostulante->codExamenPostulante}})">
+                      onclick="actualizarModalPreguntasDePostulante({{$examenPostulante->codExamenPostulante}},'{{$examenPostulante->getActor()->apellidosYnombres}}')">
                       Ver respuestas
                     </button>
 
@@ -226,7 +227,7 @@
         @endforeach
       </tbody>
     </table>
-  
+    {{$listaExamenes->links()}}
 </div>
 
 
@@ -288,11 +289,11 @@
             }
         );
     }
-    function actualizarModalPreguntasDePostulante(codExamenPostulante){
+    function actualizarModalPreguntasDePostulante(codExamenPostulante,nombre){
         limpiarModal('TitlePreguntasDePostulante','BodyPreguntasDePostulante');
 
         obtenerModal('/Examen/VerReporteIrregularidades/'+codExamenPostulante+'/ModalPreguntasDePostulante','BodyPreguntasDePostulante');
-        
+        document.getElementById('TitlePreguntasDePostulante').innerHTML = "Respuestas del postulante " +nombre;
     }
 
 

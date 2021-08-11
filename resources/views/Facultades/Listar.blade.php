@@ -27,7 +27,7 @@
     <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">Codigo</th>
+                <th scope="col">Código</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Opciones</th>
             </tr>

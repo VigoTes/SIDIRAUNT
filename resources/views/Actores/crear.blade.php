@@ -96,7 +96,7 @@
                         
                         <a href="{{route('Actor.listar')}}" class='btn btn-info float-left'>
                             <i class="fas fa-arrow-left"></i> 
-                            Regresar al Menu
+                            Regresar al Menú
                         </a>
     
                     </div>

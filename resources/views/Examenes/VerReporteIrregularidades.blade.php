@@ -130,7 +130,7 @@
         <div class="row">
             <div class="col">
                 <div class="contanier">
-                    <h5 style="text-align: center; font-weight: bold">GRUPO DE EXAMENES EXACTAMENTE IGUALES</h5>
+                    <h5 style="text-align: center; font-weight: bold">GRUPO DE EXÁMENES EXACTAMENTE IGUALES</h5>
                     <div class="card-body">
                         <div class="chartjs-size-monitor">
                             <div class="chartjs-size-monitor-expand">
@@ -292,7 +292,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Nombre</th>
-                    <th>Codigo Postulante</th>
+                    <th>Código Postulante</th>
                     <th>Carrera</th>
                     <th>Puntaje Anterior</th>
                     <th>Puntaje Actual</th>
@@ -309,7 +309,7 @@
                     <td>{{$itemPostulante->examenAnterior()->puntajeTotal}}</td>
                     <td>{{$itemPostulante->examenActual()->puntajeTotal}}</td>
                     <td>
-                        <a href="#" class="btn btn-warning btn-sm" title="Ver Reposición"><i class="fas fa-eye"></i></a>
+                        <a href="{{route("Examen.VerReporteIrregularidades.VerHistorialPostulante",$itemPostulante->codExamenPostulante)}}" class="btn btn-warning btn-sm" title="Ver Reposición"><i class="fas fa-eye"></i></a>
                     </td>
                     <td>
                         <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante({{$itemPostulante->codExamenPostulante}},{{$itemPostulante->postulante()->codUsuario}})"
@@ -324,7 +324,7 @@
 </div>
 <a href="{{route("Examen.Director.Listar")}}" class='btn btn-info'>
     <i class="fas fa-arrow-left"></i> 
-    Regresar al Menu
+    Regresar al Menú
 </a>
 @if($examen->codEstado!=4 && $examen->codEstado!=5 && App\Actor::esConsejoUniversitario())
 <button type="button" id="" class="btn btn-danger float-right"
