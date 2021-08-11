@@ -37,6 +37,23 @@ Route::get('/Carrera/{id}/eliminar', 'CarreraController@eliminar')->name('Carrer
 Route::get('/Carrera/VerHistorico', 'CarreraController@verHistorico')->name('Carrera.verHistorico');
 Route::get('/Carrera/{id}/VerHistorico', 'CarreraController@actualizarHistorico')->name('Carrera.actualizarHistorico');
 
+//TASAS
+Route::get('/Tasas', 'DashboardController@listar')->name('Dashboard.listar');
+Route::post('/Tasas/actualizar', 'DashboardController@actualizar')->name('Dashboard.actualizar');
+
+//ACTORES (DIRECTOR-CONSEJO UNIVERSITARIO)
+Route::get('/Actor/Listar', 'ActorController@listar')->name('Actor.listar');
+Route::get('/Actor/crear', 'ActorController@crear')->name('Actor.crear');
+Route::post('/Actor/guardar', 'ActorController@guardar')->name('Actor.guardar');
+
+Route::get('/Actor/{codActor}/editarActor', 'ActorController@editarActor')->name('Actor.editarActor');
+Route::post('/Actor/guardarActor', 'ActorController@guardarActor')->name('Actor.guardarActor');
+
+Route::get('/Actor/{codActor}/editarUsuario', 'ActorController@editarUsuario')->name('Actor.editarUsuario');
+Route::post('/Actor/guardarUsuario', 'ActorController@guardarUsuario')->name('Actor.guardarUsuario');
+
+Route::get('/Actor/{codActor}/eliminar', 'ActorController@eliminar')->name('Actor.eliminar');
+
 /* RUTAS PARA INGRESO Y REGISTRO DE USUARIO Y CLIENTE */
 Route::get('/login', 'UserController@verLogin')->name('user.verLogin'); //para desplegar la vista del Login
 Route::post('/ingresar', 'UserController@logearse')->name('user.logearse');
@@ -57,18 +74,8 @@ Route::get('/probarArchivos','ExamenController@procesarResultados')->name('proba
 
 Route::get('/probandoCosas',function(){
     
-    return Storage::disk('examenes')->download('robots.txt');
-    
-    
-    //$examen = Examen::findOrFail(1);
-    //return Storage::disk('examenes')->url($examen->getNombreArchivoPreguntas());
-    $archivo = fopen('/Examen-000001-preguntas.txt','r'); //abrimos el archivo en modo lectura (reader)
-    $cad="";
-    while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
-      $cad.=$linea."<br>";
-    }
-    return $cad;
 
+    return 1;
 });
 
 
@@ -108,6 +115,7 @@ Route::get('/borrarTodo',function(){
 /* *********************************** EXAMENES ************************************* */
 
 Route::get('/Examen/{id}/verPostulantes','ExamenPostulanteController@listarDeExamen')->name('Examen.VerPostulantes');
+Route::get('/Examen/{id}/descargarReportePostulantes/','ExamenPostulanteController@exportarPostulantes')->name('Examen.ExportarPostulantes');
 
 Route::get('/Examenes/Director/Listar','ExamenController@listar')->name('Examen.Director.Listar');
 
@@ -119,14 +127,17 @@ Route::post('/Examen/Director/CargarResultados','ExamenController@cargarResultad
 Route::get('/Examen/{id}/Director/analizarExamen','ExamenController@analizarExamen')->name('Examen.Director.analizarExamen');
 Route::get('/Examen/{id}/Director/IniciarLecturaDatos','ExamenController@IniciarLecturaDatos')->name('Examen.Director.IniciarLecturaDatos');
 
-Route::get('/Examen/{id}/Director/generarRespuestasPostulantes','ExamenController@generarRespuestasPostulantes')->name('Examen.Director.generarRespuestasPostulantes');
+Route::get('/Examen/{id}/Director/PrepararArchivosExamen','ExamenController@PrepararArchivosExamen')->name('Examen.Director.PrepararArchivosExamen');
 Route::get('/Examen/{id}/descargarPDF/','ExamenController@descargarPDF')->name('Examen.descargarPDF');
 Route::get('/Examen/{id}/VerPDF/','ExamenController@VerPDF')->name('Examen.VerPDF');
+
+
 
 
 Route::post('/examenes/director/guardar','ExamenController@guardar')->name('Examen.Director.Guardar');
 
 Route::get('/Examen/{id}/VerReporteIrregularidades','ExamenController@VerReporteIrregularidad')->name('Examen.VerReporteIrregularidades');
+Route::get('/Examen/{id}/VerReporteIrregularidades/pdf','ExamenController@ExportarPDF')->name('Examen.ReporteIrregularidadesPDF');
 //modales
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalExamenesIguales','ExamenController@getModalExamenesIguales');
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalGrupoRespuestasIguales','ExamenController@getModalGrupoRespuestasIguales');
@@ -138,6 +149,7 @@ Route::post('/Examen/Consejo/AprobarExamen','ExamenController@aprobarExamen')->n
 
 Route::get('/Postulante/listar','PostulanteController@listar')->name('Postulante.Listar'); 
 Route::get('/Postulante/verPerfil/{codPostulante}','PostulanteController@verPerfil')->name('Postulante.VerPerfil'); 
+Route::get('/Postulante/descargarReportePostulantes','PostulanteController@exportarPostulantes')->name('Postulante.ExportarPostulantes'); 
 /*                     en realidad es codActor */
 
 

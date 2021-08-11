@@ -47,4 +47,19 @@ class PostulanteController extends Controller
     }
 
 
+    //REPORTES EXCEL
+    public function exportarPostulantes(Request $request){
+        $listaPostulantes = Actor::where('codTipoActor','=',1);
+        $nombresYapellidos = "";
+
+        if($request->nombresYapellidos!=""){
+            $listaPostulantes = $listaPostulantes->where('apellidosYnombres','like','%'.$request->nombresYapellidos.'%');
+            $nombresYapellidos = $request->nombresYapellidos;
+        }
+
+        $listaPostulantes = $listaPostulantes->get();
+
+        return view('Postulantes.ReporteExcel',compact('listaPostulantes'));
+    }
+
 }

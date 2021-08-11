@@ -21,6 +21,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ExamenController extends Controller
 {
@@ -331,7 +332,6 @@ class ExamenController extends Controller
         //User::where('codUsuario','>','0')->delete();
         
         
-        $examen->procesarArchivoPreguntas();
         $examen->procesarArchivoRespuestas();
         $examen->generarCarrerasExamen();
 
@@ -341,14 +341,21 @@ class ExamenController extends Controller
         return "1";
 
     }
+ 
 
-    public function generarRespuestasPostulantes($codExamen){
-        
+    public function PrepararArchivosExamen($codExamen){
         $examen = Examen::findOrFail($codExamen);
-
+        
+        $examen->procesarArchivoPreguntas();
         //Pregunta::where('codExamen','=',$examen->codExamen)->delete();
-        return $examen->generarRespuestasPostulantes();
 
+
+        
+        $reporteRespuestas = $examen->generarRespuestasPostulantes();
+
+        $examen->codEstado = 9;
+        $examen->save();
+        return 1;
     }
 
 
@@ -372,6 +379,35 @@ class ExamenController extends Controller
         
 
     }
+
+    //REPORTE PDF DE IRREGULARIDADES
+    public function ExportarPDF($id){
+        $estados=EstadoExamen::whereIn('codEstado',[4,5])->get();
+        $examen=Examen::findOrFail($id);
+        $analisis = AnalisisExamen::where('codExamen','=',$id)->get()[0];
+
+        //para las 3 tablas
+        $gruposIguales=GrupoIguales::where('codAnalisis','=',$analisis->codAnalisis)->get();
+        $gruposPatron=GrupoPatron::where('codAnalisis','=',$analisis->codAnalisis)->get();
+        $postulantesElevados=PostulantesElevados::where('codAnalisis','=',$analisis->codAnalisis)->get();
+
+   
+
+
+        $data = [
+            'estados'=>$estados,
+            'examen'=>$examen,
+            'analisis'=>$analisis,
+            'gruposIguales'=>$gruposIguales,
+            'gruposPatron'=>$gruposPatron,
+            'postulantesElevados'=>$postulantesElevados
+        ];
+    
+        $pdf = PDF::loadView('Examenes.ReporteIrregularidadesPDF', $data)->setPaper('a4', 'portrait');
+
+        return $pdf->download('Reporte de Irregularidades.pdf');
+    }
+    
 
 
 }

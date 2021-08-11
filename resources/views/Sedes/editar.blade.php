@@ -1,51 +1,86 @@
 @extends('Layout.Plantilla')
 @section('titulo')
-    Flujograma
+    Editar Sede
 @endsection
 
 @section('contenido')
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-header">Editar Sede</div>
+<div class="well">
+    <H3 style="text-align: center;">
+        EDITAR SEDE
+    </H3>
+</div>
 
-                <div class="card-body">
-                
-                @if (!empty($message))
-                    <div class="alert alert-success" role="alert">
-                        {{ $message }}
-                    </div>
-                @endif
-                <form method="post" id="SedeForm" action="{{route('sede.actualizar')}}" role="form">
-                {{ csrf_field() }}
-                    <div class="row">                                
-                        <input type="hidden" class="form-control input-sm" id="codSede" name="codSede" value="{{ $sede['codSede'] }}">
-                        <div class="col-md-8 form-group">
-                            <label>Nombre de la sede</label>
-                            <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-address-card"></i>
-                                    </div>
-                                   
-                                    <input type="text" class="form-control input-sm" id="nombre" name="nombre" value="{{ $sede['nombre'] }}"
+<form method="POST" action="{{route('sede.actualizar')}}" id="frmCrearFacultad" name="frmCrearFacultad">
+    @csrf 
+    <input type="hidden" class="form-control input-sm" id="codSede" name="codSede" value="{{ $sede['codSede'] }}">
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+
+            </div>
+            <div class="col">
+                <div class="card-body" style="padding-top: 2%; padding-bottom: 5%; padding-left: 5%">
+                    <div class="col">
+                        <label for="">Nombre:</label>
+                        <div class="col">
+                            <input type="text" class="form-control input-sm" id="nombre" name="nombre" value="{{ $sede['nombre'] }}"
                                     placeholder="Nombre de la sede"
                                     required>
-                                    {{-- {!! $errors->first('name','<small>:message</small><br>') !!} --}}
-                                
-                            </div>
-                                <!-- /.input group -->
                         </div>
-                    </div>
-                    
-                        <button id="btn-regupd" type="submit" class="btn btn-success">Guardar</button>
-                        <a href="{{route('sede')}}"><button id="btn-regupd" class="btn btn-success" style="margin-left:15px;">Volver</button></a>
-                </form>
+                    </div> 
+                </div>
             </div>
+            <div class="col-2">
+
+            </div>
+
+            <div class="w-100"></div>
+            <br>
+            <div class="col" style=" text-align:center">
+                <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
+                    onclick="clickGuardar()">
+                    <i class='fas fa-save'></i> 
+                    Registrar
+                </button> 
+                <a href="{{route('sede')}}" class='btn btn-info float-left'>
+                    <i class="fas fa-arrow-left"></i> 
+                    Regresar al Menu
+                </a>
+            </div>
+
         </div>
     </div>
-</div>
+
+</form>
+
+@include('Layout.ValidatorJS')
+<script type="text/javascript"> 
+          
+    function clickGuardar() 
+    {
+        msjError = validarFormulario();
+        if(msjError!=""){
+            alerta(msjError);
+            return;
+        }
+        
+        document.frmCrearFacultad.submit(); // enviamos el formulario	
+    }
+
+    function validarFormulario(){
+
+        limpiarEstilos(['nombre']);
+        msjError = "";
+
+        msjError = validarTamañoMaximoYNulidad(msjError,'nombre',100,'Nombre de Facultad');
+
+         
+        return msjError;
+    }
+
+    
+</script>
 
 
 @endsection

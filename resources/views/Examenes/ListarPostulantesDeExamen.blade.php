@@ -127,11 +127,16 @@
                 </div>
                 <div class="col"></div>
                 <div class="col"></div>
-                <div class="col-2">
-                  <a href="#" class='btn btn-info fontSize10'>
-                    <i class="far fa-file-pdf"></i>
-                    Ver examen en PDF
-                </a>
+                <div>
+                  <a href="{{route('Examen.descargarPDF',$examen->codExamen)}}" class='btn btn-success float-right btn-sm' style="margin-left: 5px">
+                    <i class="fas fa-file-download"></i> Bajar Examen
+                  </a>
+                  <a target="blank-1"  href="{{route('Examen.VerPDF',$examen->codExamen)}}" class='btn btn-success float-right btn-sm' style="margin-left: 5px">
+                    <i class="fas fa-file-pdf"></i> Ver Examen
+                  </a>
+                  <a href="{{route("Examen.ExportarPostulantes",$examen->codExamen)}}" class='btn btn-success float-right btn-sm'>
+                    <i class="fas fa-file-excel"></i> Reporte Postulantes
+                  </a>
                 </div>
                 
                 
@@ -205,14 +210,14 @@
                 <td>{{$examenPostulante->getCarrera()->nombre}}</td>
                 <td>{{$examenPostulante->getCondicion()->nombre}}</td>
                 <td>
-                    <a class="btn btn-success" href="{{route('Postulante.VerPerfil',$examenPostulante->codActor)}}">
+                    <a class="btn btn-info btn-sm" href="{{route('Postulante.VerPerfil',$examenPostulante->codActor)}}">
                       Perfil
                     </a>
 
                     {{-- ABRE EL MODAL PARA VER LAS RESPUESTAS --}}
-                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalPreguntasDePostulante" 
+                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalPreguntasDePostulante" 
                       onclick="actualizarModalPreguntasDePostulante({{$examenPostulante->codExamenPostulante}})">
-                     Ver respuestas
+                      Ver respuestas
                     </button>
 
                 </td>

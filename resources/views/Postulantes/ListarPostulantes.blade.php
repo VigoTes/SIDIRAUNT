@@ -39,24 +39,31 @@
     <div class="row">
 
       <div class="col">
-
+        <input type="text" class="form-control float-right" id="nombresYapellidos" name="nombresYapellidos" placeholder="Nombres y apellidos" value="{{$nombresYapellidos}}">
       </div>
       <div class="col">
-
+        <button type="submit" class="btn btn-success float-left">
+          <i class="fas fa-search"></i>
+          Buscar
+        </button>
       </div>
       <div class="col"></div>
       <div class="col">
-        <input type="text" class="form-control" id="nombresYapellidos" name="nombresYapellidos" placeholder="Nombres y apellidos" value="{{$nombresYapellidos}}">
+        
         
       
 
       </div>
       <div class="col">
         
-        <button type="submit" class="btn btn-success">
-          <i class="fas fa-search"></i>
-          Buscar
-        </button>
+        
+      
+      </div>
+      <div class="col">
+        
+        <a href="{{route("Postulante.ExportarPostulantes")}}" class='btn btn-success float-right'>
+          <i class="fas fa-file-excel"></i> Reporte Postulantes
+        </a>
       
       </div>
     </div>
@@ -106,7 +113,7 @@
                 {{$postulante->getCarreraMásPostulada()->nombre}}
               </td>
               <td>
-                  <a class="btn btn-success btn-sm" href="{{route('Postulante.VerPerfil',$postulante->codActor)}}">
+                  <a class="btn btn-info btn-sm" href="{{route('Postulante.VerPerfil',$postulante->codActor)}}">
                     Ver Perfil
                   </a>
                

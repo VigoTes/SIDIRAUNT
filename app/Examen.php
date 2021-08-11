@@ -28,6 +28,10 @@ class Examen extends Model
         return "Examen-".Debug::rellernarCerosIzq($this->codExamen,6)."-respuestas.txt";
     }
 
+    public function getNombreArchivoRespuestasPreparado(){
+        return "Examen-".Debug::rellernarCerosIzq($this->codExamen,6)."-respuestasPreparado.txt";
+    }
+
     public function getNombreArchivoPreguntas(){
         return "Examen-".Debug::rellernarCerosIzq($this->codExamen,6)."-preguntas.txt";
     }
@@ -165,7 +169,7 @@ class Examen extends Model
         ];//para calculo de cant ausentes,ingresantes, no ingresantes y  postulantes totales 
 
 
-        $archivo = fopen('examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
+        $archivo = fopen('examenes/'.$this->getNombreArchivoRespuestasPreparado(),'r'); //abrimos el archivo en modo lectura (reader)
         
         $cant = 0;
         while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
@@ -189,9 +193,9 @@ class Examen extends Model
                     $puntajeCON=            trim(mb_substr($linea,65,7));
                     $puntajeTotal=          trim(mb_substr($linea,74,7));
                     $puntajeMinimoPermitido=trim(mb_substr($linea,83,7));
-                    $escuela=               trim(mb_substr($linea,94,26));
-                    $respuestas =           mb_substr($linea,119,101);
-                    $observaciones =        mb_substr($linea,221,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
+                    $escuela=               trim(mb_substr($linea,94,24));
+                    $respuestas =           mb_substr($linea,118,101); /* el primer caracter debe ser vacio para que [1] sea la primera preg */
+                    $observaciones =        mb_substr($linea,220,7); //este no lo puedo agarrar completo porque varía la longitud, y si me paso agarro el salto de linea
                     $correctasEincorrectas = Examen::calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas); //calculamos la cantidad de correctas e incorrectas del postulante
                     
                     $conteoCondiciones[$observaciones] ++;
@@ -242,6 +246,16 @@ class Examen extends Model
         return "_".$cadena;
     }
 
+
+    /* 
+    Le entra:
+        String de respuestas correctas del examen
+        String de respuestas del postulante
+
+    Le sale:
+        vector Cantidad de correctas e incorrectas 
+    
+    */
     public static function calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas){
         
         $respuestasCorrectas = str_split($respuestasCorrectas);
@@ -266,7 +280,7 @@ class Examen extends Model
     }
 
 
-
+    /* Genera el reporte de irregularidad (tablas grupos iguales,patron y post elevados). Tambien calcula la tasa */
     public function generarReporteIrregularidad(){
         $analisis = new AnalisisExamen();
         $analisis->codExamen = $this->codExamen;
@@ -296,8 +310,6 @@ class Examen extends Model
 
     /* ESTO ES PARA GENERAR LA CADENA DE RESPUESTAS DE CADA POSTULANTE, EN TEORIA NO SE USARÁ EN EL SISTEMA PORQUE YA VIENE INCLUIDO */
     public function generarRespuestasPostulantes(){
-
-
         $valorCorrectaAPT  =$this->valoracionPositivaAPT;
         $valorCorrectaCON  =$this->valoracionPositivaCON;
         $valorIncorrectaAPT=$this->valoracionNegativaAPT;
@@ -309,9 +321,10 @@ class Examen extends Model
         //comentar esto
         //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
         $html = "";
-        $archivo = fopen('../storage/app/examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
+        $archivo = fopen('examenes/'.$this->getNombreArchivoRespuestas(),'r'); //abrimos el archivo en modo lectura (reader)
         
         $vectorPostulantes = [];
+        $stringNuevoArchivo = "";
 
         $cant = 0;
         while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
@@ -326,19 +339,24 @@ class Examen extends Model
                     $orden =                mb_substr($linea,1,4);
                     $puntajeAPT=            trim(mb_substr($linea,56,7));
                     $puntajeCON=            trim(mb_substr($linea,65,7));
-                   
+
                     
-                    
-                    Debug::imprimir("ORDEN=".$orden." PuntajeAPT=".$puntajeAPT." PuntajeCON=".$puntajeCON);   
                     $vectorAPT = Examen::encontrarCombinatoria($puntajeAPT,$valorCorrectaAPT,$valorIncorrectaAPT,$tolerancia,30);
                     $vectorCON = Examen::encontrarCombinatoria($puntajeCON,$valorCorrectaCON,$valorIncorrectaCON,$tolerancia,70);
                     
+                    Debug::imprimir("ORDEN=".$orden." PuntajeAPT=".$puntajeAPT." PuntajeCON=".$puntajeCON.json_encode($vectorAPT)." ".json_encode($vectorCON));   
+
+
                     $respuestaPostulante = Examen::respuestasAleatoriasDePostulante($respuestasCorrectas,$vectorAPT,1,30).Examen::respuestasAleatoriasDePostulante($respuestasCorrectas,$vectorCON,31,100);
+
+                    //añadimos en la posicion 119 la cadena de respuestas
+                    $nuevaLinea = Debug::stringInsert($linea,$respuestaPostulante,119); 
                     
+
+                    $stringNuevoArchivo .= $nuevaLinea;   
 
                     //$html = $html."APTITUD:     ".$combinacionAPT."          ///////      CONOCIMIENTOS:".$combinacionCON." <br>";
                     $html = $html."orden=".$orden." APTITUD:     ".json_encode($vectorAPT)."          ///////      CONOCIMIENTOS:".json_encode($vectorCON)." ¡¡¡¡ Rpta:".$respuestaPostulante ."<br>";
-                    
                     $cant++;
                 }
             }
@@ -347,21 +365,22 @@ class Examen extends Model
         
         Debug::mensajeSimple('la cantidad de postulantes es:'.$cant. " las respuesta correctas son:".$respuestasCorrectas);
 
-        //hasta aqui ya tenemos en $vectorPostulantes[] un vector en el que cada elemento es de tipo {"combinacionAPT":"17,02","combinacionCON":"27,05"}
-        
-
+        //w+ Abre el archivo para escritura y lectura. La lectura o escritura comienza al inicio del archivo, y elimina el contenido previo. Si el archivo no existe, intenta crearlo.
+        $nuevoArchivo = fopen('examenes/'.$this->getNombreArchivoRespuestasPreparado(),'w+');
+        fwrite($nuevoArchivo,$stringNuevoArchivo);
 
         return $html ;
 
     }
  
 
+
     //se le pasa un puntaje, y los valores de pregunta correcta e incorrecta
     // retorna la cantidad de preguntas correcta e incorrecta que lo generaron
     //si no encuentra, retorna No encontrado
     public static function encontrarCombinatoria($puntaje,$valorCorrecta,$valorIncorrecta,$tolerancia,$cantidadPreguntas){
         $band = true;
-
+        Debug::mensajeSimple('Encontrando combinatoria para '.$puntaje);
         //para cada valor, le buscamos combinaciones de valores que generen ese numero 
         for ($i=0; $i < $cantidadPreguntas && $band; $i++) {  
             for ($j=0; $j < $cantidadPreguntas && $band; $j++) { 

@@ -1,7 +1,7 @@
 
 @extends ('Layout.Plantilla')
 @section('titulo')
-  Listar carreras
+  Listar actores
 @endsection
 
 
@@ -25,14 +25,14 @@
 
 
 <div style="text-align: center">
-    <h2> Listar carreras </h2>
+    <h2> Listar actores </h2>
     <br>
     
     <div class="row">
         <div class="col-md-2">
-            <a href="{{route("Carrera.crear")}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
+            <a href="{{route("Actor.crear")}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
             <i class="fas fa-plus"> </i> 
-                Registrar carrera
+                Registrar actor
             </a>
         </div>
         <div class="col-md-10">
@@ -51,27 +51,28 @@
     <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
         <thead class="thead-dark">
             <tr>
-                <th>Abreviacion</th>
-                <th>Nombre</th>
-                <th>Area</th>
-                <th>Facultad</th>
+                <th>Apellidos y Nombres</th>
+                <th>Usuario</th>
+                <th>Representante</th>
                 <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
         
-        @foreach($carreras as $itemCarrera)
+        @foreach($actores as $itemActor)
             <tr>
-                <td>{{$itemCarrera->abreviacionMayus}}</td>
-                <td>{{$itemCarrera->nombre}}</td>
-                <td>{{$itemCarrera->getArea()->descripcion}}</td>
-                <td>{{$itemCarrera->getFacultad()->nombre}}</td>
+                <td>{{$itemActor->apellidosYnombres}}</td>
+                <td>{{$itemActor->getUsuario()->usuario}}</td>
+                <td>{{$itemActor->getTipoActor()->nombre}}</td>
                 <td>
-                    <a href="{{route("Carrera.editar",$itemCarrera->codCarrera)}}" class="btn btn-warning btn-xs btn-icon icon-left">
-                        <i class="fas fa-edit"></i>
+                    <a href="{{route("Actor.editarUsuario",$itemActor->codActor)}}" class="btn btn-warning btn-xs btn-icon icon-left">
+                        Editar Usuario
+                    </a>
+                    <a href="{{route("Actor.editarActor",$itemActor->codActor)}}" class="btn btn-warning btn-xs btn-icon icon-left">
+                        Editar Actor
                     </a>
                     <a href="#" class="btn btn-danger btn-xs btn-icon icon-left" onclick="swal({//sweetalert
-                        title:'¿Está seguro de eliminar la carrera?',
+                        title:'¿Está seguro de eliminar el actor?',
                         text: '',     //mas texto
                         //type: 'warning',  
                         type: '',
@@ -84,7 +85,7 @@
                         html : true
                     },
                     function(){//se ejecuta cuando damos a aceptar
-                        window.location.href='{{route('Carrera.eliminar', $itemCarrera->codCarrera)}}';
+                        window.location.href='{{route('Actor.eliminar',$itemActor->codActor)}}';
 
                     });"><i class="fas fa-trash-alt"></i></a>
                 </td>
@@ -92,7 +93,7 @@
         @endforeach
       </tbody>
     </table>
-    {{$carreras->links()}}
+    {{$actores->links()}}
 </div>
 @endsection
 

@@ -15,6 +15,12 @@ class Debug extends Model
     }
 
 
+    
+    public static function  stringInsert($str,$insertstr,$pos){
+        $str = mb_substr($str, 0, $pos) . $insertstr . mb_substr($str, $pos);
+        return $str;
+    }  
+
     public static function mensajeError($claseDondeOcurrio, $mensajeDeError){
         error_log('********************************************
         

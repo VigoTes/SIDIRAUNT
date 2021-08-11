@@ -1,92 +1,94 @@
-@extends('Layout.Plantilla')
+@extends ('Layout.Plantilla')
 @section('titulo')
-    Flujograma
+  Listar sedes
 @endsection
+
 
 @section('contenido')
+<style>
+  .col{
+    margin-top: 15px;
+
+    }
+
+  .colLabel{
+    width: 13%;
+    margin-top: 18px;
 
 
-<h1 class="text-center">
-Sede
-</h1>
+  }
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <a href="{{route('sede.crear')}}" class="btn btn-3 btn-success">Agregar sede</a>
-                </div>
-                <div class="card-body">
-                @if (!empty(Session::get('message')))
-                    <div class="alert alert-{{Session::get('status')}}" role="alert">
-                        {{ Session::get('message') }}
-                    </div>
-                @endif
-            
-                <div class="row">
-                    <div class="col-12">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Código</th>
-                                    <th>Nombre</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead> 
-                            <tbody>
-                            @if (count($sedes) > 0)
-                                    @foreach ($sedes as $sede)
-                                        <tr data-entry-id="{{ $sede->codSede }}">
-                                            <td>{{ $sede->codSede }}</td>
-                                            <td>{{ $sede->nombre }}</td>
-                                            <td>
-                                                <a href="{{ route('sede.editar',[$sede->codSede ]) }}" class="btn btn-xs btn-info">Editar</a>
-                                                <a href="{{ route('sede.eliminar',[$sede->codSede]) }}" class="btn btn-xs btn-danger eliminar">Eliminar</a>
-                                            </td>
 
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="9">No hay registros</td>
-                                    </tr>
-                                @endif
-                            
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                </div>
-            </div>
+</style>
+
+
+
+<div style="text-align: center">
+    <h2> Listar sedes </h2>
+    <br>
+    
+    <div class="row">
+        <div class="col-md-2">
+            <a href="{{route('sede.crear')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
+            <i class="fas fa-plus"> </i> 
+                Registrar sede
+            </a>
+        </div>
+        <div class="col-md-10">
+            <!--
+                <form class="form-inline float-right">
+
+
+                <button class="btn btn-success " type="submit">Buscar</button>
+                </form>
+            -->
         </div>
     </div>
+    
+    @include('Layout.MensajeEmergenteDatos')
+      
+    <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
+        <thead class="thead-dark">
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        @foreach ($sedes as $sede)
+            <tr>
+                <td>{{ $sede->codSede }}</td>
+                <td>{{ $sede->nombre }}</td>
+                <td>
+                    <a href="{{ route('sede.editar',[$sede->codSede ]) }}" class="btn btn-warning btn-xs btn-icon icon-left">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="#" class="btn btn-danger btn-xs btn-icon icon-left" onclick="swal({//sweetalert
+                        title:'¿Está seguro de eliminar la sede?',
+                        text: '',     //mas texto
+                        //type: 'warning',  
+                        type: '',
+                        showCancelButton: true,//para que se muestre el boton de cancelar
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText:  'SÍ',
+                        cancelButtonText:  'NO',
+                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                        html : true
+                    },
+                    function(){//se ejecuta cuando damos a aceptar
+                        window.location.href='{{ route('sede.eliminar',[$sede->codSede]) }}';
+
+                    });"><i class="fas fa-trash-alt"></i></a>
+                </td>
+
+            </tr>
+        @endforeach
+      </tbody>
+    </table>
+
 </div>
-
 @endsection
 
-@section('script')
-
-<script>
-    $('.eliminar').click(function(e){
-        e.preventDefault();
-        
-        swal({
-            title: "¿Esta seguro de eliminar la modalidad?",
-            text: "La misma no podrá ser revertida posteriormente!",
-            icon: "warning", 
-            buttons: ["Cancelar", "Sí, eliminar"],
-            dangerMode: true,
-
-        }).then((willRejected) => {
-            if(willRejected){
-                window.location.href = $(this).attr('href');
-            } 
-        });
-
-        
-    })
-
-</script>
-
-@endsection
