@@ -51,9 +51,9 @@
     <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
         <thead class="thead-dark">
             <tr>
-                <th>Abreviacion</th>
+                <th>Abreviación</th>
                 <th>Nombre</th>
-                <th>Area</th>
+                <th>Área</th>
                 <th>Facultad</th>
                 <th>Opciones</th>
             </tr>

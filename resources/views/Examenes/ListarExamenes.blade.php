@@ -1,7 +1,7 @@
 
 @extends ('Layout.Plantilla')
 @section('titulo')
-  Listar examenes
+  Listar exámenes
 @endsection
 
 @section('tiempoEspera')
@@ -33,7 +33,7 @@
 
 
 <div style="text-align: center">
-  <h2> Listar examenes </h2>
+  <h2> Listar exámenes </h2>
   
 
 
@@ -49,7 +49,7 @@
  
       <a href="/borrarTodo" class = "btn btn-danger" style="margin-bottom: 5px;"> 
         <i class="fas fa-trash"> </i> 
-          Borrar datos de examenes y analisis
+          Borrar datos de exámenes y análisis
       </a>  
 
       

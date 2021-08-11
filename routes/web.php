@@ -142,6 +142,8 @@ Route::get('/Examen/{id}/VerReporteIrregularidades/pdf','ExamenController@Export
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalExamenesIguales','ExamenController@getModalExamenesIguales');
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalGrupoRespuestasIguales','ExamenController@getModalGrupoRespuestasIguales');
 Route::get('/Examen/VerReporteIrregularidades/{codExamenPostulante}/ModalPreguntasDePostulante','ExamenController@getModalPreguntasDePostulante');
+
+Route::get('/Examen/{codExamenPostulante}/Historial','ExamenController@VerHistorialPostulante')->name('Examen.VerReporteIrregularidades.VerHistorialPostulante');
 Route::post('/Examen/Consejo/AprobarExamen','ExamenController@aprobarExamen')->name('Examen.Consejo.aprobarExamen');
 
 

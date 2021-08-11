@@ -66,10 +66,10 @@
         <li> Fecha: {{$examen->fechaRendicion}}</li>
         <li> Modalidad: {{$examen->getModalidad()->nombre}}</li>
         <li> Area: {{$examen->getArea()->area}}</li>
-        <li> Numero de Postulantes: {{$examen->nroPostulantes}}</li>
-        <li> Numero de Asistentes: {{$examen->asistentes}}</li>
+        <li> Número de Postulantes: {{$examen->nroPostulantes}}</li>
+        <li> Número de Asistentes: {{$examen->asistentes}}</li>
     </ul>
-    <h4>Grupo de examenes exactamente iguales:</h4>
+    <h4>Grupo de exámenes exactamente iguales:</h4>
     <table>
         <thead>
             <tr>
@@ -118,7 +118,7 @@
         <thead>
             <tr>
                 <th style="width: 300px">Nombre</th>
-                <th>Codigo Postulante</th>
+                <th>Código Postulante</th>
                 <th style="width: 130px">Carrera</th>
                 <th style="width: 90px">Puntaje Anterior</th>
                 <th style="width: 90px">Puntaje Actual</th>

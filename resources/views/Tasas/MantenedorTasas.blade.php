@@ -42,14 +42,14 @@
         <div class="card">
             <div class="card-header border-1">
                 <div class="d-flex justify-content-between">
-                    <h3 class="card-title">PARAMETROS:</h3>
+                    <h3 class="card-title">PARÁMETROS:</h3>
                 </div>
             </div>
             <div class="card-body">
                 <table class="table table-sm">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Descripcion</th>
+                            <th>Descripción</th>
                             <th>Valor</th>
                         </tr>
                     </thead>

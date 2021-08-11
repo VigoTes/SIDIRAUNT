@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class PostulanteController extends Controller
 {
-    //
+    const PAGINATION = 20;
 
     public function listar(Request $request){
 
@@ -21,7 +21,7 @@ class PostulanteController extends Controller
             $nombresYapellidos = $request->nombresYapellidos;
         }
 
-        $listaPostulantes = $listaPostulantes->get();
+        $listaPostulantes = $listaPostulantes->paginate($this::PAGINATION);
 
         return view('Postulantes.ListarPostulantes',compact('listaPostulantes','nombresYapellidos'));
 

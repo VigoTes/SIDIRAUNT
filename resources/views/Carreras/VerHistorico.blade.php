@@ -1,6 +1,6 @@
 @extends('Layout.Plantilla')
 @section('titulo')
-    Historico de Carrera
+    Histórico de Carrera
 @endsection
 
 @section('contenido')
@@ -17,9 +17,9 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Escuela</th>
-                    <th>Area</th>
+                    <th>Área</th>
                     <th>Facultad</th>
-                    <th>Historico</th>
+                    <th>Histórico</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,7 +29,7 @@
                 <td>{{$itemCarrera->getArea()->descripcion}}</td>
                 <td>{{$itemCarrera->getFacultad()->nombre}}</td>
                 <td>
-                    <a href="{{route('Carrera.actualizarHistorico',$itemCarrera->codCarrera)}}" class="btn btn-info btn-sm" title="Ver Reposición">Ver historico</a>
+                    <a href="{{route('Carrera.actualizarHistorico',$itemCarrera->codCarrera)}}" class="btn btn-info btn-sm" title="Ver Reposición">Ver histórico</a>
                 </td>
               </tr>
               @endforeach 
@@ -40,7 +40,7 @@
 <div class="card">
     <div class="card-header border-1">
         <div class="d-flex justify-content-between">
-            <h3 class="card-title">HISTORICO DE {{strtoupper($carreraSelected->nombre)}}:</h3>
+            <h3 class="card-title">HISTÓRICO DE {{strtoupper($carreraSelected->nombre)}}:</h3>
         </div>
     </div>
     <div class="card-body">
@@ -55,9 +55,9 @@
             <table class="table table-sm">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Puntaje aprobatorio</th>
-                        <th>Puntaje minimo ingresante</th>
-                        <th>Puntaje mayor</th>
+                        <th>Puntaje Aprobatorio</th>
+                        <th>Puntaje Mínimo Ingresante</th>
+                        <th>Puntaje Mayor</th>
                         <th>Fecha Examen</th>
                     </tr>
                 </thead>

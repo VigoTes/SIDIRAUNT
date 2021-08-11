@@ -1,19 +1,19 @@
 @extends('Layout.Plantilla')
 @section('titulo')
-    Area
+    Área
 @endsection
 
 @section('contenido')
 
 <div style="text-align: center">
-    <h2>AREAS</h2>
+    <h2>ÁREAS</h2>
     <br>
       
     <div class="row">
         <div class="col-md-2">
             <a href="{{route('area.create')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
             <i class="fas fa-plus"> </i> 
-                Registrar Area
+                Registrar Área
             </a>
         </div>
         <div class="col-md-10">
@@ -27,9 +27,9 @@
     <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">Codigo</th>
-                <th scope="col">Area</th>
-                <th scope="col">Descripcion</th>
+                <th scope="col">Código</th>
+                <th scope="col">Área</th>
+                <th scope="col">Descripción</th>
                 <th scope="col">Opciones</th>
             </tr>
         </thead>

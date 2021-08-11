@@ -7,7 +7,7 @@
 
 <div class="well">
     <H3 style="text-align: center;">
-        EDITAR AREA "{{$area->area}}"
+        EDITAR ÁREA "{{$area->area}}"
     </H3>
 </div>
 
@@ -23,13 +23,13 @@
             <div class="col">
                 <div class="card-body" style="padding-top: 2%; padding-bottom: 5%; padding-left: 5%">
                     <div class="col">
-                        <label for="">Area:</label>
+                        <label for="">Área:</label>
                         <div class="col">
                             <input type="text" name="area" id="area" class="form-control" value="{{$area->area}}">
                         </div>
                     </div> 
                     <div class="col">
-                        <label for="">Descripcion:</label>
+                        <label for="">Descripción:</label>
                         <div class="col">
                             <input type="text" name="descripcion" id="descripcion" class="form-control" value="{{$area->descripcion}}">
                         </div>
@@ -50,7 +50,7 @@
                 </button> 
                 <a href="{{ route('area.index') }}" class='btn btn-info float-left'>
                     <i class="fas fa-arrow-left"></i> 
-                    Regresar al Menu
+                    Regresar al Menú
                 </a>
             </div>
 

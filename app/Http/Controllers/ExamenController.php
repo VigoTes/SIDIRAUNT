@@ -215,6 +215,25 @@ class ExamenController extends Controller
         return view('Examenes.Modales.ModalPreguntasDePostulante',compact('arr','respuestasProbando','solucionario','examenPostulante'));
     }
 
+    public function VerHistorialPostulante($codExamenPostulante){
+        $examenPostulante=ExamenPostulante::findOrFail($codExamenPostulante);
+        $postulante = Actor::findOrFail($examenPostulante->codActor);
+
+        $puntajesAPT=[];
+        $puntajesCON=[];
+        $puntajesTotal=[];
+        $periodos=[];
+        foreach ($postulante->getPostulacionesAsc() as $item) {
+            $puntajesAPT[]=$item->puntajeAPT;
+            $puntajesCON[]=$item->puntajeCON;
+            $puntajesTotal[]=$item->puntajeTotal;
+            $periodos[]=$item->getExamen()->periodo;
+        }
+
+        
+        return view ('Postulantes.VerPostulante',compact('postulante','puntajesAPT','puntajesCON','puntajesTotal','periodos'));
+    }
+
     public function guardar(Request $request){
         try{
             DB::beginTransaction();

@@ -123,7 +123,7 @@
         @endforeach
       </tbody>
     </table>
-     
+    {{$listaPostulantes->links()}}
 </div>
 @endsection
 

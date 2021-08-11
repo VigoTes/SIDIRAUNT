@@ -76,7 +76,7 @@
                     <th>Puntaje APT</th>
                     <th>Puntaje CON</th>
                     <th>Puntaje Total</th>
-                    <th>Puntaje Minimo ingresante</th>
+                    <th>Puntaje Mínimo ingresante</th>
                     <th>Escuela</th>
                     <th>Condición</th>
                     <th>Ver</th>
@@ -128,7 +128,7 @@
                         <td>
                             {{-- ABRE EL MODAL PARA VER LAS RESPUESTAS --}}
                             <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalPreguntasDePostulante" 
-                                onclick="actualizarModalPreguntasDePostulante({{$postulacion->codExamenPostulante}})">
+                                onclick="actualizarModalPreguntasDePostulante({{$postulacion->codExamenPostulante}},'{{$postulacion->getActor()->apellidosYnombres}}')">
                                 Ver respuestas
                             </button>
                         </td>
@@ -221,11 +221,12 @@
     
 
 
-    function actualizarModalPreguntasDePostulante(codExamenPostulante){
+    function actualizarModalPreguntasDePostulante(codExamenPostulante,nombre){
         limpiarModal('TitlePreguntasDePostulante','BodyPreguntasDePostulante');
 
+
         obtenerModal('/Examen/VerReporteIrregularidades/'+codExamenPostulante+'/ModalPreguntasDePostulante','BodyPreguntasDePostulante');
-        
+        document.getElementById('TitlePreguntasDePostulante').innerHTML = "Respuestas del postulante " +nombre;
     }
 
 
