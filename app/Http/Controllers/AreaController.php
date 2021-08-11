@@ -12,12 +12,12 @@ class AreaController extends Controller
     public function index()
     {
         $area = Area::get();
-        return view('area.listar',compact('area'));
+        return view('Areas.ListarArea',compact('area'));
     }
 
     public function create()
     {
-        return view('area.Crear');
+        return view('Areas.CrearArea');
     }
 
     public function store(Request $request)
@@ -39,7 +39,7 @@ class AreaController extends Controller
     public function edit($id)
     {
         $area = Area::find($id);
-        return view('area.editar',compact('area'));
+        return view('Areas.EditarArea',compact('area'));
     }
 
     public function update(Request $request, $id)
