@@ -12,6 +12,12 @@
         </a>
         <ul class="nav nav-treeview">
       
+              <li class="nav-item">
+                <a href="{{route('Actor.listar')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Actores</p>
+                </a>
+              </li>
 
               <li class="nav-item">
                 <a href="{{route('area.index')}}" class="nav-link">
@@ -46,7 +52,12 @@
 
       </li>
 
-
+      <li class="nav-item">
+        <a href="{{route('Dashboard.listar')}}" class="nav-link">
+          <i class="far fa-address-card nav-icon"></i>
+          <p>Administrar Tasas</p>
+        </a>
+      </li>
 
  
       <li class="nav-item">
