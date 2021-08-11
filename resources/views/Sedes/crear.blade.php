@@ -1,36 +1,84 @@
 @extends('Layout.Plantilla')
 @section('titulo')
-    Flujograma
+    Registrar Sede
 @endsection
 
 @section('contenido')
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Crear Sede</div>
+<div class="well">
+    <H3 style="text-align: center;">
+        REGISTRAR SEDE
+    </H3>
+</div>
 
-                <div class="card-body">
-                <form method="post" id="sedeForm" action="{{ route('sede.guardar') }}" role="form">
-                {{ csrf_field() }}
-                    <div class="row">                                
-                    
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 form-group">                    
-                            <input type="text" class="form-control input-sm" id="nombre" name="nombre" value="{{ old('nombre') }}"
-                                    placeholder="Ingrese sede">
-                            </div>
-                        </div>
-                      
-                        <button id="btn-regupd" type="submit" class="btn btn-success">Guardar</button>
-                    </div>
-                </form>
+<form method="POST" action="{{ route('sede.guardar') }}" id="frmCrearFacultad" name="frmCrearFacultad">
+    @csrf 
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+
             </div>
+            <div class="col">
+                <div class="card-body" style="padding-top: 2%; padding-bottom: 5%; padding-left: 5%">
+                    <div class="col">
+                        <label for="">Nombre:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ old('nombre') }}"
+                                    placeholder="Ingrese sede">
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <div class="col-2">
+
+            </div>
+
+            <div class="w-100"></div>
+            <br>
+            <div class="col" style=" text-align:center">
+                <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
+                    onclick="clickGuardar()">
+                    <i class='fas fa-save'></i> 
+                    Registrar
+                </button> 
+                <a href="{{route('sede')}}" class='btn btn-info float-left'>
+                    <i class="fas fa-arrow-left"></i> 
+                    Regresar al Menu
+                </a>
+            </div>
+
         </div>
     </div>
-</div>
+
+</form>
+
+@include('Layout.ValidatorJS')
+<script type="text/javascript"> 
+          
+    function clickGuardar() 
+    {
+        msjError = validarFormulario();
+        if(msjError!=""){
+            alerta(msjError);
+            return;
+        }
+        
+        document.frmCrearFacultad.submit(); // enviamos el formulario	
+    }
+
+    function validarFormulario(){
+
+        limpiarEstilos(['nombre']);
+        msjError = "";
+
+        msjError = validarTamañoMaximoYNulidad(msjError,'nombre',100,'Nombre de Facultad');
+
+         
+        return msjError;
+    }
+
+    
+</script>
 
 
 @endsection

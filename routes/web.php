@@ -115,6 +115,7 @@ Route::get('/borrarTodo',function(){
 /* *********************************** EXAMENES ************************************* */
 
 Route::get('/Examen/{id}/verPostulantes','ExamenPostulanteController@listarDeExamen')->name('Examen.VerPostulantes');
+Route::get('/Examen/{id}/descargarReportePostulantes/','ExamenPostulanteController@exportarPostulantes')->name('Examen.ExportarPostulantes');
 
 Route::get('/Examenes/Director/Listar','ExamenController@listar')->name('Examen.Director.Listar');
 
@@ -131,9 +132,12 @@ Route::get('/Examen/{id}/descargarPDF/','ExamenController@descargarPDF')->name('
 Route::get('/Examen/{id}/VerPDF/','ExamenController@VerPDF')->name('Examen.VerPDF');
 
 
+
+
 Route::post('/examenes/director/guardar','ExamenController@guardar')->name('Examen.Director.Guardar');
 
 Route::get('/Examen/{id}/VerReporteIrregularidades','ExamenController@VerReporteIrregularidad')->name('Examen.VerReporteIrregularidades');
+Route::get('/Examen/{id}/VerReporteIrregularidades/pdf','ExamenController@ExportarPDF')->name('Examen.ReporteIrregularidadesPDF');
 //modales
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalExamenesIguales','ExamenController@getModalExamenesIguales');
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalGrupoRespuestasIguales','ExamenController@getModalGrupoRespuestasIguales');
@@ -145,6 +149,7 @@ Route::post('/Examen/Consejo/AprobarExamen','ExamenController@aprobarExamen')->n
 
 Route::get('/Postulante/listar','PostulanteController@listar')->name('Postulante.Listar'); 
 Route::get('/Postulante/verPerfil/{codPostulante}','PostulanteController@verPerfil')->name('Postulante.VerPerfil'); 
+Route::get('/Postulante/descargarReportePostulantes','PostulanteController@exportarPostulantes')->name('Postulante.ExportarPostulantes'); 
 /*                     en realidad es codActor */
 
 

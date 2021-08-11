@@ -67,10 +67,26 @@
                 <td>{{$itemCarrera->getArea()->descripcion}}</td>
                 <td>{{$itemCarrera->getFacultad()->nombre}}</td>
                 <td>
-                    <a href="{{route("Carrera.editar",$itemCarrera->codCarrera)}}"><i class="fas fa-edit" style="color:#3084D7; font-size: 20px;"></i></a>
+                    <a href="{{route("Carrera.editar",$itemCarrera->codCarrera)}}" class="btn btn-warning btn-xs btn-icon icon-left">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="#" class="btn btn-danger btn-xs btn-icon icon-left" onclick="swal({//sweetalert
+                        title:'¿Está seguro de eliminar la carrera?',
+                        text: '',     //mas texto
+                        //type: 'warning',  
+                        type: '',
+                        showCancelButton: true,//para que se muestre el boton de cancelar
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText:  'SÍ',
+                        cancelButtonText:  'NO',
+                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                        html : true
+                    },
+                    function(){//se ejecuta cuando damos a aceptar
+                        window.location.href='{{route('Carrera.eliminar', $itemCarrera->codCarrera)}}';
 
-                    <a href="{{route("Carrera.eliminar",$itemCarrera->codCarrera)}}" ><i class="fas fa-trash-alt fa-fw" style="color:#3084D7; font-size: 20px;"></i></a>
-
+                    });"><i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>
         @endforeach

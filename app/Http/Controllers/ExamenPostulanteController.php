@@ -23,7 +23,13 @@ class ExamenPostulanteController extends Controller
         return view('Examenes.ListarPostulantesDeExamen',compact('examen','listaExamenes'));   
 
     }
-
+    //REPORTES EXCEL
+    public function exportarPostulantes($codExamen){
+        $examen = Examen::findOrFail($codExamen);
+        $listaExamenes = ExamenPostulante::where('codExamen','=',$codExamen)->get();
+        
+        return view('Examenes.ReportePostulantesExcel',compact('examen','listaExamenes'));
+    }
 
 
 }

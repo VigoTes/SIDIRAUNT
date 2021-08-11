@@ -46,6 +46,11 @@
                             value="{{$examen->asistentes}}"  readonly>
                     </div>
                 </div>
+                <div class="col">    
+                    <a href="{{route("Examen.ReporteIrregularidadesPDF",$examen->codExamen)}}" class='btn btn-success float-right' style="margin-left: 5px">
+                        <i class="fas fa-file-download"></i> Reporte
+                    </a>
+                </div>
 
                 <div class="w-100"> <br> </div>
 
@@ -76,6 +81,7 @@
                             value="{{$examen->ausentes}}"  readonly>
                     </div>
                 </div>
+                
 
                 <div class="w-100"> <br> </div>
 
@@ -107,13 +113,12 @@
                     </div>
                 </div>
                 <div class="col">    
-                    <a href="{{route('Examen.descargarPDF',$examen->codExamen)}}" class='btn btn-info float-right'>
-                        <i class="far fa-file-pdf"></i> Bajar
+                    <a href="{{route('Examen.descargarPDF',$examen->codExamen)}}" class='btn btn-success float-right' style="margin-left: 5px">
+                        <i class="fas fa-file-download"></i> Bajar Examen
                     </a>
-                    <a href="{{route('Examen.VerPDF',$examen->codExamen)}}" class='btn btn-info float-right'>
-                        <i class="far fa-file-pdf"></i> Ver 
+                    <a target="blank-1"  href="{{route('Examen.VerPDF',$examen->codExamen)}}" class='btn btn-success float-right'>
+                        <i class="fas fa-file-pdf"></i> Ver Examen
                     </a>
-                    
                 </div>
 
             </div>
