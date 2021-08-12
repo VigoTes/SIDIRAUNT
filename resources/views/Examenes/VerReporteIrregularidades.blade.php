@@ -296,6 +296,7 @@
                     <th>Carrera</th>
                     <th>Puntaje Anterior</th>
                     <th>Puntaje Actual</th>
+                    <th>Diferencia %</th>
                     <th>Historial</th>
                     <th>Preguntas</th>
                 </tr>
@@ -307,7 +308,9 @@
                     <td>{{$itemPostulante->postulante()->codUsuario}}</td>
                     <td>{{$itemPostulante->examenActual()->getCarrera()->nombre}}</td>
                     <td>{{$itemPostulante->examenAnterior()->puntajeTotal}}</td>
+              
                     <td>{{$itemPostulante->examenActual()->puntajeTotal}}</td>
+                    <td>{{number_format($itemPostulante->porcentajeElevacion*100,2)}}%</td>
                     <td>
                         <a href="{{route("Examen.VerReporteIrregularidades.VerHistorialPostulante",$itemPostulante->codExamenPostulante)}}" class="btn btn-warning btn-sm" title="Ver Reposición"><i class="fas fa-eye"></i></a>
                     </td>
