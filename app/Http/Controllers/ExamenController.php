@@ -251,8 +251,8 @@ class ExamenController extends Controller
             $examen->periodo = $request->periodo;
             $examen->valoracionPositivaCON = $request->valoracionPositivaCON; 
             $examen->valoracionPositivaAPT = $request->valoracionPositivaAPT; 
-            $examen->valoracionNegativaCON = $request->valoracionNegativaCON; 
-            $examen->valoracionNegativaAPT = $request->valoracionNegativaAPT; 
+            $examen->valoracionNegativaCON = -$request->valoracionNegativaCON; 
+            $examen->valoracionNegativaAPT =- $request->valoracionNegativaAPT; 
 
             
             
