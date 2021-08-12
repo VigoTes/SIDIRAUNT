@@ -159,15 +159,24 @@ class Examen extends Model
             ING. 2-
             NO INGRESA
             AUSENTE
+            ANULADO
         */
-        $listaCondiciones = CondicionPostulacion::All();
+        $listaCondiciones = CondicionPostulacion::All(); //para calculo de cant ausentes,ingresantes, no ingresantes y  postulantes totales 
+
+        $conteoCondiciones = [];
+        foreach ($listaCondiciones as $condicion) {
+            $conteoCondiciones[$condicion->nombre] = 0;
+        }
+/* 
         $conteoCondiciones = [
             'INGRESA'=>0,
             'ING. 2-'=>0,
             'NO INGR'=>0,
-            'AUSENTE'=>0
-        ];//para calculo de cant ausentes,ingresantes, no ingresantes y  postulantes totales 
-
+            'AUSENTE'=>0,
+            'ANULADO'=>0
+        ]; */
+        
+        
 
         $archivo = fopen('examenes/'.$this->getNombreArchivoRespuestasPreparado(),'r'); //abrimos el archivo en modo lectura (reader)
         
