@@ -130,10 +130,10 @@ class Examen extends Model
 
         $nroPregunta = 1;
         while ($linea = fgets($archivo)) { //recorremos cada linea del archivo
-            $respuesta = substr($linea,1,1);
-            $enunciado = substr($linea,4,(strlen($linea)-6)); //Son 6 porque 4 son de inicio (la respuesta) y los otros dos son de fin de linea e inicio de linea
+            $respuesta = mb_substr($linea,1,1);
+            $enunciado = mb_substr($linea,4,(mb_strlen($linea)-6)); //Son 6 porque 4 son de inicio (la respuesta) y los otros dos son de fin de linea e inicio de linea
             
-            Debug::mensajeSimple('pregunta="'.$enunciado.'" respuesta="'.$respuesta.'" nro="'.$nroPregunta.'" lengt='.(strlen($linea)-6) );
+            Debug::mensajeSimple('pregunta="'.$enunciado.'" respuesta="'.$respuesta.'" nro="'.$nroPregunta.'" lengt='.(mb_strlen($linea)-6) );
             $pregunta = new Pregunta();
             $pregunta->nroPregunta = $nroPregunta;
             $pregunta->enunciado = $enunciado;
