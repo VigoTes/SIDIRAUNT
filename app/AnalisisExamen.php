@@ -122,6 +122,8 @@ class AnalisisExamen extends Model
         for ($i=0; $i < $cantidadExamenesPostulantes - 1 ; $i++) {
             $tasa = $listaExamenes[$i]->getTasaTolerancia($listaTasas); //AQUI JALAR DE PARAMETROS
 
+            Debug::mensajeSimple('generarGruposPatron iterando'.$i."// ".$listaExamenes[$i]->nroCarnet  ); 
+                    
 
             if($listaExamenes[$i]->puntajeTotal!=0){
                 $grupo = "";
@@ -132,7 +134,6 @@ class AnalisisExamen extends Model
                     //en este vector las posiciones son las keys y las respuestas con los value
                     $vectorRespuestasIguales = ExamenPostulante::compararRespuestas($listaExamenes[$i]->respuestasJSON,$listaExamenes[$j]->respuestasJSON);
                     $cantRespuestasMarcadas = $listaExamenes[$i]->getCantidadRespuestasMarcadas();
-                    Debug::mensajeSimple('generarGruposPatron iterando'.$i."/".$j."// ".$listaExamenes[$i]->nroCarnet."  cantidadLimite=".$cantRespuestasMarcadas*$tasa."  cantidadRespIguales=".count($vectorRespuestasIguales)); 
                     
                     if($cantRespuestasMarcadas*$tasa < count($vectorRespuestasIguales) && count($vectorRespuestasIguales) > $cantidadMinimaDePreguntasParaPatron
                     ) 
@@ -168,7 +169,7 @@ class AnalisisExamen extends Model
                     }//si 
                     else
                     {
-                        Debug::mensajeSimple('cortamos el j='.$j);
+                        //Debug::mensajeSimple('cortamos el j='.$j);
                         
                     }
 

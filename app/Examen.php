@@ -314,7 +314,7 @@ class Examen extends Model
         $valorCorrectaCON  =$this->valoracionPositivaCON;
         $valorIncorrectaAPT=$this->valoracionNegativaAPT;
         $valorIncorrectaCON=$this->valoracionNegativaCON;
-        $respuestasCorrectas = $this->getStringRespuestas();
+        $respuestasCorrectas = $this->getStringRespuestas(); //   _ABCCDDABBEEDBA...
 
         $tolerancia = 0.001;
 
@@ -347,7 +347,11 @@ class Examen extends Model
                     Debug::imprimir("ORDEN=".$orden." PuntajeAPT=".$puntajeAPT." PuntajeCON=".$puntajeCON.json_encode($vectorAPT)." ".json_encode($vectorCON));   
 
 
-                    $respuestaPostulante = Examen::respuestasAleatoriasDePostulante($respuestasCorrectas,$vectorAPT,1,30).Examen::respuestasAleatoriasDePostulante($respuestasCorrectas,$vectorCON,31,100);
+
+                    $respuestaPostulante = 
+                        Examen::respuestasAleatoriasDePostulante($respuestasCorrectas,$vectorAPT,1,30)
+                        .
+                        Examen::respuestasAleatoriasDePostulante($respuestasCorrectas,$vectorCON,31,100);
 
                     //añadimos en la posicion 119 la cadena de respuestas
                     $nuevaLinea = Debug::stringInsert($linea,$respuestaPostulante,119); 
@@ -448,10 +452,10 @@ class Examen extends Model
         $vectorRespuestasCorrectas = str_split($respuestasCorrectas);
         //recorremos el vector de respuestas correctas del examen
         // donde deba haber un acierto, copiamos
-        //donde deba haber un error, sumamos uno a la respuesta posible (si es B la correcta, el postlante marcará C y así)
+        //donde deba haber un error, generamos una resp incorrecta aleatoriamente
         for ($i=$preguntaInferior; $i <= $preguntaSuperior ; $i++) { 
             $caracterAñadido="X"; //por defecto la pregunta estará vacía (X)
-
+            
             if(in_array($i,$posicionesBuenas))//Si en esta pos debe haber un acierto
                 $caracterAñadido = $vectorRespuestasCorrectas[$i];
             
