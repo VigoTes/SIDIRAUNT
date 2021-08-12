@@ -313,13 +313,21 @@ class AnalisisExamen extends Model
         $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
         foreach ($listaExamenes as $examenPostulante) {
             $examenAnterior = $examenPostulante->getAnteriorExamenPostulante();
-            if($examenAnterior!=""){ //si hubo un examen anterior, comparamos
+            if($examenAnterior!="" && $examenPostulante->puntajeTotal > 60){ //si hubo un examen anterior y este examen sacó distinto a 0, comparamos
                 
                 $ptjeAnterior = $examenAnterior->puntajeTotal;
                 $ptjeActual = $examenPostulante->puntajeTotal;
-
+                
                 $puntajeDiferencia = $ptjeActual - $ptjeAnterior; 
-                $porcentajeElevacion = $puntajeDiferencia / $ptjeAnterior;
+                
+                if($ptjeAnterior == 0)
+                    if($puntajeDiferencia>100) //de 0 subió a más de 100 
+                        $porcentajeElevacion = 0.65;
+                    else
+                        $porcentajeElevacion = 0.4;
+                else
+                    $porcentajeElevacion = $puntajeDiferencia / $ptjeAnterior;
+                
                 Debug::mensajeSimple('ExamenPostulante:'.$examenPostulante->codExamenPostulante.' codActorActual='.$examenPostulante->codActor.' codActorAnt='.$examenAnterior->codActor.' nroCarnet actual:'.$examenPostulante->nroCarnet." puntajeActual=".$ptjeActual." ptjeAnt=".$ptjeAnterior.' %elevacion='.$porcentajeElevacion);
                 if($porcentajeElevacion >= $tasaToleranciaSubida){
                     $postulanteElevado = new PostulantesElevados();

@@ -83,7 +83,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <div class="">
                             <input type="number" class="form-control" id="valoracionPositivaCON" name="valoracionPositivaCON" 
-                                value="" placeholder="4.079" >
+                                value="4.079" placeholder="4.079" >
                         </div>
                     </div>
                     <div class="col">
@@ -94,7 +94,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <div class="">
                             <input type="number" class="form-control" id="valoracionPositivaAPT" name="valoracionPositivaAPT" 
-                                value="" placeholder="4.070" >
+                                value="4.070" placeholder="4.070" >
                         </div>
                     </div>
 
@@ -108,7 +108,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <div class="">
                             <input type="number" class="form-control" id="valoracionNegativaCON" name="valoracionNegativaCON" 
-                                value="" placeholder="-1.021" >
+                                value="1.021" placeholder="1.021" >
                         </div>
                     </div>
                     <div class="col">
@@ -119,7 +119,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <div class="">
                             <input type="number" class="form-control" id="valoracionNegativaAPT" name="valoracionNegativaAPT" 
-                                value="" placeholder="-1.019" >
+                                value="1.019" placeholder="1.019" >
                         </div>
                     </div>
 
