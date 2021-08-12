@@ -165,7 +165,9 @@ class Examen extends Model
 
         $conteoCondiciones = [];
         foreach ($listaCondiciones as $condicion) {
-            $conteoCondiciones[$condicion->nombre] = 0;
+            $nombreAcortado = substr($condicion->nombre,0,7);
+            $conteoCondiciones[$nombreAcortado] = 0;
+
         }
 /* 
         $conteoCondiciones = [
