@@ -93,7 +93,7 @@
     <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
       <thead class="thead-dark">
         <tr>
-           <th>Año</th>
+           <th>Periodo</th>
             <th>Fecha</th>
            <th>Modalidad</th>
           
@@ -107,7 +107,7 @@
             <tr>
                 
               <td>
-                {{$itemExamen->año}}
+                {{$itemExamen->periodo}}
               </td>
               <td>
                 {{$itemExamen->fechaRendicion}}
