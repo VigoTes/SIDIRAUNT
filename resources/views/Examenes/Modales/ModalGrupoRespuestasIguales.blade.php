@@ -99,6 +99,7 @@
                                     <th>Codigo</th>
                                     <th>Nombres Y Apellidos</th>
                                     <th>Carrera</th>
+                                    <th>Perfil</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -107,11 +108,70 @@
                                     <td>{{$itemPostulante->codActor}}</td>
                                     <td>{{$itemPostulante->apellidosYnombres}}</td>
                                     <td>{{$itemPostulante->getExamenPostulante($analisis->codExamen)->getCarrera()->nombre}}</td>
+                                    <td>
+                            
+                                        <a href="{{route('Postulante.VerPerfil',$itemPostulante->codActor)}}" class="btn btn-info btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                       
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="row">
+                            
+                            @if($grupoPatrones->estaObservado())
+                                <b>
+                                    Este grupo fue observado con la siguiente nota:
+                                </b>
+                                
+                                <textarea class="form-control" name="" readonly id="" cols="30" rows="3"
+                                    >{{$grupoPatrones->getObservacion()->notaObservacion}}</textarea>
+                                <label for="">Estado de la observación:</label>
+                                <input type="text" class="form-control" value="{{$grupoPatrones->getObservacion()->getEstado()->nombre}}" readonly>
+                                
+                                
+                                @if($grupoPatrones->getObservacion()->estaPlanteada())
+                                    <div class="col">
+                                        <button type="button" id="" class="btn btn-danger btn-sm m-1" title="Se elimina que este registro estuvo observado alguna  vez."
+                                            onclick="clickCancelarObservacion({{$grupoPatrones->codObservacion}})">
+                                            <i class="fas fa-minus-circle"></i>
+                                            Eliminar Observación
+                                        </button>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col">
+                                        <button type="button" id="" class="btn btn-info btn-sm m-1" onclick="clickDejarPasarObservacion({{$grupoPatrones->codObservacion}})">
+                                            <i class="fas fa-check"></i>
+                                            Dejar pasar irregularidad
+                                        </button>
+                                    </div>
+                                    <div class="col">
+
+                                        <button type="button" id="" class="btn btn-danger btn-sm m-1" onclick="clickAnularObservacion({{$grupoPatrones->codObservacion}})">
+                                            <i class="fas fa-ban"></i>
+                                            Anular postulaciones
+                                        </button>
+                                    </div>
+
+                                @endif
+                               
+                                
+                            @else
+                                <div class="col text-center">
+
+                                    <button type="button" id="" class="btn btn-danger" onclick="clickModalObservarGrupoPatron({{$grupoPatrones->codGrupoPatron}})"
+                                        data-toggle="modal" data-target="#ModalObservacion"> 
+                                        Observar Grupo
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col-3">
@@ -121,5 +181,9 @@
                 </div>
 
 <script>
-    consol.log(<?php echo json_encode($respuestasProbando); ?>);
+    console.log(
+    @php
+        echo json_encode($respuestasProbando);
+    @endphp
+    );
 </script>

@@ -40,7 +40,12 @@ class Examen extends Model
         return "Examen-".Debug::rellernarCerosIzq($this->codExamen,6)."-examenEscaneado.pdf";
     }
 
+
+    public function getTasaAusentismo(){
+        
+        return number_format($this->ausentes*100/$this->nroPostulantes,4);
     
+    }
 
     public function getFechaRendicion(){
 

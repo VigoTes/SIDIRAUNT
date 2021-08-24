@@ -130,7 +130,10 @@ class AnalisisExamen extends Model
                 for ($j=$i+1; $j < $cantidadExamenesPostulantes; $j++) {
 
 
+                    /* 
+                        ['posicion'=>'A']
                     
+                    */
                     //en este vector las posiciones son las keys y las respuestas con los value
                     $vectorRespuestasIguales = ExamenPostulante::compararRespuestas($listaExamenes[$i]->respuestasJSON,$listaExamenes[$j]->respuestasJSON);
                     $cantRespuestasMarcadas = $listaExamenes[$i]->getCantidadRespuestasMarcadas();
@@ -396,6 +399,9 @@ class AnalisisExamen extends Model
             'tasaPE'=> $tasaPE,
             'tasaIrregularidad' => $tasaIrregularidad
         ];
+
+
+        /*  */
         
     }
 

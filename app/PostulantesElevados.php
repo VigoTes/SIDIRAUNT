@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PostulantesElevados extends Model
+class PostulantesElevados extends ElementoAnalisis
 {
     protected $table = "postulantes_elevados";
     protected $primaryKey = "codPostulanteElevado";
@@ -26,6 +26,11 @@ class PostulantesElevados extends Model
         return Actor::findOrFail($examen->codActor);
     }
 
+     
+    public function getElevacionPorcentual(){
+        return (number_format($this->porcentajeElevacion*100,2)) ."%" ;
+
+    }
 
 
 }

@@ -27,6 +27,20 @@ class Actor extends Model
     }
 
 
+    public static function esDirectorAdmision(){
+        if(is_null(Auth::id())){
+            return false;
+        }else{
+            $actor=Actor::getActorLogeado();
+            if($actor->codTipoActor==3){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+    } 
+
     public static function esConsejoUniversitario(){
         if(is_null(Auth::id())){
             return false;

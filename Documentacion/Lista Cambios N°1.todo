@@ -1,6 +1,6 @@
 
 Urgentes que dijo el profe:
-    ☐ Al momento de decidir sobre irregularidades, esto debe ser a nivel de cada examen
+    ✔ Al momento de decidir sobre irregularidades, esto debe ser a nivel de cada examen @done(24-08-21 17:21)
     ☐ Mejorar los gráficos porque no se entienden
 
 Actividades:
@@ -14,7 +14,9 @@ Actividades:
     ☐ Vista postulantes añadir filtros como:
         Cantidad de veces que postuló, partició en X examen, postuló alguna vez a cierta carrera
     ☐ Separar actores por vistas
-    ☐ Añadir lógica de la distribución de un examen
+    ✔ Añadir lógica de la distribución de un examen (solo mostrar en la web) Resultó que en todos los examenes es 30apt y 70con @done(23-08-21 17:12)
     ☐ Añadir lógica para ver cierta pregunta en la web
     ☐ Tratar de cambiar el menú lateral por uno superior
     ☐ Envio de mensaje a telegram cuando hay una irregularidad
+    ☐ Añadir manejo de excepciones
+    ☐ Historial y perfil son lo mismo, corregir URLs que los diferencnan

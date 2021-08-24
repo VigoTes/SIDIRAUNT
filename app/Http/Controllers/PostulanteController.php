@@ -28,8 +28,8 @@ class PostulanteController extends Controller
     }
 
 
-    public function verPerfil($codPostulante){
-        $postulante = Actor::findOrFail($codPostulante);
+    public function verPerfil($codActor){
+        $postulante = Actor::findOrFail($codActor);
 
         $puntajesAPT=[];
         $puntajesCON=[];

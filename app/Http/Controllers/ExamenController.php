@@ -14,6 +14,7 @@ use App\GrupoIguales;
 use App\GrupoPatron;
 use App\Http\Controllers\Controller;
 use App\Modalidad;
+use App\Observacion;
 use App\PostulantesElevados;
 use App\Pregunta;
 use App\Sede;
@@ -154,6 +155,9 @@ class ExamenController extends Controller
 
         return view('Examenes.Modales.ModalExamenesIguales',compact('arr','respuestasProbando','solucionario','grupoIguales','postulantes','analisis'));
     }
+
+
+    
     public function getModalGrupoRespuestasIguales($codGrupo){
         $grupoPatrones=GrupoPatron::findOrFail($codGrupo);
         $analisis=AnalisisExamen::findOrFail($grupoPatrones->codAnalisis);
@@ -187,6 +191,9 @@ class ExamenController extends Controller
 
         return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
     }
+
+
+
     public function getModalPreguntasDePostulante($codExamenPostulante){
          
         
@@ -214,6 +221,18 @@ class ExamenController extends Controller
 
         return view('Examenes.Modales.ModalPreguntasDePostulante',compact('arr','respuestasProbando','solucionario','examenPostulante'));
     }
+
+    public function getModalPostulanteElevado($codPostulanteElevado){
+
+        $postulanteElevado = PostulantesElevados::findOrFail($codPostulanteElevado);
+        $anteriorPostulacion = ExamenPostulante::findOrFail($postulanteElevado->codExamenPostulanteAnterior);
+        $actualPostulacion = ExamenPostulante::findOrFail($postulanteElevado->codExamenPostulante);
+
+        return view('Examenes.Modales.ModalPostulanteElevado',compact('postulanteElevado','anteriorPostulacion','actualPostulacion'));
+
+    }
+
+
 
     public function VerHistorialPostulante($codExamenPostulante){
         $examenPostulante=ExamenPostulante::findOrFail($codExamenPostulante);
@@ -377,6 +396,131 @@ class ExamenController extends Controller
         return 1;
     }
 
+
+
+    /* 
+    En cadena llegan datos
+    tipoObservacion + "*" + codigoAObservar + "*" + notaObservacion;
+    */
+    public function ObservarAlgo($cadena){
+        $vector = explode("*",$cadena);
+        $tipoObservacion = $vector[0];
+        $codigoAObservar = $vector[1];
+        $notaObservacion = $vector[2];
+
+        switch($tipoObservacion){
+            case "GrupoPatron":
+                $codTipoObservacion = 1;
+                $elementoAObservar = GrupoPatron::findOrFail($codigoAObservar);
+                $stringLlegada = "Patron N°$codigoAObservar de respuestas iguales";
+                break;
+            case "ExamenesIguales":
+                $codTipoObservacion = 2;
+                $elementoAObservar = GrupoIguales::findOrFail($codigoAObservar);
+                $stringLlegada = "Grupo N°$codigoAObservar de exámenes iguales";
+                break;
+            case "PostulantesElevados":
+                $codTipoObservacion = 3;
+                $elementoAObservar = PostulantesElevados::findOrFail($codigoAObservar);
+                $nroCarnet = $elementoAObservar->examenActual()->nroCarnet;
+                $stringLlegada = "Postulante elevado N°$codigoAObservar (Carnet $nroCarnet)";
+                break;
+        }
+
+        $observacion = new Observacion();
+        $observacion->notaObservacion = $notaObservacion;
+        $observacion->codTipoObservacion = $codTipoObservacion;
+        $observacion->codAnalisis = $elementoAObservar->codAnalisis;
+        $observacion->codEstado = 1;
+        $observacion->save();
+
+
+        $codObservacion = Observacion::All()->last()->codObservacion;
+        $elementoAObservar->codObservacion = $codObservacion;
+        $elementoAObservar->save();
+
+        $analisis = AnalisisExamen::findOrFail($elementoAObservar->codAnalisis);
+
+        return redirect()->route('Examen.VerReporteIrregularidades',$analisis->codExamen)
+            ->with('datos',"$stringLlegada observado exitósamente.");
+
+    }
+
+    //elimina que existió observacion alguna vez
+    public function eliminarObservacion($codObservacion){
+        $observacion = Observacion::findOrFail($codObservacion);
+        //eliminamos el registro de la observacion del elemento que la tenga
+        switch($observacion->codTipoObservacion){
+            case 1:
+                $elementoObservado = GrupoPatron::where('codObservacion','=',$codObservacion)->get()[0];
+                break;
+            case 2:
+                $elementoObservado = GrupoIguales::where('codObservacion','=',$codObservacion)->get()[0];
+                break;
+            case 3:
+                $elementoObservado = PostulantesElevados::where('codObservacion','=',$codObservacion)->get()[0];
+                break;
+        }
+        $elementoObservado->codObservacion = null;
+        $elementoObservado->save();
+        $analisis = AnalisisExamen::findOrFail($elementoObservado->codAnalisis);
+        $stringLlegada = $observacion->codObservacion;
+        $observacion->delete();
+
+        return redirect()->route('Examen.VerReporteIrregularidades',$analisis->codExamen)
+            ->with('datos',"Se ha cancelado exitosamente la observacion #$stringLlegada.");
+    }
+
+
+    //cambia el estado de una observacion a pasada (ya fue revisada y no tiene nada de malo)
+    public function pasarObservacion($codObservacion){
+
+        $observacion = Observacion::findOrFail($codObservacion);
+        $observacion->codEstado = 2; 
+        $observacion->save();
+
+        
+        return redirect()->route('Examen.VerReporteIrregularidades',$observacion->getAnalisis()->codExamen)
+            ->with('datos',"Se ha pasado exitosamente la observacion #".$codObservacion);
+    }
+
+    //cambia el estado de una observacion a pasada (ya fue revisada y no tiene nada de malo)
+    public function anularExamenesObservacion($codObservacion){
+
+        
+        $observacion = Observacion::findOrFail($codObservacion);
+        $observacion->codEstado = 3; 
+        $observacion->save();
+        
+        //ahora anulamos las postulaciones vinculadas
+        switch($observacion->codTipoObservacion){
+            case 1: 
+                $elementoObservado = GrupoPatron::where('codObservacion','=',$codObservacion)->get()[0];
+                $vector = explode(',',$elementoObservado->vectorExamenPostulante);
+                $postulaciones = ExamenPostulante::whereIn('codExamenPostulante',$vector)->get();
+                break;
+            case 2:
+                $elementoObservado = GrupoIguales::where('codObservacion','=',$codObservacion)->get()[0];
+                $vector = explode(',',$elementoObservado->vectorExamenPostulante);
+                $postulaciones = ExamenPostulante::whereIn('codExamenPostulante',$vector)->get();
+                break;
+            case 3:
+                $elementoObservado = PostulantesElevados::where('codObservacion','=',$codObservacion)->get()[0];
+                $postulaciones = ExamenPostulante::where('codExamenPostulante','=',$elementoObservado->codExamenPostulante)->get();
+                break;
+        }
+
+        //anulamos todos los que tengamos que anular 
+        foreach($postulaciones as $postulacion){
+            $postulacion->codCondicion = 6;
+            $postulacion->save();
+        }
+
+
+
+        return redirect()->route('Examen.VerReporteIrregularidades',$observacion->getAnalisis()->codExamen)
+            ->with('datos',"Se ha anulado exitosamente los exámenes correspondientes a la observacion #".$codObservacion);
+    }
 
     public function VerPDF($codExamen){
         $examen = Examen::findOrFail($codExamen);

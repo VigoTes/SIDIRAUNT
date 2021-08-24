@@ -73,9 +73,7 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
 Route::get('/probandoCosas',function(){
-    
-
-    return 1;
+     return AnalisisExamen::All()->last()->codAnalisis;
 });
 
 
@@ -142,15 +140,23 @@ Route::get('/Examen/{id}/VerReporteIrregularidades/pdf','ExamenController@Export
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalExamenesIguales','ExamenController@getModalExamenesIguales');
 Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalGrupoRespuestasIguales','ExamenController@getModalGrupoRespuestasIguales');
 Route::get('/Examen/VerReporteIrregularidades/{codExamenPostulante}/ModalPreguntasDePostulante','ExamenController@getModalPreguntasDePostulante');
+Route::get('/Examen/VerReporteIrregularidades/{codPostulanteElevado}/ModalPostulanteElevado','ExamenController@getModalPostulanteElevado');
+
+
 
 Route::get('/Examen/{codExamenPostulante}/Historial','ExamenController@VerHistorialPostulante')->name('Examen.VerReporteIrregularidades.VerHistorialPostulante');
 Route::post('/Examen/Consejo/AprobarExamen','ExamenController@aprobarExamen')->name('Examen.Consejo.aprobarExamen');
 
+Route::get('/Examen/ObservarAlgo/{cadena}','ExamenController@ObservarAlgo'); // desde JS
 
+Route::get('/Examen/eliminarObservacion/{codObservacion}','ExamenController@eliminarObservacion');// desde JS
+
+Route::get('/Examen/pasarObservacion/{codObservacion}','ExamenController@pasarObservacion');// desde JS
+Route::get('/Examen/anularExamenesObservacion/{codObservacion}','ExamenController@anularExamenesObservacion');// desde JS
 
 
 Route::get('/Postulante/listar','PostulanteController@listar')->name('Postulante.Listar'); 
-Route::get('/Postulante/verPerfil/{codPostulante}','PostulanteController@verPerfil')->name('Postulante.VerPerfil'); 
+Route::get('/Postulante/verPerfil/{codActor}','PostulanteController@verPerfil')->name('Postulante.VerPerfil'); 
 Route::get('/Postulante/descargarReportePostulantes','PostulanteController@exportarPostulantes')->name('Postulante.ExportarPostulantes'); 
 /*                     en realidad es codActor */
 
