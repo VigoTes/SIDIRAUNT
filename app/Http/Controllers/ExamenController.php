@@ -434,7 +434,6 @@ class ExamenController extends Controller
         $observacion->codEstado = 1;
         $observacion->save();
 
-
         $codObservacion = Observacion::All()->last()->codObservacion;
         $elementoAObservar->codObservacion = $codObservacion;
         $elementoAObservar->save();
@@ -445,6 +444,8 @@ class ExamenController extends Controller
             ->with('datos',"$stringLlegada observado exitósamente.");
 
     }
+
+
 
     //elimina que existió observacion alguna vez
     public function eliminarObservacion($codObservacion){
@@ -463,6 +464,7 @@ class ExamenController extends Controller
         }
         $elementoObservado->codObservacion = null;
         $elementoObservado->save();
+
         $analisis = AnalisisExamen::findOrFail($elementoObservado->codAnalisis);
         $stringLlegada = $observacion->codObservacion;
         $observacion->delete();
@@ -484,14 +486,15 @@ class ExamenController extends Controller
             ->with('datos',"Se ha pasado exitosamente la observacion #".$codObservacion);
     }
 
-    //cambia el estado de una observacion a pasada (ya fue revisada y no tiene nada de malo)
-    public function anularExamenesObservacion($codObservacion){
+    //camb
 
-        
+    public function anularExamenesObservacion($codObservacion){
         $observacion = Observacion::findOrFail($codObservacion);
         $observacion->codEstado = 3; 
         $observacion->save();
-        
+
+        // ESTE CODIGO YA NO SE EJECUTA EN PHP, SINO EN EL TRIGGER AnularExamenesObservacion
+        /* 
         //ahora anulamos las postulaciones vinculadas
         switch($observacion->codTipoObservacion){
             case 1: 
@@ -512,12 +515,10 @@ class ExamenController extends Controller
 
         //anulamos todos los que tengamos que anular 
         foreach($postulaciones as $postulacion){
-            $postulacion->codCondicion = 6;
+            $postulacion->codCondicion = 6; //ANULADO EN POST ANALISIS
             $postulacion->save();
         }
-
-
-
+ */
         return redirect()->route('Examen.VerReporteIrregularidades',$observacion->getAnalisis()->codExamen)
             ->with('datos',"Se ha anulado exitosamente los exámenes correspondientes a la observacion #".$codObservacion);
     }

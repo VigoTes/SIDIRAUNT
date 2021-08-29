@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-08-2021 a las 00:26:29
+-- Tiempo de generación: 30-08-2021 a las 00:43:59
 -- Versión del servidor: 5.7.32-log
 -- Versión de PHP: 7.4.10
 
@@ -20,6 +20,37 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sidiraunt`
 --
+
+DELIMITER $$
+--
+-- Funciones
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `obtenerRespuestas` (`codExamenBuscado` INT) RETURNS VARCHAR(300) CHARSET utf8mb4 BEGIN
+	declare preguntas varchar(300);
+    declare respuesta varchar(1);
+    DECLARE var_final INTEGER DEFAULT 0;
+    declare cursor_preguntas CURSOR FOR (select respuestaCorrecta 
+            from pregunta where codExamen=codExamenBuscado);
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET var_final = 1;
+
+    open cursor_preguntas;
+    set preguntas='_';
+	bucle: LOOP
+		-- para detener el recorrido cuando se termine el cursor
+        FETCH cursor_preguntas INTO respuesta;
+		IF var_final = 1 THEN
+		  LEAVE bucle;
+		END IF;
+		
+		set preguntas = concat(preguntas,respuesta);
+        
+		
+	END LOOP bucle;
+	CLOSE cursor_preguntas;
+    return preguntas;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -13235,7 +13266,7 @@ CREATE TABLE `grupo_iguales` (
 
 INSERT INTO `grupo_iguales` (`codGrupo`, `codAnalisis`, `puntajeAP`, `puntajeCON`, `puntajeTotal`, `correctas`, `incorrectas`, `respuestasJSON`, `vectorExamenPostulante`, `codObservacion`) VALUES
 (4553, 100, 98.693, 125.428, 224.121, 56, 4, ' ABBBBBEBBAEBBBBBBBBAXBBBBBBBCXXXXXXBBBBBBBXXBXBBBBXXXXXXXBBBBBBBXXXXXXBBBXXBBXBXXXXBXXBXDXBBBXBXXXXX', '66148,66149', 16),
-(4554, 100, 81.394, 124.397, 205.791, 54, 14, ' ABBBBEBXEXBBDBBBXXBDBBBBBBXBBBBBXAXBXBXBXXBXBBAXBBCXBEDXBBXABBBCBABBBXXBBXBXXXXXBBXXBEXXBBDXXBXBBBBX', '65913,65914', NULL),
+(4554, 100, 81.394, 124.397, 205.791, 54, 14, ' ABBBBEBXEXBBDBBBXXBDBBBBBBXBBBBBXAXBXBXBXXBXBBAXBBCXBEDXBBXABBBCBABBBXXBBXBXXXXXBBXXBEXXBBDXXBXBBBBX', '65913,65914', 21),
 (4555, 100, 55.955, 73.407, 129.362, 36, 17, ' BBBBXXXBBXXBBBXBCXBXBBXBXDBBDCXXXDCXXBXXBCBXXCXXXBBBXXBXXBXEXBDBBBXXXXXXXBXXXAXBBXXXEXBXABXXBCBDBXDB', '65865,65866', NULL);
 
 -- --------------------------------------------------------
@@ -13389,7 +13420,8 @@ INSERT INTO `observacion` (`codObservacion`, `notaObservacion`, `codTipoObservac
 (13, '', 3, 100, 2),
 (16, 'sospechoso', 2, 100, 3),
 (17, 'yeayeyae', 1, 100, 1),
-(20, 'esta raro esto', 1, 100, 3);
+(20, 'esta raro esto', 1, 100, 3),
+(21, 'está sospechoso', 2, 100, 1);
 
 -- --------------------------------------------------------
 
@@ -13414,7 +13446,8 @@ INSERT INTO `parametros` (`codParametro`, `campo`, `valor`) VALUES
 (4, 'porcentajeUnificadPE', '0.2'),
 (5, 'pesoTasaGI', '0.5'),
 (6, 'pesoTasaGP', '0.2'),
-(7, 'pesoTasaPE', '0.3');
+(7, 'pesoTasaPE', '0.3'),
+(8, 'paginacionListarPostulantes', '100');
 
 -- --------------------------------------------------------
 
@@ -19687,13 +19720,13 @@ ALTER TABLE `modalidad`
 -- AUTO_INCREMENT de la tabla `observacion`
 --
 ALTER TABLE `observacion`
-  MODIFY `codObservacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `codObservacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `parametros`
 --
 ALTER TABLE `parametros`
-  MODIFY `codParametro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `codParametro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `postulantes_elevados`
