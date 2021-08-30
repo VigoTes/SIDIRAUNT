@@ -5,6 +5,8 @@ Urgentes que dijo el profe:
     ☐ Corregir titulo
     ✔ Crear trigger y funcion para la tarea @done(29-08-21 18:33)
 Actividades:
+    ☐ Separar actores por vistas
+    ✔ Integrar bot de telegram @done(29-08-21 20:06)
     ☐ Mejorar algoritmo de identificacion de patrones ()
         ☐ Mejorar eficiencia (tiempo que demora)
         ☐ Que identifique grupos de más de 2
@@ -14,7 +16,7 @@ Actividades:
     ☐ La cantidad de Pagination debe poder editarse en la bd
     ☐ Vista postulantes añadir filtros como:
         Cantidad de veces que postuló, partició en X examen, postuló alguna vez a cierta carrera
-    ☐ Separar actores por vistas
+    
     ✔ Añadir lógica de la distribución de un examen (solo mostrar en la web) Resultó que en todos los examenes es 30apt y 70con @done(23-08-21 17:12)
     ☐ Añadir lógica para ver cierta pregunta en la web
     ☐ Tratar de cambiar el menú lateral por uno superior

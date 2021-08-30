@@ -9,6 +9,7 @@ use App\Examen;
 use App\ExamenPostulante;
 use App\GrupoIguales;
 use App\GrupoPatron;
+use App\MaracsoftBot;
 use App\Parametros;
 use App\PostulantesElevados;
 use App\Pregunta;
@@ -73,9 +74,8 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
 Route::get('/probandoCosas',function(){
-    
-    $codExamen = 1;
-    
+     
+     MaracsoftBot::enviarMensaje('hola');
      
 });
 
