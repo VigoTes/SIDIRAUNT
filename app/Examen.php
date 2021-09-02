@@ -259,15 +259,15 @@ class Examen extends Model
         
         
         /* PHP */
-        /* 
+        
         $listaPreguntas = Pregunta::where('codExamen','=',$this->codExamen)->get();
         $cadena = "";
         foreach ($listaPreguntas as $pregunta) {
             $cadena = $cadena.$pregunta->respuestaCorrecta;
         }
         return "_".$cadena;
- */
 
+        
         /* MYSQL MEDIANTE EJECUCIÓN DE LA FUNCION obtenerRespuestas */
         $codExamen = $this->codExamen;
         $sentenciaSQL = "select obtenerRespuestas($codExamen) as 'Resultado'";
