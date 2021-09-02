@@ -498,7 +498,7 @@ class ExamenController extends Controller
         // ESTE CODIGO YA NO SE EJECUTA EN PHP, SINO EN EL TRIGGER AnularExamenesObservacion
         
         //ahora anulamos las postulaciones vinculadas
-        /* switch($observacion->codTipoObservacion){
+        switch($observacion->codTipoObservacion){
             case 1: 
                 $elementoObservado = GrupoPatron::where('codObservacion','=',$codObservacion)->get()[0];
                 $vector = explode(',',$elementoObservado->vectorExamenPostulante);
@@ -520,7 +520,7 @@ class ExamenController extends Controller
             $postulacion->codCondicion = 6; //ANULADO EN POST ANALISIS
             $postulacion->save();
         }
- */
+
         return redirect()->route('Examen.VerReporteIrregularidades',$observacion->getAnalisis()->codExamen)
             ->with('datos',"Se ha anulado exitosamente los exámenes correspondientes a la observacion #".$codObservacion);
     }
