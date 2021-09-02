@@ -582,7 +582,7 @@
 
     function clickModalObservarPostulantesElevados(codPostulanteElevado){
         limpiarModalObservacion();
-
+        
         document.getElementById('tipoObservacion').value = "PostulantesElevados";
         document.getElementById('codigoAObservar').value = codPostulanteElevado;
         

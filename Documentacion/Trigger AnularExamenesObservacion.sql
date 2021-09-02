@@ -32,9 +32,7 @@ BEGIN
 	-- consulta select que retorna la lista de examen_postulante que están involucrados en cierta observacion de tipo PostulantesElevados
 	declare cursor_examenPostulante_postulanteselevados CURSOR FOR (
 		select PE.codPostulanteElevado, EP.codExamenPostulante, O.codObservacion from postulantes_elevados PE
-			inner join examen_postulante EP on 
-				PE.vectorExamenPostulante like concat('%',EP.codExamenPostulante,',%')
-			or 	PE.vectorExamenPostulante like concat('%,',EP.codExamenPostulante,'%')
+			inner join examen_postulante EP on PE.codExamenPostulante = EP.codExamenPostulante
 			INNER join observacion O on O.codObservacion = PE.codObservacion
 			where O.codObservacion = NEW.codObservacion
 		);

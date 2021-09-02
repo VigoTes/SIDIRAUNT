@@ -41,19 +41,27 @@
 
 
   <br>
-    
-    <div class="row">
-      <div class="col-md-2">
-        <a href="{{route('Examen.Director.Crear')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
-          <i class="fas fa-plus"> </i> 
-            Registrar examen
-        </a>
-      </div>
- 
+    @if(App\Actor::hayActorLogeado())
+      
+      @if(App\Actor::getActorLogeado()->esDirectorAdmision())
+        
+      <div class="row">
+        <div class="col-md-2">
+          <a href="{{route('Examen.Director.Crear')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
+            <i class="fas fa-plus"> </i> 
+              Registrar examen
+          </a>
+        </div>
+
+        @endif
+
+    @endif
+ {{-- 
+
       <a href="/borrarTodo" class = "btn btn-danger" style="margin-bottom: 5px;"> 
         <i class="fas fa-trash"> </i> 
           Borrar datos de exámenes y análisis
-      </a>  
+      </a>   --}}
 
       
 

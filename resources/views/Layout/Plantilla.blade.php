@@ -201,9 +201,28 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" 
           role="menu" data-accordion="false">
+          @if(App\Actor::hayActorLogeado())
+            
+            @switch(App\Actor::getActorLogeado()->getTipoActor()->nombre)
+              @case('Postulante')
+                  
+                @break
+              @case('Consejo Universitario')
+                  
+                @break
+              @case('Dirección de Sistemas y Comunicaciones')
+                @include('Layout.MenuLateral.DirectorAdmision')  {{-- Este tiene todo --}}
+                @break
+            @endswitch
 
-          
-           @include('Layout.MenuLateral.AdminSistema')  {{-- Este tiene todo --}}
+            @else
+              @include('Layout.MenuLateral.Anónimo')  
+            @endif
+
+            
+            
+            
+
            
 
            

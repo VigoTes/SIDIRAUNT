@@ -14,6 +14,7 @@ use App\Parametros;
 use App\PostulantesElevados;
 use App\Pregunta;
 use App\Tasa;
+use App\TipoActor;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -75,7 +76,8 @@ Route::get('/probarArchivos','ExamenController@procesarResultados')->name('proba
 
 Route::get('/probandoCosas',function(){
      
-     MaracsoftBot::enviarMensaje('hola');
+        return Examen::findOrFail(1)->getStringRespuestas();
+     //MaracsoftBot::enviarMensaje('hola');
      
 });
 
@@ -85,8 +87,8 @@ Procedimiento en PHP:   _ABBBBBBBBABBBBBBBBBABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 */
  
 Route::get('/probandoCosas2',function(){
+    return TipoActor::All();
     
-
 });
 
 

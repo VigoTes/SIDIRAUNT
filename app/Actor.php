@@ -22,6 +22,16 @@ class Actor extends Model
         return TipoActor::findOrFail($this->codTipoActor);
     }
 
+    public function verificarActor($nombreActor){
+
+
+        return $this->getTipoActor()->nombre == $nombreActor;
+
+        /* 
+       
+     */
+
+    }
     public function getExamenPostulante($codExamen){
         return ExamenPostulante::where('codExamen','=',$codExamen)->where('codActor','=',$this->codActor)->get()[0];
     }

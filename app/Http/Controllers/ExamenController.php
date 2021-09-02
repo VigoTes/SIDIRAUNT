@@ -13,6 +13,7 @@ use App\Fecha;
 use App\GrupoIguales;
 use App\GrupoPatron;
 use App\Http\Controllers\Controller;
+use App\MaracsoftBot;
 use App\Modalidad;
 use App\Observacion;
 use App\PostulantesElevados;
@@ -95,7 +96,7 @@ class ExamenController extends Controller
     }
 
 
-
+    // aunque se llama aprobar, en realidad aprueba y cancela
     public function aprobarExamen(Request $request){
         $examen=Examen::findOrFail($request->codExamen);
 
@@ -349,12 +350,7 @@ class ExamenController extends Controller
 
     public function analizarExamen($codExamen){
         $examen = Examen::findOrFail($codExamen);
-        
         $examen->generarReporteIrregularidad();
-
-        
-
-
         $examen->codEstado = 6;
         $examen->save();
         return "1";
@@ -490,13 +486,19 @@ class ExamenController extends Controller
 
     public function anularExamenesObservacion($codObservacion){
         $observacion = Observacion::findOrFail($codObservacion);
+        $analisis = $observacion->getAnalisis();
+        $examen = $analisis->getExamen();
+        $periodo = $examen->periodo;
+
         $observacion->codEstado = 3; 
         $observacion->save();
 
+        MaracsoftBot::enviarMensaje("Se ha anulado los exámenes correspondientes a la observación N° $codObservacion del examen $periodo");
+
         // ESTE CODIGO YA NO SE EJECUTA EN PHP, SINO EN EL TRIGGER AnularExamenesObservacion
-        /* 
+        
         //ahora anulamos las postulaciones vinculadas
-        switch($observacion->codTipoObservacion){
+        /* switch($observacion->codTipoObservacion){
             case 1: 
                 $elementoObservado = GrupoPatron::where('codObservacion','=',$codObservacion)->get()[0];
                 $vector = explode(',',$elementoObservado->vectorExamenPostulante);
