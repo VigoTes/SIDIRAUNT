@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GrupoIguales extends Model
+class GrupoIguales extends ElementoAnalisis
 {
     protected $table = "grupo_iguales";
     protected $primaryKey = "codGrupo";
@@ -14,6 +14,8 @@ class GrupoIguales extends Model
     protected $fillable = [
        'codAnalisis','puntajeAP','puntajeCON','puntajeTotal','correctas','incorrectas','respuestasJSON','vectorExamenPostulante'
     ];
+    
+     
 
     public function identificador(){
         //return printf('%04d', $this->codGrupo).'';
@@ -31,4 +33,7 @@ class GrupoIguales extends Model
         $this->vectorExamenPostulante = $this->vectorExamenPostulante.",".$codExamenPostulante;
         $this->save();
     }
+
+
+
 }

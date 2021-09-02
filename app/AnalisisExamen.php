@@ -101,8 +101,8 @@ class AnalisisExamen extends Model
     
     */
     public function generarPreGruposPatron(){
-
-        $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
+        $cantidadMinimaDePuntajeAdquirido = 20;
+        $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)->where('puntajeTotal','>',$cantidadMinimaDePuntajeAdquirido)->get();
         
         /*
             Recorremos el vector entero, 
@@ -116,7 +116,7 @@ class AnalisisExamen extends Model
         $cantidadExamenesPostulantes = count($listaExamenes);
         $examen = Examen::findOrFail($this->codExamen);
         $cantidadMinimaDePreguntasParaPatron = 5; //aqui jalar de parametros
-        $cantidadMinimaDePuntajeAdquirido = 20;
+       
         $listaTasas= Tasa::All();
         
         for ($i=0; $i < $cantidadExamenesPostulantes - 1 ; $i++) {
@@ -130,7 +130,10 @@ class AnalisisExamen extends Model
                 for ($j=$i+1; $j < $cantidadExamenesPostulantes; $j++) {
 
 
+                    /* 
+                        ['posicion'=>'A']
                     
+                    */
                     //en este vector las posiciones son las keys y las respuestas con los value
                     $vectorRespuestasIguales = ExamenPostulante::compararRespuestas($listaExamenes[$i]->respuestasJSON,$listaExamenes[$j]->respuestasJSON);
                     $cantRespuestasMarcadas = $listaExamenes[$i]->getCantidadRespuestasMarcadas();
@@ -396,6 +399,9 @@ class AnalisisExamen extends Model
             'tasaPE'=> $tasaPE,
             'tasaIrregularidad' => $tasaIrregularidad
         ];
+
+
+        /*  */
         
     }
 

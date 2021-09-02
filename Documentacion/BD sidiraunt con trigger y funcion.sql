@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-09-2021 a las 06:23:26
+-- Tiempo de generación: 30-08-2021 a las 01:30:34
 -- Versión del servidor: 5.7.32-log
 -- Versión de PHP: 7.4.10
 
@@ -12740,7 +12740,7 @@ INSERT INTO `examen_postulante` (`codExamenPostulante`, `orden`, `nroCarnet`, `c
 (65872, 10, '030509', 45736, 45.777, 68.307, 114.084, 72.933, 2, 1, ' AXCXABBAXXXBBBBDDXBXBXBCBXXEBBBEBXCXXBXXBBXBXEXXXXAXXDEBXXBXBDDDXXXXEXXXXEBBXXBXBBXXXXBBXBXXEBXXBXEB', 4, 33, 20),
 (65873, 11, '048263', 46311, 59, 53.012, 112.012, 72.933, 2, 1, ' BBBDBBBBCACBCXBBBABDCBBXXCCBBBXCBADXXXXXEBAXEXXXXBXXBXXXXXXAXXXXXBXDBXXXBBBXXEXAABBBDBXXXXXBXBXXXXBX', 4, 33, 22),
 (65874, 12, '047925', 47225, 66.127, 41.806, 107.933, 72.933, 2, 1, ' ABAABBDBBEBEBXXBBXXABXBBABDBBBXXBXXXBXXXXXXXBXDXXXXBXXXXXXXXABXXXXXXXXXEBXXXBBXXXXXXXXXBBXBXXXXXXXXX', 4, 29, 10),
-(65875, 13, '029839', 47226, 56.974, 47.927, 104.901, 72.933, 2, 6, ' XBBBEBXBBAXXEDXBBXXAXBBXXEXBBBXXXBXXXXBXXBXXXXXXXXXXXXXXBXXBXXXXXXBXXXXXXXXXBXBXXBXXXXXXXBXXBXXXDXXB', 4, 27, 5),
+(65875, 13, '029839', 47226, 56.974, 47.927, 104.901, 72.933, 2, 1, ' XBBBEBXBBAXXEDXBBXXAXBBXXEXBBBXXXBXXXXBXXBXXXXXXXXXXXXXXBXXBXXXXXXBXXXXXXXXXBXBXXBXXXXXXXBXXBXXXDXXB', 4, 27, 5),
 (65876, 14, '018245', 47227, 35.587, 66.23, 101.817, 72.933, 2, 1, ' ABBCCDCDCABEBBEDBBBAABEBAAECCEECBABCEDBABBABDBEEDBADBBBBCBBCBBCDEEDEEBEBCAEEDDABAADDCDBDDBCDBBBBCBEB', 4, 40, 60),
 (65877, 15, '019283', 47228, 54.936, 46.881, 101.817, 72.933, 2, 1, ' ABBBXBBCXABDXXEXBBXABBDABXXBXAXDBXDAEBAXXDEBXXXXDAXDXBACXXXBBBXDXBDEXBBBXCXXBBXEXDXBXDBBXXAXXXXBCXXD', 4, 32, 28),
 (65878, 16, '038761', 47229, 49.847, 50.965, 100.812, 72.933, 2, 1, ' XBXBBBXDDABEBAXXXBCAXBXXBABBDBBXXBXXXBBXXEXXXBBEEXBCXXXDBCECXDXDBXXXEAXXEBXXBXECEXBBBXXXBXXXDXCXBXBX', 4, 31, 25),
@@ -12853,7 +12853,7 @@ INSERT INTO `examen_postulante` (`codExamenPostulante`, `orden`, `nroCarnet`, `c
 (65985, 10, '017941', 45207, 68.165, 62.191, 130.356, 79.471, 4, 1, ' DBBBBBBBXAEBDBBBBBXCXXXBXDBBBXBCBBCEXXBXXXBXBXBAXBXCBXCBXXXXBCXCDXXXXBCXXXBXXXXXXXXXXXBBXXXXXBXBCXBX', 4, 36, 16),
 (65986, 11, '030215', 45883, 60.025, 66.28, 126.305, 79.471, 4, 1, ' ECXBXDXBDABBXBBABXXXBBBBXBXBBBXBABXXXXXBXBXXBXBXXEBXBXXXXXXXXBXBXXXXXXBBXXBXBXXXXDBXBXXXXXXXXXXXBXXX', 4, 33, 8),
 (65987, 12, '008636', 47288, 67.14, 59.128, 126.268, 79.471, 4, 1, ' ABCBBXBBBDBBBBECBBDABEBACBCBEBDXXXBXDAEXXBCXAXXBXECDXXEXDBBXXXBBXXXXBCXBBBXBXXXXBCXXXBXBBBXXXXXABXXX', 4, 37, 24),
-(65988, 13, '042259', 46153, 45.765, 73.372, 119.137, 79.471, 4, 6, ' DEBBBDBBCDABBABCEBABEBEBDBCBBBDBXCADADBBBAEBBBBDCBDDDBBBBABBCAADCBBBACBABBBBADEEBEBDBAAEBBDAACEDCXDC', 4, 43, 55),
+(65988, 13, '042259', 46153, 45.765, 73.372, 119.137, 79.471, 4, 1, ' DEBBBDBBCDABBABCEBABEBEBDBCBBBDBXCADADBBBAEBBBBDCBDDDBBBBABBCAADCBBBACBABBBBADEEBEBDBAAEBBDAACEDCXDC', 4, 43, 55),
 (65989, 14, '045675', 47289, 73.248, 43.828, 117.076, 79.471, 4, 1, ' ABEBBXBEBAXBBBBEEBBABBBBBBADEDXBABCBXXXCXXXCXBCXBXXCXXXXDXEXBEXXXAEBCABXXXBAABXXBBXXXXBXXXBXXBXXXDXD', 4, 35, 25),
 (65990, 15, '017796', 45905, 64.095, 52.001, 116.096, 79.471, 4, 1, ' ABBXBBBBBEAXXBXBXBAXXBBXBDBBBAXBXXBBXXXXXXBXXXXXBXXXXBBBDXXXXXBXXDXXXXXXXBXXBXBXXCXXXXXXXAXXXBXEXXXB', 4, 31, 10),
 (65991, 16, '033483', 43320, 76.311, 39.759, 116.07, 79.471, 4, 1, ' XBBBBBBBBCXXBXBXXBBABBXXBXXBBBXXXADXXXXXCBBXDXXXXXXXXXXXXXBXBEXBBBBXBXXXBXXXXEBBXXXXXXXXAAXCXXXXXXXX', 4, 31, 10),
@@ -12929,7 +12929,7 @@ INSERT INTO `examen_postulante` (`codExamenPostulante`, `orden`, `nroCarnet`, `c
 (66060, 11, '043582', 43295, 101.744, 161.098, 262.842, 129.117, 7, 1, ' ABBBBBDBBABBBDBABBBABBBEBBBBBBBBXXEBCXACBDBBBDXDBBBBBBBBBBBBBAEBEBBBBBBBDXBDBBBBBBAXBBBXBEBCDBBBBXCC', 4, 70, 22),
 (66061, 12, '044674', 45636, 111.922, 150.903, 262.825, 129.117, 7, 1, ' ABBBBBBBBAABBBBBBBBABBBEBBBBBBXXAXBBBXXBBBBBDDBBBBXABABEBEBBEXDDBBBBBXCXXBBBEBBBBBXBBBXBXBBBDBCBBCBA', 4, 69, 18),
 (66062, 13, '039371', 43037, 97.674, 163.15, 260.824, 129.117, 7, 1, ' DBBBBBBEBDBXBBBBBBBABBBBBBBEBBXBBXBBXXBBABAAABBBBDXABBBXXBXXXBBBBXDXBBXXBBXBBBBBCBXBBXXBBBBXBBBBBXBB', 4, 67, 12),
-(66063, 14, '051721', 42996, 111.922, 148.876, 260.798, 129.117, 7, 6, ' ABBBBBBBBABBBABBBBBABBBBBBEBBBBBABBXXXBBXBBBCBXXXBXBBBXXBBXXXBXBBXCBBXXBXBBXBXBBEBBBXBXCBBXXBBBBDXXB', 4, 66, 8),
+(66063, 14, '051721', 42996, 111.922, 148.876, 260.798, 129.117, 7, 1, ' ABBBBBBBBABBBABBBBBABBBBBBEBBBBBABBXXXBBXBBBCBXXXBXBBBXXBBXXXBXBBXCBBXXBXBBXBXBBEBBBXBXCBBXXBBBBDXXB', 4, 66, 8),
 (66064, 15, '042745', 47116, 92.585, 163.145, 255.73, 129.117, 7, 1, ' ABBCBBBBBADCBBBBBBXADBBBBBBBBDCBBXBEBCABBXXBBXBBXBBBBXXBEBXXBBBBBBABBCBBXBBBXABBXBXBBBBBBBEXCBCEBBXB', 4, 67, 17),
 (66065, 16, '043132', 43355, 93.604, 162.124, 255.728, 129.117, 7, 1, ' ABBBBBBBEABCBABBBABABBBBXBBBBXBEEDXBBBBXXBBAXDBXXBDBBDCXBBBCBBBBBBXAXBBBBXAXBBBBBBBCBBBBXBBCBBBBBXBX', 4, 67, 17),
 (66066, 17, '053123', 43297, 91.566, 164.161, 255.727, 129.117, 7, 1, ' EBABABBBBABBCBEBBCBABBBBBBBBBBBBBXEDBXEBEBBBBBBBBCBBXBBBCXABXCBBBCXBBBABBBBBBXBXBBBBCXBDEABXCBBBBXBB', 4, 68, 21),
@@ -13267,7 +13267,7 @@ CREATE TABLE `grupo_iguales` (
 INSERT INTO `grupo_iguales` (`codGrupo`, `codAnalisis`, `puntajeAP`, `puntajeCON`, `puntajeTotal`, `correctas`, `incorrectas`, `respuestasJSON`, `vectorExamenPostulante`, `codObservacion`) VALUES
 (4553, 100, 98.693, 125.428, 224.121, 56, 4, ' ABBBBBEBBAEBBBBBBBBAXBBBBBBBCXXXXXXBBBBBBBXXBXBBBBXXXXXXXBBBBBBBXXXXXXBBBXXBBXBXXXXBXXBXDXBBBXBXXXXX', '66148,66149', 16),
 (4554, 100, 81.394, 124.397, 205.791, 54, 14, ' ABBBBEBXEXBBDBBBXXBDBBBBBBXBBBBBXAXBXBXBXXBXBBAXBBCXBEDXBBXABBBCBABBBXXBBXBXXXXXBBXXBEXXBBDXXBXBBBBX', '65913,65914', 21),
-(4555, 100, 55.955, 73.407, 129.362, 36, 17, ' BBBBXXXBBXXBBBXBCXBXBBXBXDBBDCXXXDCXXBXXBCBXXCXXXBBBXXBXXBXEXBDBBBXXXXXXXBXXXAXBBXXXEXBXABXXBCBDBXDB', '65865,65866', 26);
+(4555, 100, 55.955, 73.407, 129.362, 36, 17, ' BBBBXXXBBXXBBBXBCXBXBBXBXDBBDCXXXDCXXBXXBCBXXCXXXBBBXXBXXBXEXBDBBBXXXXXXXBXXXAXBBXXXEXBXABXXBCBDBXDB', '65865,65866', NULL);
 
 -- --------------------------------------------------------
 
@@ -13356,7 +13356,7 @@ INSERT INTO `grupo_patron` (`codGrupoPatron`, `codAnalisis`, `nroIncorrectas`, `
 (4444, 99, 0, 9, 36.648, '{\"1\":\"A\",\"4\":\"B\",\"7\":\"B\",\"8\":\"B\",\"20\":\"A\",\"23\":\"B\",\"28\":\"B\",\"33\":\"B\",\"95\":\"B\"}', '65518,65860', NULL),
 (4445, 99, 1, 12, 47.864, '{\"1\":\"A\",\"4\":\"B\",\"7\":\"B\",\"8\":\"B\",\"20\":\"A\",\"23\":\"B\",\"28\":\"B\",\"30\":\"B\",\"33\":\"B\",\"35\":\"B\",\"45\":\"B\",\"93\":\"A\",\"95\":\"B\"}', '65519,65860', NULL),
 (4446, 100, 17, 36, 129.36, '{\"1\":\"B\",\"2\":\"B\",\"3\":\"B\",\"4\":\"B\",\"8\":\"B\",\"9\":\"B\",\"12\":\"B\",\"13\":\"B\",\"14\":\"B\",\"16\":\"B\",\"17\":\"C\",\"19\":\"B\",\"21\":\"B\",\"22\":\"B\",\"24\":\"B\",\"26\":\"D\",\"27\":\"B\",\"28\":\"B\",\"29\":\"D\",\"30\":\"C\",\"34\":\"D\",\"35\":\"C\",\"38\":\"B\",\"41\":\"B\",\"42\":\"C\",\"43\":\"B\",\"46\":\"C\",\"50\":\"B\",\"51\":\"B\",\"52\":\"B\",\"55\":\"B\",\"58\":\"B\",\"60\":\"E\",\"62\":\"B\",\"63\":\"D\",\"64\":\"B\",\"65\":\"B\",\"66\":\"B\",\"74\":\"B\",\"78\":\"A\",\"80\":\"B\",\"81\":\"B\",\"85\":\"E\",\"87\":\"B\",\"89\":\"A\",\"90\":\"B\",\"93\":\"B\",\"94\":\"C\",\"95\":\"B\",\"96\":\"D\",\"97\":\"B\",\"99\":\"D\",\"100\":\"B\"}', '65865,65866', 20),
-(4447, 100, 1, 25, 100.828, '{\"2\":\"B\",\"3\":\"B\",\"4\":\"B\",\"6\":\"B\",\"8\":\"B\",\"9\":\"B\",\"10\":\"A\",\"16\":\"B\",\"17\":\"B\",\"20\":\"A\",\"22\":\"B\",\"23\":\"B\",\"28\":\"B\",\"29\":\"B\",\"30\":\"B\",\"34\":\"B\",\"39\":\"B\",\"42\":\"B\",\"57\":\"B\",\"77\":\"B\",\"79\":\"B\",\"82\":\"B\",\"90\":\"B\",\"93\":\"B\",\"97\":\"D\",\"100\":\"B\"}', '65875,66063', 27),
+(4447, 100, 1, 25, 100.828, '{\"2\":\"B\",\"3\":\"B\",\"4\":\"B\",\"6\":\"B\",\"8\":\"B\",\"9\":\"B\",\"10\":\"A\",\"16\":\"B\",\"17\":\"B\",\"20\":\"A\",\"22\":\"B\",\"23\":\"B\",\"28\":\"B\",\"29\":\"B\",\"30\":\"B\",\"34\":\"B\",\"39\":\"B\",\"42\":\"B\",\"57\":\"B\",\"77\":\"B\",\"79\":\"B\",\"82\":\"B\",\"90\":\"B\",\"93\":\"B\",\"97\":\"D\",\"100\":\"B\"}', '65875,66063', NULL),
 (4448, 100, 2, 23, 91.667, '{\"1\":\"A\",\"4\":\"B\",\"9\":\"B\",\"12\":\"B\",\"15\":\"B\",\"17\":\"B\",\"18\":\"B\",\"20\":\"A\",\"22\":\"B\",\"25\":\"B\",\"27\":\"B\",\"29\":\"B\",\"30\":\"B\",\"33\":\"B\",\"35\":\"B\",\"43\":\"B\",\"48\":\"B\",\"51\":\"B\",\"56\":\"B\",\"58\":\"B\",\"77\":\"D\",\"79\":\"A\",\"81\":\"B\",\"88\":\"B\",\"90\":\"B\"}', '65879,66090', NULL),
 (4449, 100, 1, 23, 92.663, '{\"2\":\"B\",\"3\":\"B\",\"5\":\"B\",\"9\":\"B\",\"10\":\"A\",\"11\":\"B\",\"13\":\"B\",\"14\":\"D\",\"15\":\"B\",\"19\":\"B\",\"20\":\"A\",\"23\":\"B\",\"25\":\"B\",\"26\":\"B\",\"27\":\"B\",\"28\":\"B\",\"30\":\"B\",\"31\":\"B\",\"36\":\"B\",\"45\":\"B\",\"64\":\"B\",\"70\":\"B\",\"75\":\"B\",\"86\":\"B\"}', '65881,66060', NULL),
 (4450, 100, 14, 54, 205.8, '{\"1\":\"A\",\"2\":\"B\",\"3\":\"B\",\"4\":\"B\",\"5\":\"B\",\"6\":\"E\",\"7\":\"B\",\"9\":\"E\",\"11\":\"B\",\"12\":\"B\",\"13\":\"D\",\"14\":\"B\",\"15\":\"B\",\"16\":\"B\",\"19\":\"B\",\"20\":\"D\",\"21\":\"B\",\"22\":\"B\",\"23\":\"B\",\"24\":\"B\",\"25\":\"B\",\"26\":\"B\",\"28\":\"B\",\"29\":\"B\",\"30\":\"B\",\"31\":\"B\",\"32\":\"B\",\"34\":\"A\",\"36\":\"B\",\"38\":\"B\",\"40\":\"B\",\"43\":\"B\",\"45\":\"B\",\"46\":\"B\",\"47\":\"A\",\"49\":\"B\",\"50\":\"B\",\"51\":\"C\",\"53\":\"B\",\"54\":\"E\",\"55\":\"D\",\"57\":\"B\",\"58\":\"B\",\"60\":\"A\",\"61\":\"B\",\"62\":\"B\",\"63\":\"B\",\"64\":\"C\",\"65\":\"B\",\"66\":\"A\",\"67\":\"B\",\"68\":\"B\",\"69\":\"B\",\"72\":\"B\",\"73\":\"B\",\"75\":\"B\",\"81\":\"B\",\"82\":\"B\",\"85\":\"B\",\"86\":\"E\",\"89\":\"B\",\"90\":\"B\",\"91\":\"D\",\"94\":\"B\",\"96\":\"B\",\"97\":\"B\",\"98\":\"B\",\"99\":\"B\"}', '65913,65914', 12),
@@ -13424,16 +13424,13 @@ INSERT INTO `observacion` (`codObservacion`, `notaObservacion`, `codTipoObservac
 (21, 'está sospechoso', 2, 100, 3),
 (22, 'yara', 1, 100, 3),
 (23, 'haaaga', 1, 100, 3),
-(24, 'dsa', 1, 100, 2),
-(26, 'Raro', 2, 100, 1),
-(27, 'Es muy extraño...', 1, 100, 3),
-(28, 'rara', 3, 100, 3);
+(24, 'dsa', 1, 100, 2);
 
 --
 -- Disparadores `observacion`
 --
 DELIMITER $$
-CREATE TRIGGER `observacion_AFTER_UPDATE` AFTER UPDATE ON `observacion` FOR EACH ROW BEGIN
+CREATE TRIGGER `anularExamenesDeObservacion` AFTER UPDATE ON `observacion` FOR EACH ROW BEGIN
 	DECLARE codExamenPostulanteAnulado int;
 	DECLARE var_final INTEGER DEFAULT 0;
 	
@@ -13464,13 +13461,15 @@ CREATE TRIGGER `observacion_AFTER_UPDATE` AFTER UPDATE ON `observacion` FOR EACH
 	-- consulta select que retorna la lista de examen_postulante que están involucrados en cierta observacion de tipo PostulantesElevados
 	declare cursor_examenPostulante_postulanteselevados CURSOR FOR (
 		select PE.codPostulanteElevado, EP.codExamenPostulante, O.codObservacion from postulantes_elevados PE
-			inner join examen_postulante EP on PE.codExamenPostulante = EP.codExamenPostulante
+			inner join examen_postulante EP on 
+				PE.vectorExamenPostulante like concat('%',EP.codExamenPostulante,',%')
+			or 	PE.vectorExamenPostulante like concat('%,',EP.codExamenPostulante,'%')
 			INNER join observacion O on O.codObservacion = PE.codObservacion
 			where O.codObservacion = NEW.codObservacion
 		);
 	-- 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET var_final = 1;
-	
+
 	IF NEW.codEstado = 3 THEN
 		case OLD.codTipoObservacion
 			WHEN 1 THEN  -- GrupoPatron
@@ -13664,7 +13663,7 @@ INSERT INTO `postulantes_elevados` (`codPostulanteElevado`, `porcentajeElevacion
 (104, '1.2872301243489', 73.394, 63637, 100, 65984, NULL),
 (105, '0.94057224521392', 63.182, 62273, 100, 65985, NULL),
 (106, '0.82461031738006', 57.082, 63572, 100, 65986, NULL),
-(107, '0.80161202516332', 53.009, 63933, 100, 65988, 28),
+(107, '0.80161202516332', 53.009, 63933, 100, 65988, NULL),
 (108, '0.81049217141788', 51.972, 63601, 100, 65990, NULL),
 (109, '1.1334198572356', 61.131, 63657, 100, 65992, NULL),
 (110, '1.2108246480161', 52.976, 59311, 100, 66001, NULL),
@@ -19822,7 +19821,7 @@ ALTER TABLE `modalidad`
 -- AUTO_INCREMENT de la tabla `observacion`
 --
 ALTER TABLE `observacion`
-  MODIFY `codObservacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `codObservacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `parametros`

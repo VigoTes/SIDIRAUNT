@@ -5,126 +5,23 @@
 
 @section('contenido')
 <br>
+
+<h2 class="text-center">
+    Reporte irregularidades
+    
+     
+        <a href="{{route("Examen.ReporteIrregularidadesPDF",$examen->codExamen)}}" class='btn btn-success fontSize9'  >
+            <i class="fas fa-file-download"></i> 
+            PDF
+        </a>
+ 
+</h2>
+
+
+
+@include('Examenes.HeaderExamen')
 @include('Layout.MensajeEmergenteDatos')
-<div class="card">
-    <!--
-    <div class="card-header border-0">
-        <div class="d-flex justify-content-between">
-        <h3 class="card-title">Sales</h3>
-        <a href="javascript:void(0);">View Report</a>
-        </div>
-    </div>
-    -->
 
-    <div class="card-body">
-        <div class="d-flex">
-            <div class="row">
-                <div class="col-1">
-                    <label class="" style="margin-top: 6px" >Año:</label>
-                </div>  
-                <div class="col-2">    
-                    <div class="">
-                        <input type="text" class="form-control"  
-                            value="{{$examen->año}}"  readonly>
-                    </div>
-                </div>
-                <div class="col-1">
-                    <label class="" style="margin-top: 6px" >Fecha:</label>
-                </div>  
-                <div class="col-2">    
-                    <div class="">
-                        <input type="text" class="form-control"  
-                            value="{{$examen->fechaRendicion}}"  readonly>
-                    </div>
-                </div>
-                <div class="col-1">
-                    <label class="" style="margin-top: 6px" >Asistentes:</label>
-                </div>  
-                <div class="col-2">    
-                    <div class="">
-                        <input type="text" class="form-control"  
-                            value="{{$examen->asistentes}}"  readonly>
-                    </div>
-                </div>
-                <div class="col">    
-                    <a href="{{route("Examen.ReporteIrregularidadesPDF",$examen->codExamen)}}" class='btn btn-success float-right' style="margin-left: 5px">
-                        <i class="fas fa-file-download"></i> Reporte
-                    </a>
-                </div>
-
-                <div class="w-100"> <br> </div>
-
-                <div class="col-1">
-                    <label class="" style="margin-top: 6px" >Modalidad:</label>
-                </div>  
-                <div class="col-2">    
-                    <div class="">
-                        <input type="text" class="form-control"  
-                            value="{{$examen->getModalidad()->nombre}}"  readonly>
-                    </div>
-                </div>
-                <div class="col-1">
-                    <label class="" style="margin-top: 6px" >#Vacantes:</label>
-                </div>  
-                <div class="col-2">    
-                    <div class="">
-                        <input type="text" class="form-control"  
-                            value="{{$examen->nroVacantes}}"  readonly>
-                    </div>
-                </div>
-                <div class="col-1">
-                    <label class="" style="margin-top: 6px" >Ausentes:</label>
-                </div>  
-                <div class="col-2">    
-                    <div class="">
-                        <input type="text" class="form-control"  
-                            value="{{$examen->ausentes}}"  readonly>
-                    </div>
-                </div>
-                
-
-                <div class="w-100"> <br> </div>
-
-                <div class="col-1">
-                    <label class="" style="margin-top: 6px" >Área:</label>
-                </div>  
-                <div class="col-2">    
-                    <div class="">
-                        <input type="text" class="form-control"  
-                            value="{{$examen->getArea()->area}}"  readonly>
-                    </div>
-                </div>
-                <div class="col-1">
-                    <label class="" style="margin-top: 6px" >#Postulantes:</label>
-                </div>  
-                <div class="col-2">    
-                    <div class="">
-                        <input type="text" class="form-control"  
-                            value="{{$examen->nroPostulantes}}"  readonly>
-                    </div>
-                </div>
-                <div class="col-1">
-                    <label class="" style="line-height : 15px;">Tasa Ausentismo:</label>
-                </div>  
-                <div class="col-2">    
-                    <div class="">
-                        <input type="text" class="form-control"  
-                            value="{{$examen->ausentes/$examen->nroPostulantes}} %"  readonly>
-                    </div>
-                </div>
-                <div class="col">    
-                    <a href="{{route('Examen.descargarPDF',$examen->codExamen)}}" class='btn btn-success float-right' style="margin-left: 5px">
-                        <i class="fas fa-file-download"></i> Bajar Examen
-                    </a>
-                    <a target="blank-1"  href="{{route('Examen.VerPDF',$examen->codExamen)}}" class='btn btn-success float-right'>
-                        <i class="fas fa-file-pdf"></i> Ver Examen
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
 <div class="card">
     <div class="card-body">
         <div class="row">
@@ -202,7 +99,7 @@
             </thead>
             <tbody>
                 @foreach($gruposIguales as $itemGrupo)
-                <tr>
+                <tr style="background-color:{{$itemGrupo->getColorFila()}}">
                     <td>{{$itemGrupo->identificador()}}</td>
                     <td>{{$itemGrupo->cantidadPostulantes()}}</td>
                     <td>{{$itemGrupo->puntajeAP}}</td>
@@ -252,7 +149,7 @@
             </thead>
             <tbody>
                 @foreach($gruposPatron as $itemGrupo)
-                <tr>
+                <tr style="background-color: {{$itemGrupo->getColorFila()}}">
                     <td>{{$itemGrupo->identificador()}}</td>
                     <td>{{$itemGrupo->cantidadPostulantes()}}</td>
                     <td>{{$itemGrupo->nroCorrectas+$itemGrupo->nroIncorrectas}}</td>
@@ -261,6 +158,9 @@
                         <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalGrupoRespuestasIguales({{$itemGrupo->codGrupoPatron}})"
                             data-toggle="modal" data-target="#ModalGrupoRespuestasIguales"><i class="fas fa-eye"></i>
                         </button>
+
+
+                        
                     </td>
                 </tr>
                 @endforeach
@@ -291,30 +191,49 @@
         <table class="table table-sm">
             <thead class="thead-dark">
                 <tr>
+                    <th>Carnet</th>
                     <th>Nombre</th>
                     <th>Código Postulante</th>
                     <th>Carrera</th>
                     <th>Puntaje Anterior</th>
                     <th>Puntaje Actual</th>
-                    <th>Historial</th>
-                    <th>Preguntas</th>
+                    <th>Diferencia %</th>
+                    <th>Perfil</th>
+                    <th>Respuestas</th>
+                    <th>Diferencias</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($postulantesElevados as $itemPostulante)
-                <tr>
-                    <td>{{$itemPostulante->postulante()->apellidosYnombres}}</td>
-                    <td>{{$itemPostulante->postulante()->codUsuario}}</td>
-                    <td>{{$itemPostulante->examenActual()->getCarrera()->nombre}}</td>
-                    <td>{{$itemPostulante->examenAnterior()->puntajeTotal}}</td>
-                    <td>{{$itemPostulante->examenActual()->puntajeTotal}}</td>
+                @foreach($postulantesElevados as $itemPostElevado)
+                <tr style="background-color:{{$itemPostElevado->getColorFila()}}">
+                    
+                    <td>{{$itemPostElevado->examenActual()->nroCarnet}}</td>
+
+                    <td>{{$itemPostElevado->postulante()->apellidosYnombres}}</td>
+                    <td>{{$itemPostElevado->postulante()->codUsuario}}</td>
+                    <td>{{$itemPostElevado->examenActual()->getCarrera()->nombre}}</td>
+                    <td>{{$itemPostElevado->examenAnterior()->puntajeTotal}}</td>
+              
+                    <td>{{$itemPostElevado->examenActual()->puntajeTotal}}</td>
+                    <td>{{number_format($itemPostElevado->porcentajeElevacion*100,2)}}%</td>
                     <td>
-                        <a href="{{route("Examen.VerReporteIrregularidades.VerHistorialPostulante",$itemPostulante->codExamenPostulante)}}" class="btn btn-warning btn-sm" title="Ver Reposición"><i class="fas fa-eye"></i></a>
+                        <a href="{{route("Examen.VerReporteIrregularidades.VerHistorialPostulante",$itemPostElevado->codExamenPostulante)}}" 
+                            class="btn btn-warning btn-sm" title="Ver Reposición">
+                            <i class="fas fa-eye"></i>
+                        </a>
                     </td>
                     <td>
-                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante({{$itemPostulante->codExamenPostulante}},{{$itemPostulante->postulante()->codUsuario}})"
-                            data-toggle="modal" data-target="#ModalPreguntasDePostulante"><i class="fas fa-list-ol"></i>
+                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante({{$itemPostElevado->codExamenPostulante}},{{$itemPostElevado->postulante()->codUsuario}})"
+                            data-toggle="modal" data-target="#ModalPreguntasDePostulante">
+                            <i class="fas fa-list-ol"></i>
                         </button>
+                    </td>
+                    <td>
+                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalDiferenciasPostulanteElevado({{$itemPostElevado->codPostulanteElevado}} )"
+                            data-toggle="modal" data-target="#ModalDiferenciasPostulanteElevado">
+                            <i class="fas fa-balance-scale"></i>
+                        </button>
+
                     </td>
                 </tr>
                 @endforeach
@@ -397,6 +316,32 @@
 </div>
 
 
+{{-- MODALE DE DIFERENCIAS DE UN POSTULANTE ELEVADO
+    Aqui se mostrará un resumen del perfil del postulante y un grafico pequeño de su evolucion del anterior a este examen
+    y de cuanto fue su subida %
+    --}}
+<div class="modal fade" id="ModalDiferenciasPostulanteElevado" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TitleModalDiferenciasPostulanteElevado"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="BodyModalDiferenciasPostulanteElevado"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 {{-- MODALE DE CONFIRMACION --}}
 <div class="modal fade" id="ModalConfirmacion" tabindex="-1" aria-labelledby="" aria-hidden="true">
@@ -465,6 +410,46 @@
         </div>
     </div>
 </div>
+
+
+{{-- MODALE DE OBSERVACION --}}
+<div class="modal fade" id="ModalObservacion" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TitleModalObservar"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="">
+                <div class="row">
+                    <input type="hidden" id="tipoObservacion" name="tipoObservacion">
+                    <input type="hidden" id="codigoAObservar" name="codigoAObservar">
+                    <div class="col">
+                        <label for="">
+                            Razón de la observación:
+                        </label>
+                        <textarea name="NotaObservacion" class="form-control" id="NotaObservacion" cols="30" rows="4" placeholder="..."></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="guardarObservacion()" >
+                    Guardar observación
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 @endsection
 @include('Layout.ValidatorJS')
@@ -536,10 +521,127 @@
     function actualizarModalPreguntasDePostulante(codExamenPostulante,codUsuario){
         limpiarModal('TitlePreguntasDePostulante','BodyPreguntasDePostulante');
 
-        document.getElementById('TitlePreguntasDePostulante').innerHTML="Preguntas respondidas - Postulante "+completarZeros(codUsuario,7)+" - Examen {{$examen->getModalidad()->nombre}} {{$examen->periodo}}";
+        document.getElementById('TitlePreguntasDePostulante').innerHTML="Preguntas respondidas - Postulante "+
+            completarZeros(codUsuario,7)+
+            " - Examen {{$examen->getModalidad()->nombre}} {{$examen->periodo}}";
         obtenerModal('/Examen/VerReporteIrregularidades/'+codExamenPostulante+'/ModalPreguntasDePostulante','BodyPreguntasDePostulante');
         
     }
+
+
+
+    function actualizarModalDiferenciasPostulanteElevado(codPostulanteElevado){
+
+        limpiarModal('TitleModalDiferenciasPostulanteElevado','BodyModalDiferenciasPostulanteElevado');
+        document.getElementById('TitleModalDiferenciasPostulanteElevado').innerHTML="Postulante con crecimiento anormal "+
+            completarZeros(codPostulanteElevado,7)+
+            " - Examen {{$examen->getModalidad()->nombre}} {{$examen->periodo}}";
+        obtenerModal('/Examen/VerReporteIrregularidades/'+codPostulanteElevado+'/ModalPostulanteElevado','BodyModalDiferenciasPostulanteElevado');
+        
+    }
+
+
+
+    /* OBSERVACION */
+    /* Todos manejan el mismo modal, pero con valores distintos */
+
+    function limpiarModalObservacion(){
+        
+        document.getElementById('TitleModalObservar').innerHTML = "";
+        document.getElementById('NotaObservacion').value = "";
+        document.getElementById('tipoObservacion').value = "";
+        document.getElementById('codigoAObservar').value = "";
+        
+    }
+
+    function clickModalObservarGrupoPatron(codGrupo){
+        limpiarModalObservacion();
+
+        document.getElementById('tipoObservacion').value = "GrupoPatron";
+        document.getElementById('codigoAObservar').value = codGrupo;
+        
+
+        document.getElementById('TitleModalObservar').innerHTML="Observar Grupo de respuestas iguales -"+
+            completarZeros(codGrupo,7)+
+            " - Examen {{$examen->getModalidad()->nombre}} {{$examen->periodo}}";
+
+    }
+
+    function clickModalObservarExamenesIguales(codGrupo){
+        limpiarModalObservacion();
+
+        document.getElementById('tipoObservacion').value = "ExamenesIguales";
+        document.getElementById('codigoAObservar').value = codGrupo;
+        
+        document.getElementById('TitleModalObservar').innerHTML="Observar Grupo de Examenes idénticos -"+
+            completarZeros(codGrupo,7)+
+            " - Examen {{$examen->getModalidad()->nombre}} {{$examen->periodo}}";
+
+
+    }
+
+    function clickModalObservarPostulantesElevados(codPostulanteElevado){
+        limpiarModalObservacion();
+        
+        document.getElementById('tipoObservacion').value = "PostulantesElevados";
+        document.getElementById('codigoAObservar').value = codPostulanteElevado;
+        
+        document.getElementById('TitleModalObservar').innerHTML="Observar Postulante elevado -"+
+            completarZeros(codPostulanteElevado,7)+
+            " - Examen {{$examen->getModalidad()->nombre}} {{$examen->periodo}}";
+
+
+
+    }
+
+
+    //guarda la observacion en la bd
+    function guardarObservacion(){
+        notaObservacion = document.getElementById('NotaObservacion').value;
+
+        tipoObservacion = document.getElementById('tipoObservacion').value;
+        codigoAObservar = document.getElementById('codigoAObservar').value;
+        Ruta = "/Examen/ObservarAlgo/" + tipoObservacion + "*" + codigoAObservar + "*" + notaObservacion;
+        location.href=Ruta;
+
+    }
+
+    codObservacionAEliminar = 0;
+    function clickCancelarObservacion(codObservacion){
+        codObservacionAEliminar = codObservacion;
+        confirmarConMensaje("Confirmación",
+            "¿Desea cancelar la observación seleccionada?<br> No quedará rastro de que fue observada.","warning",ejecutarCancelarObservacion);
+    }
+    function ejecutarCancelarObservacion(){
+        location.href = "/Examen/eliminarObservacion/" + codObservacionAEliminar;
+    }
+
+
+
+    codObservacionAAnular=0;
+    function clickAnularObservacion(codObservacion){
+        codObservacionAAnular = codObservacion;
+
+        confirmarConMensaje("Confirmación",
+            "¿Desea anular las postulaciones relacionadas a esta observación?","warning",ejecutarAnulacion);
+    }
+    function ejecutarAnulacion(){
+        location.href = "/Examen/anularExamenesObservacion/" + codObservacionAAnular;
+    }
+
+
+    codObservacionADejarPasar=0;
+    function clickDejarPasarObservacion(codObservacion){
+        codObservacionADejarPasar = codObservacion;
+
+        confirmarConMensaje("Confirmación",
+            "¿Desea dejar pasar la observación y su irregularidad?","warning",ejecutarDejarPasarObservacion);
+    }
+    function ejecutarDejarPasarObservacion(){
+        location.href = "/Examen/pasarObservacion/" + codObservacionADejarPasar;
+    }
+
+
 </script>
 <script src="../../plugins/chart.js/Chart.min.js"></script>
 <script type="text/javascript">

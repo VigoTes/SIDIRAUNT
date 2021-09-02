@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GrupoPatron extends Model
+class GrupoPatron extends ElementoAnalisis
 {
     protected $table = "grupo_patron";
     protected $primaryKey = "codGrupoPatron";
@@ -14,6 +14,8 @@ class GrupoPatron extends Model
     protected $fillable = [
        'codAnalisis','nroIncorrectas','nroCorrectas','puntajeAdquirido','respuestasCoincidentesJSON','vectorExamenPostulante'
     ];
+
+   
 
 
     public function identificador(){

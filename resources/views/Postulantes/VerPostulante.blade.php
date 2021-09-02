@@ -248,7 +248,9 @@
       //var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
   
       var areaChartData = {
-        labels  : <?php echo json_encode($periodos); ?>,
+        labels  : @php
+        echo json_encode($periodos);
+        @endphp,
         datasets: [
           {
             label               : 'Puntaje APT',

@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Actor;
 use App\Http\Controllers\Controller;
+use App\Parametros;
 use Illuminate\Http\Request;
 
 class PostulanteController extends Controller
 {
-    const PAGINATION = 20;
-
+     
     public function listar(Request $request){
 
 
@@ -20,16 +20,16 @@ class PostulanteController extends Controller
             $listaPostulantes = $listaPostulantes->where('apellidosYnombres','like','%'.$request->nombresYapellidos.'%');
             $nombresYapellidos = $request->nombresYapellidos;
         }
-
-        $listaPostulantes = $listaPostulantes->paginate($this::PAGINATION);
+        
+        $listaPostulantes = $listaPostulantes->paginate(Parametros::getTasa('paginacionListarPostulantes'));
 
         return view('Postulantes.ListarPostulantes',compact('listaPostulantes','nombresYapellidos'));
 
     }
 
 
-    public function verPerfil($codPostulante){
-        $postulante = Actor::findOrFail($codPostulante);
+    public function verPerfil($codActor){
+        $postulante = Actor::findOrFail($codActor);
 
         $puntajesAPT=[];
         $puntajesCON=[];

@@ -1,0 +1,27 @@
+
+Urgentes que dijo el profe:
+    ✔ Al momento de decidir sobre irregularidades, esto debe ser a nivel de cada examen @done(24-08-21 17:21)
+    ☐ Mejorar los gráficos porque no se entienden
+    ☐ Corregir titulo
+    ✔ Crear trigger y funcion para la tarea @done(29-08-21 18:33)
+Actividades:
+    ☐ Que no se pueda tomar decision sobre el examen si hay observaciones pendientes ('Planteada')
+    ☐ Separar actores por vistas
+    ✔ Integrar bot de telegram @done(29-08-21 20:06)
+    ☐ Mejorar algoritmo de identificacion de patrones ()
+        ☐ Mejorar eficiencia (tiempo que demora)
+        ☐ Que identifique grupos de más de 2
+    ☐ Añadir formula en vista tasas
+    ☐ Conseguir PDFs de los Examenes que tenemos 
+    ☐ Evaluar si eliminamos la tabla analisis_examen
+    ✔ La cantidad de Pagination debe poder editarse en la bd @done(29-08-21 21:11)
+    ☐ Vista postulantes añadir filtros como:
+        Cantidad de veces que postuló, partició en X examen, postuló alguna vez a cierta carrera
+    
+    ✔ Añadir lógica de la distribución de un examen (solo mostrar en la web) Resultó que en todos los examenes es 30apt y 70con @done(23-08-21 17:12)
+    ☐ Añadir lógica para ver cierta pregunta en la web
+    ☐ Tratar de cambiar el menú lateral por uno superior
+    ✔ Envio de mensaje a telegram cuando hay una irregularidad @done(29-08-21 21:12)
+    ☐ Añadir manejo de excepciones
+    ☐ Historial y perfil son lo mismo, corregir URLs que los diferencnan
+    ☐ Cambiar nombre a mi bot

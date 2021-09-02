@@ -22,10 +22,34 @@ class Actor extends Model
         return TipoActor::findOrFail($this->codTipoActor);
     }
 
+    public function verificarActor($nombreActor){
+
+
+        return $this->getTipoActor()->nombre == $nombreActor;
+
+        /* 
+       
+     */
+
+    }
     public function getExamenPostulante($codExamen){
         return ExamenPostulante::where('codExamen','=',$codExamen)->where('codActor','=',$this->codActor)->get()[0];
     }
 
+
+    public static function esDirectorAdmision(){
+        if(is_null(Auth::id())){
+            return false;
+        }else{
+            $actor=Actor::getActorLogeado();
+            if($actor->codTipoActor==3){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+    } 
 
     public static function esConsejoUniversitario(){
         if(is_null(Auth::id())){

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Examen extends Model
 {
@@ -40,7 +41,12 @@ class Examen extends Model
         return "Examen-".Debug::rellernarCerosIzq($this->codExamen,6)."-examenEscaneado.pdf";
     }
 
+
+    public function getTasaAusentismo(){
+        
+        return number_format($this->ausentes*100/$this->nroPostulantes,4);
     
+    }
 
     public function getFechaRendicion(){
 
@@ -249,12 +255,28 @@ class Examen extends Model
     //obtiene un string de tipo "_ABBBBBBBBABBBBBBBBBABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBD
     
     public function getStringRespuestas(){
+        
+        
+        
+        /* PHP */
+        /* 
         $listaPreguntas = Pregunta::where('codExamen','=',$this->codExamen)->get();
         $cadena = "";
         foreach ($listaPreguntas as $pregunta) {
             $cadena = $cadena.$pregunta->respuestaCorrecta;
         }
         return "_".$cadena;
+ */
+
+        /* MYSQL MEDIANTE EJECUCIÓN DE LA FUNCION obtenerRespuestas */
+        $codExamen = $this->codExamen;
+        $sentenciaSQL = "select obtenerRespuestas($codExamen) as 'Resultado'";
+
+        $jsonResultado = json_encode(DB::select($sentenciaSQL)[0]);
+        
+        $resultado = json_decode($jsonResultado,true)['Resultado'];
+        return $resultado;
+
     }
 
 

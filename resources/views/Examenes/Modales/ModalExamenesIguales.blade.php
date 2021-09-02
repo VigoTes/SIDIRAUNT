@@ -127,6 +127,7 @@
                         <th>Codigo</th>
                         <th>Nombres Y Apellidos</th>
                         <th>Carrera</th>
+                        <th>Perfil</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,12 +136,81 @@
                         <td>{{$itemPostulante->codActor}}</td>
                         <td>{{$itemPostulante->apellidosYnombres}}</td>
                         <td>{{$itemPostulante->getExamenPostulante($analisis->codExamen)->getCarrera()->nombre}}</td>
+                        <td>
+                            
+                            <a href="{{route('Postulante.VerPerfil',$itemPostulante->codActor)}}" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                           
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+            <div class="row">
+                            
+                @if($grupoIguales->estaObservado())
+                    
+                    <div class="col">
+                        
+                        <b>
+                            Este grupo fue observado con la siguiente nota:
+                        </b>
+                        <textarea class="form-control" name="" readonly id="" cols="30" rows="3"
+                        >{{$grupoIguales->getObservacion()->notaObservacion}}</textarea>
+                        <label for="">Estado de la observación:</label>
+                        <input type="text" class="form-control" value="{{$grupoIguales->getObservacion()->getEstado()->nombre}}" readonly>
+                                
+                        <div class="row ">
+                             
+                            
+                            @if($grupoIguales->getObservacion()->estaPlanteada())
+                                <div class="col">
+                                    <button type="button" id="" class="btn btn-danger btn-sm m-1" title="Se elimina que este registro estuvo observado alguna  vez."
+                                    onclick="clickCancelarObservacion({{$grupoIguales->codObservacion}})">
+                                    <i class="fas fa-minus-circle"></i>
+                                        Eliminar Observación
+                                    </button>
+                                
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col">
+                                    <button type="button" id="" class="btn btn-info btn-sm m-1" onclick="clickDejarPasarObservacion({{$grupoIguales->codObservacion}})">
+                                        <i class="fas fa-check"></i>
+                                        Dejar pasar irregularidad
+                                    </button>
+    
+                                </div>
+                                <div class="col">
+                                    <button type="button" id="" class="btn btn-danger btn-sm m-1" onclick="clickAnularObservacion({{$grupoIguales->codObservacion}})">
+                                        <i class="fas fa-ban"></i>
+                                        Anular postulaciones
+                                    </button>
+                                </div>
+                               
+                               
+
+                            @endif
+ 
+                          
+                        </div>
+                    </div>
+                   
+                @else
+                    <div class="col text-center">
+
+                        <button type="button" id="" class="btn btn-danger" onclick="clickModalObservarExamenesIguales({{$grupoIguales->codGrupo}})"
+                            data-toggle="modal" data-target="#ModalObservacion"> 
+                            Observar Grupo
+                            <i class="fas fa-exclamation-circle"></i>
+                            
+                        </button>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-3">
             <small class="badge badge-success">CORRECTA</small>

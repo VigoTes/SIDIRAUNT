@@ -12,6 +12,9 @@
   </div>
 @endsection
 
+@php
+  $esDirectorAdmision = App\Actor::esDirectorAdmision();
+@endphp
 
 @section('contenido')
 <style>
@@ -38,19 +41,27 @@
 
 
   <br>
-    
-    <div class="row">
-      <div class="col-md-2">
-        <a href="{{route('Examen.Director.Crear')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
-          <i class="fas fa-plus"> </i> 
-            Registrar examen
-        </a>
-      </div>
- 
+    @if(App\Actor::hayActorLogeado())
+      
+      @if(App\Actor::getActorLogeado()->esDirectorAdmision())
+        
+      <div class="row">
+        <div class="col-md-2">
+          <a href="{{route('Examen.Director.Crear')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
+            <i class="fas fa-plus"> </i> 
+              Registrar examen
+          </a>
+        </div>
+
+        @endif
+
+    @endif
+ {{-- 
+
       <a href="/borrarTodo" class = "btn btn-danger" style="margin-bottom: 5px;"> 
         <i class="fas fa-trash"> </i> 
           Borrar datos de exámenes y análisis
-      </a>  
+      </a>   --}}
 
       
 
@@ -93,11 +104,17 @@
     <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
       <thead class="thead-dark">
         <tr>
-           <th>Periodo</th>
-            <th>Fecha</th>
-           <th>Modalidad</th>
+          <th>Periodo</th>
+          <th>Fecha Rendición</th>
+          <th>Modalidad</th>
+          <th>Nro Postulantes</th>
+          <th>Sede</th>
+
+          @if($esDirectorAdmision)
+              <th>Estado</th>
+              
+          @endif
           
-         <th>Estado</th>
           <th>Opciones</th>
         </tr>
       </thead>
@@ -110,63 +127,75 @@
                 {{$itemExamen->periodo}}
               </td>
               <td>
-                {{$itemExamen->fechaRendicion}}
+                {{$itemExamen->getFechaRendicion()}}
               </td>
               <td>
                 {{$itemExamen->getModalidad()->nombre}}
               </td>
+              <td>
+                {{$itemExamen->nroPostulantes}}
+
+              </td>
+              <td>
+                {{$itemExamen->getSede()->nombre}}
+              </td>
+             
  
+              @if($esDirectorAdmision)
+                <td>
+                  {{$itemExamen->getEstado()->descripcion}}
+                </td>
+              @endif
+                              
+                <td>
 
-              <td>
-                {{$itemExamen->getEstado()->descripcion}}
-              </td>
-              <td>
-
-                @if($itemExamen->tieneResultados())
-                  <a class="btn btn-success btn-sm" href="{{route('Examen.VerPostulantes',$itemExamen->codExamen)}}">
-                    Ver postulantes
-                  </a>
-                    
-                @endif
-
-
-                @if($itemExamen->verificarEstado('Creado'))
-                    <a class="btn btn-success btn-sm" href="{{route('Examen.Director.VerCargar',$itemExamen->codExamen)}}">
-                        Cargar resultados
-                    </a>
-                @endif
-
-                @if($itemExamen->verificarEstado('Archivos Cargados'))
-                  <a onclick="clickPrepararArchivos({{$itemExamen->codExamen}})"  href="#" class="btn btn-success" >
-                    <i class="fas"></i>
-                        Preparar Archivos
-                  </a>
-                @endif
-
-
-                @if($itemExamen->verificarEstado('Archivos Preparados'))
-                  <button type="button" onclick="clickLeerDatos({{$itemExamen->codExamen}})" class="btn btn-success btn-sm" href="">
-                    Leer Datos
-                  </button>
-                @endif
-                
-
-                @if($itemExamen->verificarEstado('Datos Insertados'))
-                    <button type="button" onclick="clickIniciarAnalisis({{$itemExamen->codExamen}})" class="btn btn-success btn-sm" href="">
-                      Iniciar análisis
-                    </button>
-                @endif
-                    
                   
-                @if($itemExamen->tieneAnalisis())
-                  <a class="btn btn-info btn-sm" href="{{route('Examen.VerReporteIrregularidades',$itemExamen->codExamen)}}">
-                    Reporte Irregularidades
-                  </a>
-                @endif
-           
+                    @if($itemExamen->tieneResultados())
+                      <a class="btn btn-success btn-sm" href="{{route('Examen.VerPostulantes',$itemExamen->codExamen)}}">
+                        Ver postulantes
+                      </a>
+                    @endif
 
-              </td>
-      
+                  @if($esDirectorAdmision)
+                    
+                    @if($itemExamen->verificarEstado('Creado'))
+                        <a class="btn btn-success btn-sm" href="{{route('Examen.Director.VerCargar',$itemExamen->codExamen)}}">
+                            Cargar resultados
+                        </a>
+                    @endif
+
+                    @if($itemExamen->verificarEstado('Archivos Cargados'))
+                      <a onclick="clickPrepararArchivos({{$itemExamen->codExamen}})"  href="#" class="btn btn-success" >
+                        <i class="fas"></i>
+                            Preparar Archivos
+                      </a>
+                    @endif
+
+
+                    @if($itemExamen->verificarEstado('Archivos Preparados'))
+                      <button type="button" onclick="clickLeerDatos({{$itemExamen->codExamen}})" class="btn btn-success btn-sm" href="">
+                        Leer Datos
+                      </button>
+                    @endif
+                    
+
+                    @if($itemExamen->verificarEstado('Datos Insertados'))
+                        <button type="button" onclick="clickIniciarAnalisis({{$itemExamen->codExamen}})" class="btn btn-success btn-sm" href="">
+                          Iniciar análisis
+                        </button>
+                    @endif
+                        
+                      
+                    @if($itemExamen->tieneAnalisis())
+                      <a class="btn btn-info btn-sm" href="{{route('Examen.VerReporteIrregularidades',$itemExamen->codExamen)}}">
+                        Reporte Irregularidades
+                      </a>
+                    @endif
+                  @endif
+                   
+
+                </td>
+              
             </tr>
         @endforeach
       </tbody>
