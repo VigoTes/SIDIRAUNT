@@ -217,7 +217,7 @@
                     <td>{{$itemPostElevado->examenActual()->puntajeTotal}}</td>
                     <td>{{number_format($itemPostElevado->porcentajeElevacion*100,2)}}%</td>
                     <td>
-                        <a href="{{route("Examen.VerReporteIrregularidades.VerHistorialPostulante",$itemPostElevado->codExamenPostulante)}}" 
+                        <a href="{{route("Postulante.VerPerfil",$itemPostElevado->postulante()->codActor)}}" 
                             class="btn btn-warning btn-sm" title="Ver Reposición">
                             <i class="fas fa-eye"></i>
                         </a>
@@ -241,15 +241,39 @@
         </table>
     </div>
 </div>
-<a href="{{route("Examen.Director.Listar")}}" class='btn btn-info'>
-    <i class="fas fa-arrow-left"></i> 
-    Regresar al Menú
-</a>
-@if($examen->codEstado!=4 && $examen->codEstado!=5 && App\Actor::esConsejoUniversitario())
-<button type="button" id="" class="btn btn-danger float-right"
-    data-toggle="modal" data-target="#ModalConfirmacion"><i class="fas fa-exclamation-triangle"></i> Registrar decision del CU
-</button>    
-@endif
+
+<div class="row">
+    <div class="col text-left">
+        <a href="{{route("Examen.Director.Listar")}}" class='btn btn-info'>
+            <i class="fas fa-arrow-left"></i> 
+            Regresar al Menú
+        </a>
+    </div>
+    <div class="col text-right">
+
+        @if($examen->codEstado!=4 && 
+            $examen->codEstado!=5 && 
+            App\Actor::esConsejoUniversitario()
+            )
+        
+            @if($examen->sePuedeDecidir())
+                <button type="button" id="" class="btn btn-danger"
+                    data-toggle="modal" data-target="#ModalConfirmacion">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    Registrar decision del CU
+                </button>  
+            @else
+                <label style="color:red" for="">
+                    Para registrar la decisión del C.U debe resolver las observaciones.
+                </label>
+            @endif
+          
+        @endif
+    </div>
+    
+</div>
+
+
 
 <br><br>
 

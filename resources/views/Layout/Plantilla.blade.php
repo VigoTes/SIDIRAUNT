@@ -208,10 +208,10 @@
                   
                 @break
               @case('Consejo Universitario')
-                  
+                  @include('Layout.MenuLateral.Consejo')
                 @break
               @case('Dirección de Sistemas y Comunicaciones')
-                @include('Layout.MenuLateral.DirectorAdmision')  {{-- Este tiene todo --}}
+                  @include('Layout.MenuLateral.DirectorAdmision')  {{-- Este tiene todo --}}
                 @break
             @endswitch
 

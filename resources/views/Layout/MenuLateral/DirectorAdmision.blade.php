@@ -46,6 +46,13 @@
                       <p>Sedes</p>
                     </a>
                   </li>
+               
+                  <li class="nav-item">
+                    <a href="{{route('Modalidades.Listar')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Modalidades</p>
+                    </a>
+                  </li>
             
     
             </ul>

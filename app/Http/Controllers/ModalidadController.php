@@ -11,14 +11,18 @@ class ModalidadController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     *  
+        
+        
+        
+         
      */
-    public function index()
+    public function Listar()
     {
 
         $modalidades = Modalidad::all();
 
-        return view('Modalidades.listar', compact('modalidades'));
+        return view('Modalidades.ListarModalidades', compact('modalidades'));
     }
 
     /**
@@ -26,9 +30,9 @@ class ModalidadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function Crear(Request $request)
     {
-        return view('Modalidades.crear');
+        return view('Modalidades.CrearModalidad');
     }
 
     /**
@@ -37,7 +41,7 @@ class ModalidadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function Guardar(Request $request)
     {
         $modalidad = new Modalidad();
         
@@ -45,33 +49,23 @@ class ModalidadController extends Controller
     
         $modalidad->save();
 
-        $message = 'Fue registrada la modalidad'. $modalidad->name .' exitosamente';
+        $datos = 'Fue registrada la modalidad'. $modalidad->name .' exitosamente';
 
-        return redirect()->route('modalidad')->with('message', $message);
+        return redirect()->route('Modalidades.Listar')->with('datos', $datos);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
+ 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function Editar($id)
     {
         $modalidad = Modalidad::find($id);
 
-        return view('Modalidad.editar', compact(['modalidad']));
+        return view('Modalidades.EditarModalidad', compact(['modalidad']));
     }
 
     /**
@@ -81,7 +75,7 @@ class ModalidadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function Actualizar(Request $request)
     {
         $modalidad = Modalidad::find(request()->codModalidad);
 
@@ -89,7 +83,7 @@ class ModalidadController extends Controller
 
         $modalidad->save();
 
-        return redirect()->route('modalidad')->with('message', 'Modalidad actualizada correctamente!');
+        return redirect()->route('Modalidades.Listar')->with('datos', 'Modalidad actualizada correctamente!');
 
     }
 
@@ -99,10 +93,10 @@ class ModalidadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function Eliminar($id)
     {
         Modalidad::destroy($id);
 
-        return redirect()->route('modalidad')->with('message', 'Registro eliminado correctamente!');
+        return redirect()->route('modalidad')->with('datos', 'Registro eliminado correctamente!');
     }
 }

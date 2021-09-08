@@ -75,10 +75,9 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
 Route::get('/probandoCosas',function(){
-     
-        return Examen::findOrFail(1)->getStringRespuestas();
-     //MaracsoftBot::enviarMensaje('hola');
-     
+
+    return Examen::findOrFail(4)->sePuedeDecidir();
+        
 });
 
 /* 
@@ -152,8 +151,10 @@ Route::get('/Examen/VerReporteIrregularidades/{codExamenPostulante}/ModalPregunt
 Route::get('/Examen/VerReporteIrregularidades/{codPostulanteElevado}/ModalPostulanteElevado','ExamenController@getModalPostulanteElevado');
 
 
-
-Route::get('/Examen/{codExamenPostulante}/Historial','ExamenController@VerHistorialPostulante')->name('Examen.VerReporteIrregularidades.VerHistorialPostulante');
+/* 
+Route::get('/Examen/{codExamenPostulante}/Historial','ExamenController@VerHistorialPostulante')
+    ->name('Examen.VerReporteIrregularidades.VerHistorialPostulante');
+ */
 Route::post('/Examen/Consejo/AprobarExamen','ExamenController@aprobarExamen')->name('Examen.Consejo.aprobarExamen');
 
 Route::get('/Examen/ObservarAlgo/{cadena}','ExamenController@ObservarAlgo'); // desde JS
@@ -164,20 +165,24 @@ Route::get('/Examen/pasarObservacion/{codObservacion}','ExamenController@pasarOb
 Route::get('/Examen/anularExamenesObservacion/{codObservacion}','ExamenController@anularExamenesObservacion');// desde JS
 
 
-Route::get('/Postulante/listar','PostulanteController@listar')->name('Postulante.Listar'); 
-Route::get('/Postulante/verPerfil/{codActor}','PostulanteController@verPerfil')->name('Postulante.VerPerfil'); 
-Route::get('/Postulante/descargarReportePostulantes','PostulanteController@exportarPostulantes')->name('Postulante.ExportarPostulantes'); 
+Route::get('/Postulante/listar','PostulanteController@listar')
+    ->name('Postulante.Listar'); 
+Route::get('/Postulante/verPerfil/{codActor}','PostulanteController@verPerfil')
+    ->name('Postulante.VerPerfil'); 
+    
+Route::get('/Postulante/descargarReportePostulantes','PostulanteController@exportarPostulantes')
+    ->name('Postulante.ExportarPostulantes'); 
 /*                     en realidad es codActor */
 
 
 
 // Modalidad 
-Route::get('/modalidad', 'ModalidadController@index')->name('modalidad');
-Route::get('/modalidad/{idmodalidad}/edit', 'ModalidadController@edit')->name('modalidad.editar');
-Route::get('/modalidad/{idmodalidad}/delete', 'ModalidadController@destroy')->name('modalidad.eliminar');
-Route::get('/modalidad/crear', 'ModalidadController@create')->name('modalidad.crear');
-Route::post('/modalidad/guardar', 'ModalidadController@store')->name('modalidad.guardar');
-Route::post('/modalidad/actualizar', 'ModalidadController@update')->name('modalidad.actualizar');
+Route::get('/Modalidades/Listar', 'ModalidadController@Listar')->name('Modalidades.Listar');
+Route::get('/Modalidades/{idmodalidad}/edit', 'ModalidadController@Editar')->name('Modalidades.Editar');
+Route::get('/Modalidades/{idmodalidad}/delete', 'ModalidadController@Eliminar')->name('Modalidades.Eliminar');
+Route::get('/Modalidades/crear', 'ModalidadController@Crear')->name('Modalidades.Crear');
+Route::post('/Modalidades/guardar', 'ModalidadController@Guardar')->name('Modalidades.Guardar');
+Route::post('/Modalidades/actualizar', 'ModalidadController@Actualizar')->name('Modalidades.Actualizar');
 
 // Sedes 
 Route::get('/sede', 'SedeController@index')->name('sede');

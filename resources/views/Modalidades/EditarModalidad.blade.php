@@ -5,6 +5,7 @@
 
 @section('contenido')
 
+@include('Layout.MensajeEmergenteDatos')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -12,13 +13,8 @@
                 <div class="card-header">Editar Modalidad</div>
 
                 <div class="card-body">
-                
-                @if (!empty($message))
-                    <div class="alert alert-success" role="alert">
-                        {{ $message }}
-                    </div>
-                @endif
-                <form method="post" id="modalidadForm" action="{{route('modalidad.actualizar')}}" role="form">
+                 
+                <form method="post" id="modalidadForm" action="{{route('Modalidades.Actualizar')}}" role="form">
                 {{ csrf_field() }}
                     <div class="row">                                
                         <input type="hidden" class="form-control input-sm" id="codModalidad" name="codModalidad" value="{{ $modalidad['codModalidad'] }}">
@@ -39,8 +35,15 @@
                         </div>
                     </div>
                     
-                        <button id="btn-regupd" type="submit" class="btn btn-success">Guardar</button>
-                        <a href="{{route('modalidad')}}"><button id="btn-regupd" class="btn btn-success" style="margin-left:15px;">Volver</button></a>
+                        <button id="btn-regupd" type="submit" class="btn btn-success">
+                            Guardar
+                        </button>
+                        <a href="{{route('Modalidades.Listar')}} " class="btn btn-success">
+                           
+                                Volver
+                       
+                        </a>
+
                 </form>
             </div>
         </div>

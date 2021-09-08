@@ -102,7 +102,8 @@ class AnalisisExamen extends Model
     */
     public function generarPreGruposPatron(){
         $cantidadMinimaDePuntajeAdquirido = 20;
-        $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)->where('puntajeTotal','>',$cantidadMinimaDePuntajeAdquirido)->get();
+        $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)
+        ->where('puntajeTotal','>',$cantidadMinimaDePuntajeAdquirido)->get();
         
         /*
             Recorremos el vector entero, 
@@ -128,18 +129,13 @@ class AnalisisExamen extends Model
             if($listaExamenes[$i]->puntajeTotal!=0){
                 $grupo = "";
                 for ($j=$i+1; $j < $cantidadExamenesPostulantes; $j++) {
-
-
-                    /* 
-                        ['posicion'=>'A']
-                    
-                    */
+                    // ['posicion'=>'A']
                     //en este vector las posiciones son las keys y las respuestas con los value
                     $vectorRespuestasIguales = ExamenPostulante::compararRespuestas($listaExamenes[$i]->respuestasJSON,$listaExamenes[$j]->respuestasJSON);
                     $cantRespuestasMarcadas = $listaExamenes[$i]->getCantidadRespuestasMarcadas();
                     
-                    if($cantRespuestasMarcadas*$tasa < count($vectorRespuestasIguales) && count($vectorRespuestasIguales) > $cantidadMinimaDePreguntasParaPatron
-                    ) 
+                    if($cantRespuestasMarcadas*$tasa < count($vectorRespuestasIguales) 
+                        && count($vectorRespuestasIguales) > $cantidadMinimaDePreguntasParaPatron) 
                     {
                         Debug::mensajeSimple('---------- IRREGULARIDAD DETECTADA nroCarnet:'.$listaExamenes[$i]->nroCarnet);
                         $listaGrupos = GrupoPatron::buscar($vectorRespuestasIguales,$this->codAnalisis); //vemos si ya hay un grupoPatron con ese JSON, aumentamos 1 en ese 
@@ -149,26 +145,18 @@ class AnalisisExamen extends Model
                             $grupo->añadirExamenPostulante($listaExamenes[$j]->codExamenPostulante);
                             //aunque lo pinte de rojo, cuando llega acá es pq ya es un objeto instanciado
 
-                        }
-                        else{
-
+                        }else{
                             $vectorCorrectasIncorrectasPuntajes = Examen::compararVectorEspecialPosiciones($vectorRespuestasIguales,$examen); 
-                            
                             if($vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'] > $cantidadMinimaDePuntajeAdquirido){
-                                    
                                 $grupo = new GrupoPatron();
                                 $grupo->codAnalisis = $this->codAnalisis;
                                 $grupo->nroCorrectas = $vectorCorrectasIncorrectasPuntajes['nroCorrectas'];
                                 $grupo->nroIncorrectas = $vectorCorrectasIncorrectasPuntajes['nroIncorrectas'];
                                 $grupo->puntajeAdquirido = $vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'];
                                 $grupo->respuestasCoincidentesJSON = json_encode($vectorRespuestasIguales);
-                                $grupo->vectorExamenPostulante = $listaExamenes[$i]->codExamenPostulante.",".$listaExamenes[$j]->codExamenPostulante;
-                                
+                                $grupo->vectorExamenPostulante = $listaExamenes[$i]->codExamenPostulante.",".$listaExamenes[$j]->codExamenPostulante;       
                             }
                         }
-
-
-                    
                     }//si 
                     else
                     {
@@ -389,9 +377,10 @@ class AnalisisExamen extends Model
 
 
         $tasaIrregularidad = 
-                $pesoTasaGI * $tasaGI + 
-                $pesoTasaGP*$tasaGP + 
-                $pesoTasaPE *$tasaPE;
+                ($pesoTasaGI * $tasaGI + 
+                $pesoTasaGP * $tasaGP + 
+                $pesoTasaPE *$tasaPE) /
+                                        ($pesoTasaGI + $pesoTasaGP + $pesoTasaPE) ;
 
         return [
             'tasaGI'=> $tasaGI,

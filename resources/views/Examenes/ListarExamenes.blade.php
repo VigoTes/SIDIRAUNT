@@ -14,6 +14,8 @@
 
 @php
   $esDirectorAdmision = App\Actor::esDirectorAdmision();
+  $esConsejo = App\Actor::esConsejoUniversitario();
+
 @endphp
 
 @section('contenido')
@@ -110,7 +112,7 @@
           <th>Nro Postulantes</th>
           <th>Sede</th>
 
-          @if($esDirectorAdmision)
+          @if($esDirectorAdmision || $esConsejo)
               <th>Estado</th>
               
           @endif
@@ -141,7 +143,7 @@
               </td>
              
  
-              @if($esDirectorAdmision)
+              @if($esDirectorAdmision || $esConsejo)
                 <td>
                   {{$itemExamen->getEstado()->descripcion}}
                 </td>
@@ -186,13 +188,16 @@
                     @endif
                         
                       
-                    @if($itemExamen->tieneAnalisis())
-                      <a class="btn btn-info btn-sm" href="{{route('Examen.VerReporteIrregularidades',$itemExamen->codExamen)}}">
-                        Reporte Irregularidades
-                      </a>
-                    @endif
+                    
                   @endif
-                   
+                  
+                  @if($esDirectorAdmision || $esConsejo)
+                      @if($itemExamen->tieneAnalisis() )
+                        <a class="btn btn-info btn-sm" href="{{route('Examen.VerReporteIrregularidades',$itemExamen->codExamen)}}">
+                          Reporte Irregularidades
+                        </a>
+                      @endif
+                  @endif
 
                 </td>
               
