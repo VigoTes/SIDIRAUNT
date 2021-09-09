@@ -144,7 +144,6 @@ class ExamenPostulante extends Model
 
 
     public function getTasaTolerancia($listaTasas){
-        
         foreach ($listaTasas as $tasa) {
             if($tasa->valorMinimo < $this->puntajeTotal && $this->puntajeTotal < $tasa->valorMaximo ){
                 return $tasa->valorTasa;

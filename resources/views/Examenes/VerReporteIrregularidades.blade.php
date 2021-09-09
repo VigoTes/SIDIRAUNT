@@ -531,13 +531,13 @@
     function actualizarModalExamenesIguales(codGrupo){
         limpiarModal('TitleExamenesIguales','BodyExamenesIguales');
 
-        document.getElementById('TitleExamenesIguales').innerHTML="Grupo "+completarZeros(codGrupo,4)+" - Exactamente Iguales";
+        document.getElementById('TitleExamenesIguales').innerHTML="Grupo "+completarZeros(codGrupo,8)+" - Exactamente Iguales";
         obtenerModal('/Examen/VerReporteIrregularidades/'+codGrupo+'/ModalExamenesIguales','BodyExamenesIguales');
     }
     function actualizarModalGrupoRespuestasIguales(codGrupo){
         limpiarModal('TitleGrupoRespuestasIguales','BodyGrupoRespuestasIguales');
 
-        document.getElementById('TitleGrupoRespuestasIguales').innerHTML="Patron "+completarZeros(codGrupo,4)+" - Grupo de respuestas iguales";
+        document.getElementById('TitleGrupoRespuestasIguales').innerHTML="Patron "+completarZeros(codGrupo,8)+" - Grupo de respuestas iguales";
         obtenerModal('/Examen/VerReporteIrregularidades/'+codGrupo+'/ModalGrupoRespuestasIguales','BodyGrupoRespuestasIguales');
     }
 
@@ -564,7 +564,7 @@
         
     }
 
-
+    
 
     /* OBSERVACION */
     /* Todos manejan el mismo modal, pero con valores distintos */

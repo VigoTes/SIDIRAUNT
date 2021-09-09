@@ -12,6 +12,8 @@ Actividades:
     ☐ Mejorar algoritmo de identificacion de patrones ()
         ☐ Mejorar eficiencia (tiempo que demora)
         ☐ Que identifique grupos de más de 2
+
+    ☐ Mejorar algoritmo Examen->generarCarrerasExamen (hace dms recorridos solo para las carreras)
     ✔ Añadir formula en vista tasas @done(07-09-21 23:18)
     ✔ Evaluar si eliminamos la tabla analisis_examen @done(07-09-21 23:18)
     ✔ CRUD Modalidades @done(07-09-21 23:18)

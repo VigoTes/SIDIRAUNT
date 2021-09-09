@@ -76,8 +76,11 @@ Route::get('/probarArchivos','ExamenController@procesarResultados')->name('proba
 
 Route::get('/probandoCosas',function(){
 
-    return Examen::findOrFail(4)->sePuedeDecidir();
+    $listaTasas= Tasa::All();
         
+    $ep = ExamenPostulante::findOrFail(78555);
+    return $ep->getTasaTolerancia($listaTasas);
+
 });
 
 /* 
@@ -86,7 +89,6 @@ Procedimiento en PHP:   _ABBBBBBBBABBBBBBBBBABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 */
  
 Route::get('/probandoCosas2',function(){
-    return TipoActor::All();
     
 });
 
@@ -132,6 +134,8 @@ Route::post('/Examen/Director/CargarResultados','ExamenController@cargarResultad
 
 Route::get('/Examen/{id}/Director/analizarExamen','ExamenController@analizarExamen')->name('Examen.Director.analizarExamen');
 Route::get('/Examen/{id}/Director/IniciarLecturaDatos','ExamenController@IniciarLecturaDatos')->name('Examen.Director.IniciarLecturaDatos');
+
+Route::get('/Examen/{id}/Resetear','ExamenController@resetear')->name('Examen.Director.Resetear');
 
 Route::get('/Examen/{id}/Director/PrepararArchivosExamen','ExamenController@PrepararArchivosExamen')->name('Examen.Director.PrepararArchivosExamen');
 Route::get('/Examen/{id}/descargarPDF/','ExamenController@descargarPDF')->name('Examen.descargarPDF');

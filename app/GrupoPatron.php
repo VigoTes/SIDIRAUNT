@@ -20,7 +20,7 @@ class GrupoPatron extends ElementoAnalisis
 
     public function identificador(){
         $number = $this->codGrupoPatron;
-        $length = 4;
+        $length = 8;
         return substr(str_repeat(0, $length).$number, - $length);
     }
     public function cantidadPostulantes(){

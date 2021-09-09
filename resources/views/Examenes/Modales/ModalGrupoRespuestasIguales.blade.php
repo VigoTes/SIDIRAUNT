@@ -99,23 +99,34 @@
                                     <th>Codigo</th>
                                     <th>Nombres Y Apellidos</th>
                                     <th>Carrera</th>
+                                    <th>Puntaje</th>
                                     <th>Perfil</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($postulantes as $itemPostulante)
-                                <tr>
-                                    <td>{{$itemPostulante->codActor}}</td>
-                                    <td>{{$itemPostulante->apellidosYnombres}}</td>
-                                    <td>{{$itemPostulante->getExamenPostulante($analisis->codExamen)->getCarrera()->nombre}}</td>
-                                    <td>
-                            
-                                        <a href="{{route('Postulante.VerPerfil',$itemPostulante->codActor)}}" class="btn btn-info btn-sm">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                       
-                                    </td>
-                                </tr>
+                                @foreach($postulantes as $itemExPostulante)
+                                
+                                    <tr>
+                                        <td>
+                                            {{$itemExPostulante->getActor()->codActor}}</td>
+                                        <td>
+                                            {{$itemExPostulante->getActor()->apellidosYnombres}}
+                                        </td>
+                                        <td>
+                                            {{$itemExPostulante->getCarrera()->nombre}}
+                                        </td>
+                                        <td>
+                                            {{$itemExPostulante->puntajeTotal}}
+                                        </td>
+                                        <td>
+                                            <a href="{{route('Postulante.VerPerfil',$itemExPostulante->codActor)}}" class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        
+                                        </td>
+                                    </tr>
+
+
                                 @endforeach
                             </tbody>
                         </table>

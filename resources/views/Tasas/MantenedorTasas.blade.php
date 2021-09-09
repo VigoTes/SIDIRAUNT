@@ -28,7 +28,7 @@
                             <tr>
                                 <td style="text-align: center">{{$itemTasa->valorMinimo}} - {{$itemTasa->valorMaximo}}</td>
                                 <td>
-                                    <input type="number" min="0.1" class="form-control" style="width: 30%;" value="{{$itemTasa->valorTasa}}" id="tasa{{$itemTasa->codTasa}}" name="tasa{{$itemTasa->codTasa}}">
+                                    <input type="number" step="0.01" class="form-control" style="width: 30%;" value="{{$itemTasa->valorTasa}}" id="tasa{{$itemTasa->codTasa}}" name="tasa{{$itemTasa->codTasa}}">
                                 </td>
                             </tr>
                         @endforeach 

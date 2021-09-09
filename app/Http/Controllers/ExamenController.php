@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actor;
 use App\AnalisisExamen;
 use App\Area;
+use App\CarreraExamen;
 use App\Debug;
 use App\EstadoExamen;
 use App\Examen;
@@ -197,13 +198,14 @@ class ExamenController extends Controller
         }
         //para los postulantes
         $examenPostulanteArr = explode(',', $grupoPatrones->vectorExamenPostulante);
-        $examenPostulante=ExamenPostulante::whereIn('codExamenPostulante',$examenPostulanteArr)->get();
+        $postulantes=ExamenPostulante::whereIn('codExamenPostulante',$examenPostulanteArr)->get();
+        /* 
         $postulantesArr=[];
         foreach ($examenPostulante as $item) {
             $postulantesArr[]=$item->codActor;
         }
         $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
-
+ */
 
         return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
     }
@@ -602,6 +604,83 @@ class ExamenController extends Controller
 
         return redirect()->route('Examen.VerReporteIrregularidades',$observacion->getAnalisis()->codExamen)
             ->with('datos',"Se ha anulado exitosamente los exámenes correspondientes a la observacion #".$codObservacion);
+    }
+
+
+
+    //deja el examen como si se hubiera creado recien
+    /* 
+    Se elimina: 
+        observacion
+        grupopatron
+        grupoiguales
+        post elevados
+
+        analisis_examen
+        examen_postulante
+        pregunta
+        carrera_examen
+        
+        
+    */
+    public function resetear($codExamen){
+        try {
+            DB::beginTransaction();
+
+            $examen = Examen::findOrFail($codExamen);
+            if($examen->tieneAnalisis()){
+                $analisis = $examen->getAnalisis();
+                $codAnalisis = $analisis->codAnalisis;
+    
+                Observacion::where('codAnalisis','=',$codAnalisis)->delete();
+                GrupoPatron::where('codAnalisis','=',$codAnalisis)->delete();
+                GrupoIguales::where('codAnalisis','=',$codAnalisis)->delete();
+                PostulantesElevados::where('codAnalisis','=',$codAnalisis)->delete();
+                $analisis->delete();
+            }
+    
+            ExamenPostulante::where('codExamen','=',$codExamen)->delete();
+            Pregunta::where('codExamen','=',$codExamen)->delete();
+            CarreraExamen::where('codExamen','=',$codExamen)->delete();
+
+
+            //borramos los archivos subidos
+
+            if(!$examen->verificarEstado('Creado')) //El único estado en el que no hay archivos es el 1
+            //si no está en estado creado, eliminamos los 3 archivos principales
+            {
+                Storage::disk('examenes')->delete($examen->getNombreArchivoRespuestas());
+                Storage::disk('examenes')->delete($examen->getNombreArchivoPreguntas());
+                Storage::disk('examenes')->delete($examen->getNombreArchivoExamenEscaneado());    
+            
+                //en cualquiera de estos estados, existe el archivo preparado
+                if($examen->verificarEstadoVarios(['Archivos Preparados','Datos Insertados','Analizado','Aprobado','Cancelado']))
+                    Storage::disk('examenes')->delete($examen->getNombreArchivoRespuestasPreparado());
+            
+            }
+            
+            
+            //reiniciamos el estado del examen 
+            $examen->codEstado = 1;
+            $examen->nroVacantes = null;
+            $examen->nroPostulantes = null;
+            $examen->ausentes = null;
+            $examen->asistentes = null;
+            $examen->save();
+
+            DB::commit();
+            return redirect()->route('Examen.Director.Listar')
+                ->with('datos','Se ha reseteado exitosamente el examen'.$examen->periodo);
+        } catch (\Throwable $th) {
+
+            Debug::mensajeError('EXAMEN CONTROLLER : resetear   ',$th);
+            DB::rollback();
+            return redirect()->route('Examen.Director.Listar')
+            ->with('datos','Ha ocurrido un error interno.');
+
+        }
+        
+
     }
 
     public function VerPDF($codExamen){

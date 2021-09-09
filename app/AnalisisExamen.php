@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class AnalisisExamen extends Model
 {
@@ -30,66 +31,36 @@ class AnalisisExamen extends Model
     
     */
     public function generarGruposIguales(){
+        $codExamen = $this->codExamen;
+        $consultaSQL = "SELECT 
+            GROUP_CONCAT(codExamenPostulante) as 'vectorPostulaciones',
+            respuestasJSON, 
+            count(*) as 'cantEstudiantes' 
+                FROM `examen_postulante`
+                where codExamen = $codExamen and puntajeTotal>0
+                GROUP by respuestasJSON
+                HAVING count(*)>1";
 
-        $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)->orderBy('respuestasJSON','ASC')->get();
+        $listaGruposSelect = DB::select($consultaSQL); 
+        //obtenemos un vector en el que cada elemento es [vectorPostulaciones,respuestasJSON,cantEstudiantes]
         
-        /*
-            Recorremos el vector entero, 
-            en cada elemento recorremos  nuevamente el vector pero desde esa posicion para adelante y preguntando uno por uno si el elemento1 == elemento2
-            Si sí: creamos un nuevo grupo y añadimos a todos los que encontremos a ese grupo
-            Si no: ignoramos y seguimos iterando al siguiente elemento del vector
-        
-        */
-     
-        $cantidadExamenesPostulantes = count($listaExamenes);
-        
-        for ($i=0; $i < $cantidadExamenesPostulantes - 1 ; $i++) {
+        foreach ($listaGruposSelect as $itemGrupoSelect){
+            $vectorPostulaciones = explode(",",$itemGrupoSelect->vectorPostulaciones);
+            $postulacion =ExamenPostulante::findOrFail($vectorPostulaciones[0]);
 
-            if($listaExamenes[$i]->puntajeTotal!=0){
-                $grupo = "";
-                for ($j=$i+1; $j < $cantidadExamenesPostulantes; $j++) {
-
-
-                    Debug::mensajeSimple('iterando'.$i."/".$j."// ".$listaExamenes[$i]->nroCarnet); 
-                    if($listaExamenes[$i]->respuestasJSON ==  $listaExamenes[$j]->respuestasJSON) //si coincide
-                    {
-                        if($grupo=="")//si aun no hay un grupo creado para este elemento
-                        {
-                            $grupo = new GrupoIguales();
-                            $grupo->codAnalisis = $this->codAnalisis;
-                            $grupo->puntajeAP = $listaExamenes[$i]->puntajeAPT;
-                            $grupo->puntajeCON = $listaExamenes[$i]->puntajeCON;
-                            $grupo->puntajeTotal = $listaExamenes[$i]->puntajeTotal;
-                            $grupo->correctas = $listaExamenes[$i]->nroCorrectas;
-                            $grupo->incorrectas = $listaExamenes[$i]->nroIncorrectas;
-                            $grupo->respuestasJSON = $listaExamenes[$i]->respuestasJSON;
-                            $grupo->vectorExamenPostulante = $listaExamenes[$i]->codExamenPostulante.",".$listaExamenes[$j]->codExamenPostulante;
-                            $grupo->save();
-
-                        }else{
-                            $grupo->añadirExamenPostulante($listaExamenes[$j]->codExamenPostulante);
-                            //aunque lo pinte de rojo, cuando llega acá es pq ya es un objeto instanciado
-                        }
-                    
-                    }//si no, cortamos el reocrrido de j porque si no fue igual el proximo siguiente, los demás tampoco (esta ordenado segun las respuestas)
-                    else
-                    {
-                        Debug::mensajeSimple('cortamos el j='.$j);
-                        break;
-                    }
-
-                }
-
-            }else{
-                Debug::mensajeSimple($i.' es 0,no lo contamos. NroCarnet='.$listaExamenes[$i]);
-
-            }
-
+            $grupo = new GrupoIguales();
+            $grupo->codAnalisis = $this->codAnalisis;
+            $grupo->puntajeAP =    $postulacion->puntajeAPT;
+            $grupo->puntajeCON =   $postulacion->puntajeCON;
+            $grupo->puntajeTotal = $postulacion->puntajeTotal;
+            $grupo->correctas =    $postulacion->nroCorrectas;
+            $grupo->incorrectas =  $postulacion->nroIncorrectas;
+            $grupo->respuestasJSON = $itemGrupoSelect->respuestasJSON;
+            $grupo->vectorExamenPostulante =  $itemGrupoSelect->vectorPostulaciones;
+            $grupo->save();
         }
+        return "1";
 
-
-        //return $listaExamenes[1];
-         
     }
     
     /* 
@@ -101,9 +72,12 @@ class AnalisisExamen extends Model
     
     */
     public function generarPreGruposPatron(){
-        $cantidadMinimaDePuntajeAdquirido = 20;
+        $cantidadMinimaDePuntajeAdquirido = 50;
+        $maximaDiferenciaDePuntajeParaComparar = 0.3; // si sus puntajes difieren más del 40% que el mayor, no se compararán
         $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)
-        ->where('puntajeTotal','>',$cantidadMinimaDePuntajeAdquirido)->get();
+            ->where('puntajeTotal','>',$cantidadMinimaDePuntajeAdquirido)
+            ->orderBy('puntajeTotal','DESC')
+            ->get();
         
         /*
             Recorremos el vector entero, 
@@ -111,7 +85,12 @@ class AnalisisExamen extends Model
                 Evaluamos booleano cantRespuestasMarcadas*TasaTolerancia < CantRespuestasIgualesEntreLosDos
                     Si sí: creamos un nuevo grupo guardando en este el patron
                     Si no: ignoramos y seguimos iterando al siguiente elemento del vector
-        
+
+            En esta etapa de PRE, cada grupoPatron tendrá unicamente 2 postulaciones, 
+                debido a que el análisis fue realizado comparando solo 2.
+            En la Etapa POST, se eliminarán estos grupoPatron de PRE, para generar los de POST. 
+                Los cuales son los de PRE pero agrupados por similitud
+
         */
         
         $cantidadExamenesPostulantes = count($listaExamenes);
@@ -120,66 +99,81 @@ class AnalisisExamen extends Model
        
         $listaTasas= Tasa::All();
         
+        $listaGruposPatronGenerados = [];
+
         for ($i=0; $i < $cantidadExamenesPostulantes - 1 ; $i++) {
             $tasa = $listaExamenes[$i]->getTasaTolerancia($listaTasas); //AQUI JALAR DE PARAMETROS
 
-            Debug::mensajeSimple('generarGruposPatron iterando'.$i."// ".$listaExamenes[$i]->nroCarnet  ); 
-                    
+            error_log('generarGruposPatron iterando i='.$i."// ".$listaExamenes[$i]->nroCarnet  ); 
+            $cantRespuestasMarcadas = $listaExamenes[$i]->getCantidadRespuestasMarcadas();
+            $limiteDelVecindario = $listaExamenes[$i]->puntajeTotal*(1-$maximaDiferenciaDePuntajeParaComparar);
 
-            if($listaExamenes[$i]->puntajeTotal!=0){
-                $grupo = "";
-                for ($j=$i+1; $j < $cantidadExamenesPostulantes; $j++) {
-                    // ['posicion'=>'A']
+            $grupo = "";
+            $estaEnVecindario = true;
+            for ($j=$i+1; $j < $cantidadExamenesPostulantes && $estaEnVecindario; $j++) {
+                /* 
+                $diferenciaPorcentual = ($listaExamenes[$i]->puntajeTotal-$listaExamenes[$j]->puntajeTotal)/
+                                                                                                    $listaExamenes[$i]->puntajeTotal;
+                 */         
+                $puntajeJ = $listaExamenes[$j]->puntajeTotal;
+                error_log('-- i='.$i." j=$j// ".$listaExamenes[$i]->nroCarnet ." limiteVec=$limiteDelVecindario   puntajeJ=$puntajeJ" ); 
+                
+                if($limiteDelVecindario < $puntajeJ ){
+                    // ['1'=>'A']
                     //en este vector las posiciones son las keys y las respuestas con los value
                     $vectorRespuestasIguales = ExamenPostulante::compararRespuestas($listaExamenes[$i]->respuestasJSON,$listaExamenes[$j]->respuestasJSON);
-                    $cantRespuestasMarcadas = $listaExamenes[$i]->getCantidadRespuestasMarcadas();
                     
-                    if($cantRespuestasMarcadas*$tasa < count($vectorRespuestasIguales) 
-                        && count($vectorRespuestasIguales) > $cantidadMinimaDePreguntasParaPatron) 
-                    {
-                        Debug::mensajeSimple('---------- IRREGULARIDAD DETECTADA nroCarnet:'.$listaExamenes[$i]->nroCarnet);
-                        $listaGrupos = GrupoPatron::buscar($vectorRespuestasIguales,$this->codAnalisis); //vemos si ya hay un grupoPatron con ese JSON, aumentamos 1 en ese 
-                        if(count($listaGrupos)>0)
-                        {
-                            $grupo = $listaGrupos[0];
-                            $grupo->añadirExamenPostulante($listaExamenes[$j]->codExamenPostulante);
-                            //aunque lo pinte de rojo, cuando llega acá es pq ya es un objeto instanciado
+                    //  cantRespuestasLimite para romper tolerancia < cantRespuestasIguales
+                    $cantRespuestasIguales = count($vectorRespuestasIguales);
+                    $cantidadRespuestasLimite = $cantRespuestasMarcadas*$tasa; // si cantRespuestasIguales pasa de este limite, se detecta irreg
 
-                        }else{
-                            $vectorCorrectasIncorrectasPuntajes = Examen::compararVectorEspecialPosiciones($vectorRespuestasIguales,$examen); 
-                            if($vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'] > $cantidadMinimaDePuntajeAdquirido){
-                                $grupo = new GrupoPatron();
-                                $grupo->codAnalisis = $this->codAnalisis;
-                                $grupo->nroCorrectas = $vectorCorrectasIncorrectasPuntajes['nroCorrectas'];
-                                $grupo->nroIncorrectas = $vectorCorrectasIncorrectasPuntajes['nroIncorrectas'];
-                                $grupo->puntajeAdquirido = $vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'];
-                                $grupo->respuestasCoincidentesJSON = json_encode($vectorRespuestasIguales);
-                                $grupo->vectorExamenPostulante = $listaExamenes[$i]->codExamenPostulante.",".$listaExamenes[$j]->codExamenPostulante;       
-                            }
-                        }
-                    }//si 
-                    else
-                    {
-                        //Debug::mensajeSimple('cortamos el j='.$j);
+                    if( $cantidadRespuestasLimite < $cantRespuestasIguales
+                        && $cantRespuestasIguales > $cantidadMinimaDePreguntasParaPatron) 
+                        {//Si se rompe la tolerancia y supera la cantidad minima de preguntas para un patron, SE DETECTA IRREGULARIDAD
+
+                        //Siempre crearemos un nuevo grupoPatron. Ya en el análisis post lo reduciremos
+                        error_log("---------- IRREGULARIDAD DETECTADA i=$i j=$j nroCarnet:".$listaExamenes[$i]->nroCarnet." cantRespuestasIguales=$cantRespuestasIguales // $cantidadRespuestasLimite");
                         
+                        // obtenemos nroCorrectas, nroIncorrectas y el puntajeAdquirido
+                        $vectorCorrectasIncorrectasPuntajes = Examen::compararVectorEspecialPosiciones($vectorRespuestasIguales,$examen); 
+                        if($vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'] > $cantidadMinimaDePuntajeAdquirido){
+                            $grupo = new GrupoPatron();
+                            $grupo->codAnalisis = $this->codAnalisis;
+                            $grupo->nroCorrectas = $vectorCorrectasIncorrectasPuntajes['nroCorrectas'];
+                            $grupo->nroIncorrectas = $vectorCorrectasIncorrectasPuntajes['nroIncorrectas'];
+                            $grupo->puntajeAdquirido = $vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'];
+                            $grupo->respuestasCoincidentesJSON = json_encode($vectorRespuestasIguales);
+                            $grupo->vectorExamenPostulante = $listaExamenes[$i]->codExamenPostulante.",".$listaExamenes[$j]->codExamenPostulante;       
+                            
+                            //no guardaremos aquí el modelo, lo meteremos en este vector para que sea insertado en BD luego.
+                            $listaGruposPatronGenerados[] = $grupo; 
+                            //esto para mejorar la eficiencia del algoritmo n2
+
+                        }   
                     }
 
+                }else{ //si es mayor, significa que de aquí para adelante solo habrá diferencias mayores. Por lo cual rompemos este for j
+                    $estaEnVecindario = false;
+                    Debug::mensajeSimple('ROMPIENDO VECINDARIO');
                 }
-
-                if($grupo!=""){ //si se creó algun grupo
-                    $grupo->save();
-                    Debug::mensajeSimple('GUARDANDO GRUPO'.json_encode($grupo));
-                }
-
-            }else{
-                Debug::mensajeSimple($i.' es 0,no lo contamos. NroCarnet='.$listaExamenes[$i]->nroCarnet);
-
+                    
             }
-
         }
 
 
-        return $listaExamenes[1];
+
+        foreach ($listaGruposPatronGenerados as $grupoPatron) {
+            Debug::mensajeSimple('GUARDANDO GRUPO'.json_encode($grupoPatron));
+            $grupoPatron->save();
+        }
+
+        Debug::mensajeSimple("Se finalizó el generarPreGruposPatron, cantidadExamenesPostulantes=".
+            $cantidadExamenesPostulantes.
+            " cantGruposPatron=".
+            count($listaGruposPatronGenerados)
+        );
+        
+        return 1;
 
     }
     

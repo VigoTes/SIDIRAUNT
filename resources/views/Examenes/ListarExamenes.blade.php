@@ -150,7 +150,9 @@
               @endif
                               
                 <td>
-
+                      
+                  
+                   
                   
                     @if($itemExamen->tieneResultados())
                       <a class="btn btn-success btn-sm" href="{{route('Examen.VerPostulantes',$itemExamen->codExamen)}}">
@@ -198,6 +200,12 @@
                         </a>
                       @endif
                   @endif
+
+                  
+                  <button type="button" class="btn btn-danger btn-xs" onclick="clickResetear({{$itemExamen->codExamen}})">
+                    <i class="fas fa-trash"></i>
+                    Reset
+                  </button>
 
                 </td>
               
@@ -293,7 +301,18 @@
 
     }
 
+    codExamenAResetear = 0;
+    function clickResetear(codExamen){
+      codExamenAResetear = codExamen;
+        confirmarConMensaje("Confirmar","¿Desea resetear este examen? Serán borrados los datos y aparecerá como recién creado.","warning",ejecutarResetearExamen);
 
+
+    }
+
+    function ejecutarResetearExamen(){
+      location.href = "/Examen/"+codExamenAResetear+"/Resetear";
+
+    }
 </script>
 
 

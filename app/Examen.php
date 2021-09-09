@@ -108,6 +108,8 @@ class Examen extends Model
     /* Inserta en la tabla historial "CarreraExamen" la combinacion de los datos actuales que están en Carrera,Examen, asi como los datos estadisticos de cada uno */
     public function generarCarrerasExamen(){
 
+
+        //aqui mejorar eficiencia pq estoy recorriendo demasiados registros para solo obtener las carreras
         $postulaciones = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
         $vectorCarrerasDeEsteExamen = [];
         
@@ -147,7 +149,7 @@ class Examen extends Model
             $respuesta = mb_substr($linea,1,1);
             $enunciado = mb_substr($linea,4,(mb_strlen($linea)-6)); //Son 6 porque 4 son de inicio (la respuesta) y los otros dos son de fin de linea e inicio de linea
             
-            Debug::mensajeSimple('pregunta="'.$enunciado.'" respuesta="'.$respuesta.'" nro="'.$nroPregunta.'" lengt='.(mb_strlen($linea)-6) );
+            error_log('pregunta="'.$enunciado.'" respuesta="'.$respuesta.'" nro="'.$nroPregunta.'" lengt='.(mb_strlen($linea)-6) );
             $pregunta = new Pregunta();
             $pregunta->nroPregunta = $nroPregunta;
             $pregunta->enunciado = $enunciado;
@@ -183,7 +185,7 @@ class Examen extends Model
             $conteoCondiciones[$nombreAcortado] = 0;
 
         }
-/* 
+        /* 
         $conteoCondiciones = [
             'INGRESA'=>0,
             'ING. 2-'=>0,
