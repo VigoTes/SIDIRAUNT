@@ -181,8 +181,11 @@ class AnalisisExamen extends Model
 
 
     /* 
-    //en base a los grupos patron encontrados en la etapa PRE, este algoritmo 
+        en base a los grupos patron encontrados en la etapa PRE, este algoritmo hace 5 veces lo siguiente:
          
+        1. Recorremos cada par de la lista de grupoPatrones
+        2. En cada par evaluamos si el par se parece o no, en caso de que se parezcan SE FUSIONAN (se crea nuevo GP y se eliminan esos,)
+
     */
     public function generarPostGruposPatron(){
         
@@ -237,98 +240,7 @@ class AnalisisExamen extends Model
         }
         return 1;
 
-
-
-
-        //primero generamos el vectorOcurrencias que tendra 
-        //      de Keys todas las respuestas de grupoPatron, 
-        //         y de valor la cantidad total de ocurrencias en TODO EL EXAMEN DE ADMISION
-        $vectorOcurrencias = [];
-        /* Aqui se almacenaran la cantidad de ocurrencias de cada respuesta
-            {
-                "20:A":0,
-                "5:B":0,
-                "6:B":0
-            }
-        */
-
-
-        //inicializamos el vector con valores 0
-        foreach ($listaGrupos as $grupoPatron) {
-            $respCoincidentes = json_decode($grupoPatron->respuestasCoincidentesJSON,true);
-            foreach ($respCoincidentes as $key => $value) {
-                $respuesta = $key.":".$value;
-                if (!array_key_exists($respuesta,$vectorOcurrencias)){ //verificamos si esa respuesta ya está en el array
-                    $vectorOcurrencias[$respuesta] = 0;
-                }
-            }
-
-        }
-
-        //buscamos en todo el examen contando las ocurrencias de cada respuesta
-
-        
-        $examenesPostulanteConPatron = "";
-        //recorremos todos los examenPostulante para contar las ocurrencias del patron
-        $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
-        foreach ($listaExamenes as $examenPostulante) {
-            //Debug::mensajeSimple('analizando nroCarnet='.$examenPostulante->nroCarnet);
-            $respuestaPostulante = str_split($examenPostulante->respuestasJSON);
-            foreach ($vectorOcurrencias as $rpta => $cantidadOcurrencias) { //iteramos cada elemento de vectorOcurrencias
-
-                //obtenemos la el nroDePregunta  y la respuesta
-                $nuevoVector = explode(':',$rpta); // aqui transformamos la cadena "20:A" en un vector {0=>'20',1=>'A'}
-                $nroPregunta = $nuevoVector[0];
-                $respuestaPatron = $nuevoVector[1];                
-                
-                //evaluamos si el postulante tiene esa pregunta marcada así
-                if($respuestaPostulante[$nroPregunta] == $respuestaPatron)
-                {
-                    $vectorOcurrencias[$rpta]++;
-                }
-
-            }
-
-        }
-
-
-
-        arsort($vectorOcurrencias);
-        //return $vectorOcurrencias;
-        //Hasta aqui ya tenemos en vectorOcurrencias la lista de respuestas más comunes
-
-        $vectorMaximo = [];
-        $anterior = 0;
-        //obtenemos la cant de ocurrencias maxima
-        foreach ($vectorOcurrencias as $rpta => $cantidadOcurrencias) {
-            $valorMaximo = $cantidadOcurrencias;
-            break;
-        }
-
-        //obtenemos un vector en el que todas sus respuestas tengan cant de ocurrencias maxima hasta -10 ocurrencias
-        foreach ($vectorOcurrencias as $rpta => $cantidadOcurrencias) {
-            if($cantidadOcurrencias>= $valorMaximo - 10){
-                $nuevoVector = explode(':',$rpta); // aqui transformamos la cadena "20:A" en un vector {0=>'20',1=>'A'}
-                $vectorPatron[$nuevoVector[0]]=$nuevoVector[1]; //asignamos $vectorPatron[20] = "A"
-            }
-        }
-        //return $vectorPatron;
-
-        //ya tengo en vector patron algo de formato {"20":"A","5":"B","6":"B","4":"B","3":"B","18":"B"}
-
-        
-        $examenesPostulanteConPatron = "";
-        //recorremos todos los examenPostulante para contar las ocurrencias del patron
-        $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
-        foreach ($listaExamenes as $examenPostulante) {
-            Debug::mensajeSimple('analizando nroCarnet='.$examenPostulante->nroCarnet);
-            if($examenPostulante->tienePatron($vectorPatron))
-                $examenesPostulanteConPatron= $examenesPostulanteConPatron.",".$examenPostulante->codExamenPostulante;
-        }
-
-
-        return $examenesPostulanteConPatron;
-
+ 
 
     }
 
