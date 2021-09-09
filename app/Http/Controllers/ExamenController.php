@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actor;
 use App\AnalisisExamen;
 use App\Area;
+use App\CarreraExamen;
 use App\Debug;
 use App\EstadoExamen;
 use App\Examen;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Controller;
 use App\MaracsoftBot;
 use App\Modalidad;
 use App\Observacion;
+use App\Parametros;
 use App\PostulantesElevados;
 use App\Pregunta;
 use App\Sede;
@@ -68,7 +70,7 @@ class ExamenController extends Controller
 
         //para las 3 tablas
         $gruposIguales=GrupoIguales::where('codAnalisis','=',$analisis->codAnalisis)->get();
-        $gruposPatron=GrupoPatron::where('codAnalisis','=',$analisis->codAnalisis)->get();
+        $gruposPatron=GrupoPatron::where('codAnalisis','=',$analisis->codAnalisis)->orderBy('puntajeAdquirido','DESC')->get();
         $postulantesElevados=PostulantesElevados::where('codAnalisis','=',$analisis->codAnalisis)->get();
         //para los 3 pie
         $pieGruposIguales=['labels'=>[],'value'=>[],'color'=>[]];
@@ -98,28 +100,42 @@ class ExamenController extends Controller
 
     // aunque se llama aprobar, en realidad aprueba y cancela
     public function aprobarExamen(Request $request){
-        $examen=Examen::findOrFail($request->codExamen);
 
-        //VALIDACION DE SI ES CONSEJO UNIVERSITARIO
-        if(!Actor::getActorLogeado()->esConsejoUniversitario()){
-            return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
-                ->with('datos','USTED NO ES CONSEJO UNIVERSITARIO');
+        try {
+            DB::beginTransaction();
+            
+            $examen=Examen::findOrFail($request->codExamen);
+
+            //VALIDACION DE SI ES CONSEJO UNIVERSITARIO
+            if(!Actor::getActorLogeado()->esConsejoUniversitario()){
+                return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
+                    ->with('datos','USTED NO ES CONSEJO UNIVERSITARIO');
+            }
+
+            //VALIDACION DE SI LA CONTRA ESTA CORRECTA
+            $hashp=Actor::getActorLogeado()->getUsuario()->password;
+            $password=$request->get('contraseña');
+            if(!password_verify($password,$hashp)){
+                return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
+                    ->with('datos','CONTRASEÑA ERRONEA');
+            }            
+            $examen->codEstado=$request->codEstado;
+            $examen->save();
+
+            DB::commit();
+
+            return redirect()->route('Examen.Director.Listar')
+                ->with('datos','Examen '.EstadoExamen::findOrFail($examen->codEstado)->descripcion.'');
+
+        } catch (\Throwable $th) {
+            Debug::mensajeError('EXAMEN CONTROLLER : aprobarExamen',$th);
+            DB::rollBack();
+            return redirect()->route('Examen.Director.Listar')
+                ->with('datos','Ha ocurrido un error interno.');
+            
         }
 
-        //VALIDACION DE SI LA CONTRA ESTA CORRECTA
-        $hashp=Actor::getActorLogeado()->getUsuario()->password;
-        $password=$request->get('contraseña');
-        if(!password_verify($password,$hashp)){
-            return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
-                ->with('datos','CONTRASEÑA ERRONEA');
-        }
 
-        
-        $examen->codEstado=$request->codEstado;
-        $examen->save();
-
-        return redirect()->route('Examen.Director.Listar')
-            ->with('datos','Examen '.EstadoExamen::findOrFail($examen->codEstado)->descripcion.'');
     }
 
     public function getModalExamenesIguales($codGrupo){
@@ -182,13 +198,14 @@ class ExamenController extends Controller
         }
         //para los postulantes
         $examenPostulanteArr = explode(',', $grupoPatrones->vectorExamenPostulante);
-        $examenPostulante=ExamenPostulante::whereIn('codExamenPostulante',$examenPostulanteArr)->get();
+        $postulantes=ExamenPostulante::whereIn('codExamenPostulante',$examenPostulanteArr)->get();
+        /* 
         $postulantesArr=[];
         foreach ($examenPostulante as $item) {
             $postulantesArr[]=$item->codActor;
         }
         $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
-
+ */
 
         return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
     }
@@ -234,7 +251,7 @@ class ExamenController extends Controller
     }
 
 
-
+/* 
     public function VerHistorialPostulante($codExamenPostulante){
         $examenPostulante=ExamenPostulante::findOrFail($codExamenPostulante);
         $postulante = Actor::findOrFail($examenPostulante->codActor);
@@ -253,7 +270,7 @@ class ExamenController extends Controller
         
         return view ('Postulantes.VerPostulante',compact('postulante','puntajesAPT','puntajesCON','puntajesTotal','periodos'));
     }
-
+ */
     public function guardar(Request $request){
         try{
             DB::beginTransaction();
@@ -269,25 +286,21 @@ class ExamenController extends Controller
             $examen->codEstado= 1;
             $examen->codArea = $request->codArea;
             $examen->periodo = $request->periodo;
-            $examen->valoracionPositivaCON = $request->valoracionPositivaCON; 
-            $examen->valoracionPositivaAPT = $request->valoracionPositivaAPT; 
-            $examen->valoracionNegativaCON = -$request->valoracionNegativaCON; 
-            $examen->valoracionNegativaAPT =- $request->valoracionNegativaAPT; 
 
-            
+            $examen->valoracionPositivaCON = Parametros::getParametro('valoracionPositivaCON');
+            $examen->valoracionPositivaAPT = Parametros::getParametro('valoracionPositivaAPT');
+            $examen->valoracionNegativaCON = Parametros::getParametro('valoracionNegativaCON');
+            $examen->valoracionNegativaAPT = Parametros::getParametro('valoracionNegativaAPT');    
             
             $examen->save();
 
-
             //$solicitud->fechaHoraRevisado = Carbon::now();
-
- 
             DB::commit();
             return redirect()->route('Examen.Director.Listar')
             ->with('datos','Examen creado.');
 
         } catch (\Throwable $th) {
-            Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : OBSERVAR',$th);
+            Debug::mensajeError(' EXAMEN CONTROLLER : guardar',$th);
            
             DB::rollBack();
             
@@ -342,54 +355,88 @@ class ExamenController extends Controller
             Debug::mensajeError('EXAMEN CONTROLLER : CARGAR RESULTADOS ',$th);
             
             DB::rollback();
-            
+            return redirect()
+                ->route('Examen.Director.Listar')
+                ->with('datos','Ha ocurrido un error interno');
             
         }
 
     }
 
     public function analizarExamen($codExamen){
-        $examen = Examen::findOrFail($codExamen);
-        $examen->generarReporteIrregularidad();
-        $examen->codEstado = 6;
-        $examen->save();
-        return "1";
+
+        try {
+            DB::beginTransaction();
+
+            $examen = Examen::findOrFail($codExamen);
+            $examen->generarReporteIrregularidad();
+            $examen->codEstado = 6;
+            $examen->save();
+            DB::commit();
+            return "1";
+        } catch (\Throwable $th) {
+            Debug::mensajeError('EXAMEN CONTROLLER : analizarExamen   ',$th);
+            DB::rollback();
+            return "Ha ocurrido un error inesperado: ".$th;
+            
+        }
+
+
+
     }   
 
     public function IniciarLecturaDatos($codExamen){
+        try {
+             DB::beginTransaction();
+            
+            $examen = Examen::findOrFail($codExamen);
+            //AnalisisExamen::where('codExamen','=',$codExamen)->delete();
+            //GrupoIguales::where('codGrupo','>','0')->delete();
+            //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
+            //Pregunta::where('codPregunta','>','0')->delete();
+            //User::where('codUsuario','>','0')->delete();
+            
+            
+            $examen->procesarArchivoRespuestas();
+            $examen->generarCarrerasExamen();
 
-        $examen = Examen::findOrFail($codExamen);
-        //AnalisisExamen::where('codExamen','=',$codExamen)->delete();
-        //GrupoIguales::where('codGrupo','>','0')->delete();
-        //ExamenPostulante::where('codExamenPostulante','>','0')->delete();
-        //Pregunta::where('codPregunta','>','0')->delete();
-        //User::where('codUsuario','>','0')->delete();
-        
-        
-        $examen->procesarArchivoRespuestas();
-        $examen->generarCarrerasExamen();
-
-        
-        $examen->codEstado = 7;
-        $examen->save();
-        return "1";
-
+            
+            $examen->codEstado = 7;
+            $examen->save();
+            DB::commit();
+            return "1";
+        } catch (\Throwable $th) {
+                
+            Debug::mensajeError('EXAMEN CONTROLLER : IniciarLecturaDatos   ',$th);
+            DB::rollback();
+            return "Ha ocurrido un error inesperado: ".$th;
+            
+        }
     }
  
 
     public function PrepararArchivosExamen($codExamen){
-        $examen = Examen::findOrFail($codExamen);
-        
-        $examen->procesarArchivoPreguntas();
-        //Pregunta::where('codExamen','=',$examen->codExamen)->delete();
+        try {
+            DB::beginTransaction();
+            
+            $examen = Examen::findOrFail($codExamen);
+            $examen->procesarArchivoPreguntas();
+            //Pregunta::where('codExamen','=',$examen->codExamen)->delete();
+            $reporteRespuestas = $examen->generarRespuestasPostulantes();
 
+            $examen->codEstado = 9;
+            $examen->save();
+            DB::commit();
 
-        
-        $reporteRespuestas = $examen->generarRespuestasPostulantes();
+            return 1;
+        } catch (\Throwable $th) {
+            
+            Debug::mensajeError('EXAMEN CONTROLLER : PrepararArchivosExamen   ',$th);
+            DB::rollback();
+            return "Ha ocurrido un error inesperado: ".$th;
+            
+        }
 
-        $examen->codEstado = 9;
-        $examen->save();
-        return 1;
     }
 
 
@@ -399,87 +446,121 @@ class ExamenController extends Controller
     tipoObservacion + "*" + codigoAObservar + "*" + notaObservacion;
     */
     public function ObservarAlgo($cadena){
-        $vector = explode("*",$cadena);
-        $tipoObservacion = $vector[0];
-        $codigoAObservar = $vector[1];
-        $notaObservacion = $vector[2];
+        try {
+            DB::beginTransaction();
+            
+            $vector = explode("*",$cadena);
+            $tipoObservacion = $vector[0];
+            $codigoAObservar = $vector[1];
+            $notaObservacion = $vector[2];
 
-        switch($tipoObservacion){
-            case "GrupoPatron":
-                $codTipoObservacion = 1;
-                $elementoAObservar = GrupoPatron::findOrFail($codigoAObservar);
-                $stringLlegada = "Patron N°$codigoAObservar de respuestas iguales";
-                break;
-            case "ExamenesIguales":
-                $codTipoObservacion = 2;
-                $elementoAObservar = GrupoIguales::findOrFail($codigoAObservar);
-                $stringLlegada = "Grupo N°$codigoAObservar de exámenes iguales";
-                break;
-            case "PostulantesElevados":
-                $codTipoObservacion = 3;
-                $elementoAObservar = PostulantesElevados::findOrFail($codigoAObservar);
-                $nroCarnet = $elementoAObservar->examenActual()->nroCarnet;
-                $stringLlegada = "Postulante elevado N°$codigoAObservar (Carnet $nroCarnet)";
-                break;
+            switch($tipoObservacion){
+                case "GrupoPatron":
+                    $codTipoObservacion = 1;
+                    $elementoAObservar = GrupoPatron::findOrFail($codigoAObservar);
+                    $stringLlegada = "Patron N°$codigoAObservar de respuestas iguales";
+                    break;
+                case "ExamenesIguales":
+                    $codTipoObservacion = 2;
+                    $elementoAObservar = GrupoIguales::findOrFail($codigoAObservar);
+                    $stringLlegada = "Grupo N°$codigoAObservar de exámenes iguales";
+                    break;
+                case "PostulantesElevados":
+                    $codTipoObservacion = 3;
+                    $elementoAObservar = PostulantesElevados::findOrFail($codigoAObservar);
+                    $nroCarnet = $elementoAObservar->examenActual()->nroCarnet;
+                    $stringLlegada = "Postulante elevado N°$codigoAObservar (Carnet $nroCarnet)";
+                    break;
+            }
+
+            $observacion = new Observacion();
+            $observacion->notaObservacion = $notaObservacion;
+            $observacion->codTipoObservacion = $codTipoObservacion;
+            $observacion->codAnalisis = $elementoAObservar->codAnalisis;
+            $observacion->codEstado = 1;
+            $observacion->save();
+
+            $codObservacion = Observacion::All()->last()->codObservacion;
+            $elementoAObservar->codObservacion = $codObservacion;
+            $elementoAObservar->save();
+
+            $analisis = AnalisisExamen::findOrFail($elementoAObservar->codAnalisis);
+            DB::commit();
+            return redirect()->route('Examen.VerReporteIrregularidades',$analisis->codExamen)
+                ->with('datos',"$stringLlegada observado exitósamente.");
+        } catch (\Throwable $th) {
+            Debug::mensajeError('EXAMEN CONTROLLER : ObservarAlgo   ',$th);
+            DB::rollback();
+            return redirect()
+                ->route('Examen.VerReporteIrregularidades',$analisis->codExamen)
+                ->with('datos',"Ha ocurrido un error interno : $th");
+            
         }
-
-        $observacion = new Observacion();
-        $observacion->notaObservacion = $notaObservacion;
-        $observacion->codTipoObservacion = $codTipoObservacion;
-        $observacion->codAnalisis = $elementoAObservar->codAnalisis;
-        $observacion->codEstado = 1;
-        $observacion->save();
-
-        $codObservacion = Observacion::All()->last()->codObservacion;
-        $elementoAObservar->codObservacion = $codObservacion;
-        $elementoAObservar->save();
-
-        $analisis = AnalisisExamen::findOrFail($elementoAObservar->codAnalisis);
-
-        return redirect()->route('Examen.VerReporteIrregularidades',$analisis->codExamen)
-            ->with('datos',"$stringLlegada observado exitósamente.");
-
     }
 
 
 
     //elimina que existió observacion alguna vez
     public function eliminarObservacion($codObservacion){
-        $observacion = Observacion::findOrFail($codObservacion);
-        //eliminamos el registro de la observacion del elemento que la tenga
-        switch($observacion->codTipoObservacion){
-            case 1:
-                $elementoObservado = GrupoPatron::where('codObservacion','=',$codObservacion)->get()[0];
-                break;
-            case 2:
-                $elementoObservado = GrupoIguales::where('codObservacion','=',$codObservacion)->get()[0];
-                break;
-            case 3:
-                $elementoObservado = PostulantesElevados::where('codObservacion','=',$codObservacion)->get()[0];
-                break;
+        try {
+            DB::beginTransaction();
+            
+            $observacion = Observacion::findOrFail($codObservacion);
+            //eliminamos el registro de la observacion del elemento que la tenga
+            switch($observacion->codTipoObservacion){
+                case 1:
+                    $elementoObservado = GrupoPatron::where('codObservacion','=',$codObservacion)->get()[0];
+                    break;
+                case 2:
+                    $elementoObservado = GrupoIguales::where('codObservacion','=',$codObservacion)->get()[0];
+                    break;
+                case 3:
+                    $elementoObservado = PostulantesElevados::where('codObservacion','=',$codObservacion)->get()[0];
+                    break;
+            }
+            $elementoObservado->codObservacion = null;
+            $elementoObservado->save();
+
+            $analisis = AnalisisExamen::findOrFail($elementoObservado->codAnalisis);
+            $stringLlegada = $observacion->codObservacion;
+            $observacion->delete();
+            DB::commit();
+            return redirect()->route('Examen.VerReporteIrregularidades',$analisis->codExamen)
+                ->with('datos',"Se ha cancelado exitosamente la observacion #$stringLlegada.");
+    
+        } catch (\Throwable $th) {
+            Debug::mensajeError('EXAMEN CONTROLLER : eliminarObservacion   ',$th);
+            DB::rollback();
+            return redirect()->route('Examen.VerReporteIrregularidades',$analisis->codExamen)
+                ->with('datos',"Ha ocurrido un error interno $th");
+    
         }
-        $elementoObservado->codObservacion = null;
-        $elementoObservado->save();
 
-        $analisis = AnalisisExamen::findOrFail($elementoObservado->codAnalisis);
-        $stringLlegada = $observacion->codObservacion;
-        $observacion->delete();
-
-        return redirect()->route('Examen.VerReporteIrregularidades',$analisis->codExamen)
-            ->with('datos',"Se ha cancelado exitosamente la observacion #$stringLlegada.");
+            
+            
     }
 
 
     //cambia el estado de una observacion a pasada (ya fue revisada y no tiene nada de malo)
-    public function pasarObservacion($codObservacion){
+    public function pasarObservacion($codObservacion){        
+        try {
+            DB::beginTransaction();
+            
+            $observacion = Observacion::findOrFail($codObservacion);
+            $observacion->codEstado = 2; 
+            $observacion->save();
+            DB::commit();
+            return redirect()->route('Examen.VerReporteIrregularidades',$observacion->getAnalisis()->codExamen)
+                ->with('datos',"Se ha pasado exitosamente la observacion #".$codObservacion);
+            
+        } catch (\Throwable $th) {
+            Debug::mensajeError('EXAMEN CONTROLLER : pasarObservacion   ',$th);
+            DB::rollback();
 
-        $observacion = Observacion::findOrFail($codObservacion);
-        $observacion->codEstado = 2; 
-        $observacion->save();
-
-        
-        return redirect()->route('Examen.VerReporteIrregularidades',$observacion->getAnalisis()->codExamen)
-            ->with('datos',"Se ha pasado exitosamente la observacion #".$codObservacion);
+            return redirect()->route('Examen.VerReporteIrregularidades',$observacion->getAnalisis()->codExamen)
+                ->with('datos',"Ha ocurrido un error inesperado: ".$th);
+            
+        }
     }
 
     //camb
@@ -523,6 +604,83 @@ class ExamenController extends Controller
 
         return redirect()->route('Examen.VerReporteIrregularidades',$observacion->getAnalisis()->codExamen)
             ->with('datos',"Se ha anulado exitosamente los exámenes correspondientes a la observacion #".$codObservacion);
+    }
+
+
+
+    //deja el examen como si se hubiera creado recien
+    /* 
+    Se elimina: 
+        observacion
+        grupopatron
+        grupoiguales
+        post elevados
+
+        analisis_examen
+        examen_postulante
+        pregunta
+        carrera_examen
+        
+        
+    */
+    public function resetear($codExamen){
+        try {
+            DB::beginTransaction();
+
+            $examen = Examen::findOrFail($codExamen);
+            if($examen->tieneAnalisis()){
+                $analisis = $examen->getAnalisis();
+                $codAnalisis = $analisis->codAnalisis;
+    
+                Observacion::where('codAnalisis','=',$codAnalisis)->delete();
+                GrupoPatron::where('codAnalisis','=',$codAnalisis)->delete();
+                GrupoIguales::where('codAnalisis','=',$codAnalisis)->delete();
+                PostulantesElevados::where('codAnalisis','=',$codAnalisis)->delete();
+                $analisis->delete();
+            }
+    
+            ExamenPostulante::where('codExamen','=',$codExamen)->delete();
+            Pregunta::where('codExamen','=',$codExamen)->delete();
+            CarreraExamen::where('codExamen','=',$codExamen)->delete();
+
+
+            //borramos los archivos subidos
+
+            if(!$examen->verificarEstado('Creado')) //El único estado en el que no hay archivos es el 1
+            //si no está en estado creado, eliminamos los 3 archivos principales
+            {
+                Storage::disk('examenes')->delete($examen->getNombreArchivoRespuestas());
+                Storage::disk('examenes')->delete($examen->getNombreArchivoPreguntas());
+                Storage::disk('examenes')->delete($examen->getNombreArchivoExamenEscaneado());    
+            
+                //en cualquiera de estos estados, existe el archivo preparado
+                if($examen->verificarEstadoVarios(['Archivos Preparados','Datos Insertados','Analizado','Aprobado','Cancelado']))
+                    Storage::disk('examenes')->delete($examen->getNombreArchivoRespuestasPreparado());
+            
+            }
+            
+            
+            //reiniciamos el estado del examen 
+            $examen->codEstado = 1;
+            $examen->nroVacantes = null;
+            $examen->nroPostulantes = null;
+            $examen->ausentes = null;
+            $examen->asistentes = null;
+            $examen->save();
+
+            DB::commit();
+            return redirect()->route('Examen.Director.Listar')
+                ->with('datos','Se ha reseteado exitosamente el examen'.$examen->periodo);
+        } catch (\Throwable $th) {
+
+            Debug::mensajeError('EXAMEN CONTROLLER : resetear   ',$th);
+            DB::rollback();
+            return redirect()->route('Examen.Director.Listar')
+            ->with('datos','Ha ocurrido un error interno.');
+
+        }
+        
+
     }
 
     public function VerPDF($codExamen){

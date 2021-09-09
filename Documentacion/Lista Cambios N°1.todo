@@ -2,27 +2,31 @@
 Urgentes que dijo el profe:
     ✔ Al momento de decidir sobre irregularidades, esto debe ser a nivel de cada examen @done(24-08-21 17:21)
     ☐ Mejorar los gráficos porque no se entienden
-    ☐ Corregir titulo
+    ✔ Corregir titulo @done(07-09-21 23:32)
     ✔ Crear trigger y funcion para la tarea @done(29-08-21 18:33)
-    ☐ Crear examen ocultar valoraciones
+    ✔ Crear examen ocultar valoraciones @done(07-09-21 17:25)
 Actividades:
-    ☐ Que no se pueda tomar decision sobre el examen si hay observaciones pendientes ('Planteada')
-    ☐ Separar actores por vistas
+    ✔ Que no se pueda tomar decision sobre el examen si hay observaciones pendientes ('Planteada') @done(08-09-21 00:10)
+    ✔ Separar actores por vistas @done(08-09-21 00:10)
     ✔ Integrar bot de telegram @done(29-08-21 20:06)
     ☐ Mejorar algoritmo de identificacion de patrones ()
         ☐ Mejorar eficiencia (tiempo que demora)
         ☐ Que identifique grupos de más de 2
-    ☐ Añadir formula en vista tasas
-    ☐ Conseguir PDFs de los Examenes que tenemos 
-    ☐ Evaluar si eliminamos la tabla analisis_examen
+
+    ☐ Mejorar algoritmo Examen->generarCarrerasExamen (hace dms recorridos solo para las carreras)
+    ✔ Añadir formula en vista tasas @done(07-09-21 23:18)
+    ✔ Evaluar si eliminamos la tabla analisis_examen @done(07-09-21 23:18)
+    ✔ CRUD Modalidades @done(07-09-21 23:18)
     ✔ La cantidad de Pagination debe poder editarse en la bd @done(29-08-21 21:11)
-    ☐ Vista postulantes añadir filtros como:
+    ✔ Vista postulantes añadir filtros como: @done(07-09-21 23:18)
         Cantidad de veces que postuló, partició en X examen, postuló alguna vez a cierta carrera
-    
+    ✔ Carpeta Drive con todos los .txt de los examenes (resultados), PDFs de los examenes y .txt de preguntas @done(08-09-21 00:44)
+        https://drive.google.com/drive/u/5/folders/1UXkwvTwBOUrB69dRCQkwtuPXn2ol3vU5
+
     ✔ Añadir lógica de la distribución de un examen (solo mostrar en la web) Resultó que en todos los examenes es 30apt y 70con @done(23-08-21 17:12)
-    ☐ Añadir lógica para ver cierta pregunta en la web
+    ✔ Añadir lógica para ver cierta pregunta en la web @done(08-09-21 00:42)
     ☐ Tratar de cambiar el menú lateral por uno superior
     ✔ Envio de mensaje a telegram cuando hay una irregularidad @done(29-08-21 21:12)
-    ☐ Añadir manejo de excepciones
-    ☐ Historial y perfil son lo mismo, corregir URLs que los diferencnan
-    ☐ Cambiar nombre a mi bot
+    ✔ Añadir manejo de excepciones @done(08-09-21 00:27)
+    ✔ Historial y perfil son lo mismo, corregir URLs que los diferencnan @done(07-09-21 23:31)
+    ✔ Cambiar nombre a mi bot @done(07-09-21 23:21)

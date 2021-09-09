@@ -38,17 +38,14 @@
       <div class="col-md-10">
         <form class="form-inline float-left">
 
-          <label style="" for="">
-            
-            
-          </label>
- 
-              <input type="text"  class="form-control float-left" name="fechaFin" id="fechaFin" style="margin-right: 10px"
-                   value="" placeholder="Buscar por nombre...">
-             
+          <input type="text"  class="form-control float-left" name="apellidosYnombres" id="apellidosYnombres" style="width: 300px"
+                value="" placeholder="Buscar por nombre...">
+
+          
+        
 
           <button class="btn btn-success float-left" type="submit">
-            Buscar
+            Buscar 
             <i class="fas fa-search"></i>
           </button>
         </form>

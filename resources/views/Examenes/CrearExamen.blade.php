@@ -73,55 +73,9 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
 
                         </select>
                     </div>
-                    <div class="w-100"></div>
                     
-                    <div class="col">
 
-                        
-                        <label class="" style="">Valoración CON+:</label>
-                        
-                        
-                        <div class="">
-                            <input type="number" class="form-control" id="valoracionPositivaCON" name="valoracionPositivaCON" 
-                                value="4.079" placeholder="4.079" >
-                        </div>
-                    </div>
-                    <div class="col">
-
-                        
-                        <label class="" style="">Valoración APT+:</label>
-                        
-                        
-                        <div class="">
-                            <input type="number" class="form-control" id="valoracionPositivaAPT" name="valoracionPositivaAPT" 
-                                value="4.070" placeholder="4.070" >
-                        </div>
-                    </div>
-
-
-                    <div class="w-100"></div>
-                    <div class="col">
-
-                        
-                        <label class="" style="">Valoración CON -:</label>
-                        
-                        
-                        <div class="">
-                            <input type="number" class="form-control" id="valoracionNegativaCON" name="valoracionNegativaCON" 
-                                value="1.021" placeholder="1.021" >
-                        </div>
-                    </div>
-                    <div class="col">
-
-                        
-                        <label class="" style="">Valoración APT -:</label>
-                        
-                        
-                        <div class="">
-                            <input type="number" class="form-control" id="valoracionNegativaAPT" name="valoracionNegativaAPT" 
-                                value="1.019" placeholder="1.019" >
-                        </div>
-                    </div>
+                     
 
 
                     <div class="w-100"></div>
@@ -179,7 +133,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                             @foreach ($listaAreas as $area)
                                
                                 <option value="{{$area->codArea}}">
-                                    {{$area->descripcion}}
+                                    [{{$area->area}}] {{$area->descripcion}}
                                 </option>
                             @endforeach
                         </select>
@@ -239,17 +193,10 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
 
     function validarFormulario(){
 
-        limpiarEstilos(['valoracionPositivaCON','valoracionPositivaAPT','valoracionNegativaCON','valoracionNegativaAPT'
-           , 'año','fechaRendicion','codModalidad','codSede']);
+        limpiarEstilos(['año','fechaRendicion','codModalidad','codSede']);
 
         msjError = "";
-
-         
-        msjError = validarPositividadYNulidad(msjError,'valoracionPositivaCON','Valoración Positiva de pregunta Aptitud');
-        msjError = validarPositividadYNulidad(msjError,'valoracionPositivaAPT','Valoración Positiva de pregunta Conocimiento');
-        msjError = validarPositividadYNulidad(msjError,'valoracionNegativaCON','Valoración Negativa de pregunta Aptitud');
-        msjError = validarPositividadYNulidad(msjError,'valoracionNegativaAPT','Valoración Negativa de pregunta Conocimiento');
-        
+ 
 
         msjError = validarTamañoMaximoYNulidad(msjError,'año',4,'Año');
         msjError = validarTamañoMaximoYNulidad(msjError,'fechaRendicion',10,'');

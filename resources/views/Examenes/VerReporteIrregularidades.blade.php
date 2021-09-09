@@ -143,26 +143,37 @@
                     <th width="7%">Patron ID</th>
                     <th width="10%"># Estudiantes</th>
                     <th width="10%"># Preguntas</th>
-                    <th>Detalle</th>
+                    <th>Coincidencias</th>
+                    <th>
+                        Ptj Adquirido
+                    </th>
+                    <th>
+                        Ptj Prom Post
+                    </th>
+                    
                     <th width="5%">Ver</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($gruposPatron as $itemGrupo)
-                <tr style="background-color: {{$itemGrupo->getColorFila()}}">
-                    <td>{{$itemGrupo->identificador()}}</td>
-                    <td>{{$itemGrupo->cantidadPostulantes()}}</td>
-                    <td>{{$itemGrupo->nroCorrectas+$itemGrupo->nroIncorrectas}}</td>
-                    <td>{{$itemGrupo->respuestasResumen()}}</td>
-                    <td>
-                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalGrupoRespuestasIguales({{$itemGrupo->codGrupoPatron}})"
-                            data-toggle="modal" data-target="#ModalGrupoRespuestasIguales"><i class="fas fa-eye"></i>
-                        </button>
-
-
-                        
-                    </td>
-                </tr>
+                    <tr style="background-color: {{$itemGrupo->getColorFila()}}">
+                        <td>{{$itemGrupo->identificador()}}</td>
+                        <td>{{$itemGrupo->cantidadPostulantes()}}</td>
+                        <td>{{$itemGrupo->nroCorrectas+$itemGrupo->nroIncorrectas}}</td>
+                        <td class="fontSize9">{{$itemGrupo->respuestasResumen()}}</td>
+                        <td >
+                            {{$itemGrupo->puntajeAdquirido}}
+                            
+                        </td>
+                        <td >
+                            {{$itemGrupo->getPromedioPostulantes()}}
+                        </td>
+                        <td>
+                            <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalGrupoRespuestasIguales({{$itemGrupo->codGrupoPatron}})"
+                                data-toggle="modal" data-target="#ModalGrupoRespuestasIguales"><i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
                 @endforeach
                 <!--
                 <tr>
@@ -217,7 +228,7 @@
                     <td>{{$itemPostElevado->examenActual()->puntajeTotal}}</td>
                     <td>{{number_format($itemPostElevado->porcentajeElevacion*100,2)}}%</td>
                     <td>
-                        <a href="{{route("Examen.VerReporteIrregularidades.VerHistorialPostulante",$itemPostElevado->codExamenPostulante)}}" 
+                        <a href="{{route("Postulante.VerPerfil",$itemPostElevado->postulante()->codActor)}}" 
                             class="btn btn-warning btn-sm" title="Ver Reposición">
                             <i class="fas fa-eye"></i>
                         </a>
@@ -241,15 +252,39 @@
         </table>
     </div>
 </div>
-<a href="{{route("Examen.Director.Listar")}}" class='btn btn-info'>
-    <i class="fas fa-arrow-left"></i> 
-    Regresar al Menú
-</a>
-@if($examen->codEstado!=4 && $examen->codEstado!=5 && App\Actor::esConsejoUniversitario())
-<button type="button" id="" class="btn btn-danger float-right"
-    data-toggle="modal" data-target="#ModalConfirmacion"><i class="fas fa-exclamation-triangle"></i> Registrar decision del CU
-</button>    
-@endif
+
+<div class="row">
+    <div class="col text-left">
+        <a href="{{route("Examen.Director.Listar")}}" class='btn btn-info'>
+            <i class="fas fa-arrow-left"></i> 
+            Regresar al Menú
+        </a>
+    </div>
+    <div class="col text-right">
+
+        @if($examen->codEstado!=4 && 
+            $examen->codEstado!=5 && 
+            App\Actor::esConsejoUniversitario()
+            )
+        
+            @if($examen->sePuedeDecidir())
+                <button type="button" id="" class="btn btn-danger"
+                    data-toggle="modal" data-target="#ModalConfirmacion">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    Registrar decision del CU
+                </button>  
+            @else
+                <label style="color:red" for="">
+                    Para registrar la decisión del C.U debe resolver las observaciones.
+                </label>
+            @endif
+          
+        @endif
+    </div>
+    
+</div>
+
+
 
 <br><br>
 
@@ -507,13 +542,13 @@
     function actualizarModalExamenesIguales(codGrupo){
         limpiarModal('TitleExamenesIguales','BodyExamenesIguales');
 
-        document.getElementById('TitleExamenesIguales').innerHTML="Grupo "+completarZeros(codGrupo,4)+" - Exactamente Iguales";
+        document.getElementById('TitleExamenesIguales').innerHTML="Grupo "+completarZeros(codGrupo,8)+" - Exactamente Iguales";
         obtenerModal('/Examen/VerReporteIrregularidades/'+codGrupo+'/ModalExamenesIguales','BodyExamenesIguales');
     }
     function actualizarModalGrupoRespuestasIguales(codGrupo){
         limpiarModal('TitleGrupoRespuestasIguales','BodyGrupoRespuestasIguales');
 
-        document.getElementById('TitleGrupoRespuestasIguales').innerHTML="Patron "+completarZeros(codGrupo,4)+" - Grupo de respuestas iguales";
+        document.getElementById('TitleGrupoRespuestasIguales').innerHTML="Patron "+completarZeros(codGrupo,8)+" - Grupo de respuestas iguales";
         obtenerModal('/Examen/VerReporteIrregularidades/'+codGrupo+'/ModalGrupoRespuestasIguales','BodyGrupoRespuestasIguales');
     }
 
@@ -540,7 +575,7 @@
         
     }
 
-
+    
 
     /* OBSERVACION */
     /* Todos manejan el mismo modal, pero con valores distintos */

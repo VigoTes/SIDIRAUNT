@@ -14,6 +14,8 @@
 
 @php
   $esDirectorAdmision = App\Actor::esDirectorAdmision();
+  $esConsejo = App\Actor::esConsejoUniversitario();
+
 @endphp
 
 @section('contenido')
@@ -110,7 +112,7 @@
           <th>Nro Postulantes</th>
           <th>Sede</th>
 
-          @if($esDirectorAdmision)
+          @if($esDirectorAdmision || $esConsejo)
               <th>Estado</th>
               
           @endif
@@ -141,14 +143,16 @@
               </td>
              
  
-              @if($esDirectorAdmision)
+              @if($esDirectorAdmision || $esConsejo)
                 <td>
                   {{$itemExamen->getEstado()->descripcion}}
                 </td>
               @endif
                               
                 <td>
-
+                      
+                  
+                   
                   
                     @if($itemExamen->tieneResultados())
                       <a class="btn btn-success btn-sm" href="{{route('Examen.VerPostulantes',$itemExamen->codExamen)}}">
@@ -186,13 +190,22 @@
                     @endif
                         
                       
-                    @if($itemExamen->tieneAnalisis())
-                      <a class="btn btn-info btn-sm" href="{{route('Examen.VerReporteIrregularidades',$itemExamen->codExamen)}}">
-                        Reporte Irregularidades
-                      </a>
-                    @endif
+                    
                   @endif
-                   
+                  
+                  @if($esDirectorAdmision || $esConsejo)
+                      @if($itemExamen->tieneAnalisis() )
+                        <a class="btn btn-info btn-sm" href="{{route('Examen.VerReporteIrregularidades',$itemExamen->codExamen)}}">
+                          Reporte Irregularidades
+                        </a>
+                      @endif
+                  @endif
+
+                  
+                  <button type="button" class="btn btn-danger btn-xs" onclick="clickResetear({{$itemExamen->codExamen}})">
+                    <i class="fas fa-trash"></i>
+                    Reset
+                  </button>
 
                 </td>
               
@@ -288,7 +301,18 @@
 
     }
 
+    codExamenAResetear = 0;
+    function clickResetear(codExamen){
+      codExamenAResetear = codExamen;
+        confirmarConMensaje("Confirmar","¿Desea resetear este examen? Serán borrados los datos y aparecerá como recién creado.","warning",ejecutarResetearExamen);
 
+
+    }
+
+    function ejecutarResetearExamen(){
+      location.href = "/Examen/"+codExamenAResetear+"/Resetear";
+
+    }
 </script>
 
 

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Examen extends Model
 {
@@ -23,7 +24,12 @@ class Examen extends Model
         Examen-000002-examenEscaneado
     */
 
-    
+    public function nombreGeneral(){
+        $modalidad=Modalidad::findOrFail($this->codModalidad);
+        $sede=Sede::findOrFail($this->codSede);
+
+        return $modalidad->nombre.' '.$this->periodo.' - '.$sede->nombre;
+    }
     
     public function getNombreArchivoRespuestas(){
         return "Examen-".Debug::rellernarCerosIzq($this->codExamen,6)."-respuestas.txt";
@@ -41,7 +47,9 @@ class Examen extends Model
         return "Examen-".Debug::rellernarCerosIzq($this->codExamen,6)."-examenEscaneado.pdf";
     }
 
-
+    public function getListaPreguntas(){
+        return Pregunta::where('codExamen','=',$this->codExamen)->get();
+    }
     public function getTasaAusentismo(){
         
         return number_format($this->ausentes*100/$this->nroPostulantes,4);
@@ -100,6 +108,8 @@ class Examen extends Model
     /* Inserta en la tabla historial "CarreraExamen" la combinacion de los datos actuales que están en Carrera,Examen, asi como los datos estadisticos de cada uno */
     public function generarCarrerasExamen(){
 
+
+        //aqui mejorar eficiencia pq estoy recorriendo demasiados registros para solo obtener las carreras
         $postulaciones = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
         $vectorCarrerasDeEsteExamen = [];
         
@@ -139,7 +149,7 @@ class Examen extends Model
             $respuesta = mb_substr($linea,1,1);
             $enunciado = mb_substr($linea,4,(mb_strlen($linea)-6)); //Son 6 porque 4 son de inicio (la respuesta) y los otros dos son de fin de linea e inicio de linea
             
-            Debug::mensajeSimple('pregunta="'.$enunciado.'" respuesta="'.$respuesta.'" nro="'.$nroPregunta.'" lengt='.(mb_strlen($linea)-6) );
+            error_log('pregunta="'.$enunciado.'" respuesta="'.$respuesta.'" nro="'.$nroPregunta.'" lengt='.(mb_strlen($linea)-6) );
             $pregunta = new Pregunta();
             $pregunta->nroPregunta = $nroPregunta;
             $pregunta->enunciado = $enunciado;
@@ -175,7 +185,7 @@ class Examen extends Model
             $conteoCondiciones[$nombreAcortado] = 0;
 
         }
-/* 
+        /* 
         $conteoCondiciones = [
             'INGRESA'=>0,
             'ING. 2-'=>0,
@@ -322,6 +332,7 @@ class Examen extends Model
         
         $analisis->generarGruposIguales();
         $analisis->generarPreGruposPatron();
+        $analisis->generarPostGruposPatron();
         
         $analisis->generarPostulantesElevados();
 
@@ -341,7 +352,9 @@ class Examen extends Model
 
 
 
-    /* ESTO ES PARA GENERAR LA CADENA DE RESPUESTAS DE CADA POSTULANTE, EN TEORIA NO SE USARÁ EN EL SISTEMA PORQUE YA VIENE INCLUIDO */
+    /* PREPARAR 
+    
+    ESTO ES PARA GENERAR LA CADENA DE RESPUESTAS DE CADA POSTULANTE,  */
     public function generarRespuestasPostulantes(){
         $valorCorrectaAPT  =$this->valoracionPositivaAPT;
         $valorCorrectaCON  =$this->valoracionPositivaCON;
@@ -534,8 +547,6 @@ class Examen extends Model
             '2' =>'A',
             '6' => 'B',
             '16'=> 'D'
-
-
         ]
         un objeto examen
     Sale:
@@ -597,4 +608,17 @@ class Examen extends Model
 
     }
 
+
+    public function getAnalisis(){
+        return AnalisisExamen::where('codExamen','=',$this->codExamen)->get()[0];
+    }
+    //retorna si el Cons univ  puede decidir sobre el examen (si tiene observaciones planteadas, no puede) 
+    public function sePuedeDecidir(){
+        $codAnalisis =  $this->getAnalisis()->codAnalisis;
+        $listaObservaciones = Observacion::where('codAnalisis','=',$codAnalisis)
+            ->where('codEstado','=','1') //1= cod estado planteada
+            ->get();
+        return count($listaObservaciones)==0;
+
+    }
 }

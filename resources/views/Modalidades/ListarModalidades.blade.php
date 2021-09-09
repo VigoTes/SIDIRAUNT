@@ -9,20 +9,16 @@
 <h1 class="text-center">
 MODALIDAD
 </h1>
-
+@include('Layout.MensajeEmergenteDatos')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{route('modalidad.crear')}}" class="btn btn-3 btn-success">Agregar Modalidad</a>
+                    <a href="{{route('Modalidades.Crear')}}" class="btn btn-3 btn-success">Agregar Modalidad</a>
                 </div>
                 <div class="card-body">
-                @if (!empty(Session::get('message')))
-                    <div class="alert alert-{{Session::get('status')}}" role="alert">
-                        {{ Session::get('message') }}
-                    </div>
-                @endif
+                 
             
                 <div class="row">
                     <div class="col-12">
@@ -41,8 +37,8 @@ MODALIDAD
                                             <td>{{ $modalidad->codModalidad }}</td>
                                             <td>{{ $modalidad->nombre }}</td>
                                             <td>
-                                                <a href="{{ route('modalidad.editar',[$modalidad->codModalidad ]) }}" class="btn btn-xs btn-info">Editar</a>
-                                                <a href="{{ route('modalidad.eliminar',[$modalidad->codModalidad]) }}" class="btn btn-xs btn-danger eliminar">Eliminar</a>
+                                                <a href="{{ route('Modalidades.Editar',[$modalidad->codModalidad ]) }}" class="btn btn-xs btn-info">Editar</a>
+                                                <a href="{{ route('Modalidades.Eliminar',[$modalidad->codModalidad]) }}" class="btn btn-xs btn-danger eliminar">Eliminar</a>
                                             </td>
 
                                         </tr>

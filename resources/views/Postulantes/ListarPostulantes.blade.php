@@ -35,33 +35,40 @@
 <div style="text-align: center">
   <h2> Listar postulantes </h2>
   
-  <form action="{{route('Postulante.Listar')}}">
+  
     <div class="row">
 
-      <div class="col">
-        <input type="text" class="form-control float-right" id="nombresYapellidos" name="nombresYapellidos" placeholder="Nombres y apellidos" value="{{$nombresYapellidos}}">
-      </div>
-      <div class="col">
-        <button type="submit" class="btn btn-success float-left">
-          <i class="fas fa-search"></i>
-          Buscar
-        </button>
-      </div>
-      <div class="col"></div>
-      <div class="col">
-        
-        
-      
+      <div class="col-md-10">
+        <form class="form-inline float-left" action="{{route('Postulante.Listar')}}">
+          <input type="text" class="form-control" id="nombresYapellidos" name="nombresYapellidos" placeholder="Nombres y apellidos" value="{{$nombresYapellidos}}">
 
+          <select class="form-control"  id="algunExamen" name="algunExamen" style="margin-left: 10px;width: 250px;margin-right: 10px">
+            <option value="-1" {{'-1'==$algunExamen || null==$algunExamen ? 'selected':''}}>--Examen--</option>
+            @foreach($examenesTotales as $itemExamen)
+                <option value="{{$itemExamen->codExamen}}" {{$itemExamen->codExamen==$algunExamen ? 'selected':''}}>
+                  {{$itemExamen->nombreGeneral()}}
+                </option>                                 
+            @endforeach 
+          </select>
+
+          <select class="form-control"  id="algunaCarrera" name="algunaCarrera" style="margin-left: 10px;width: 200px;margin-right: 10px">
+            <option value="-1" {{'-1'==$algunaCarrera || null==$algunaCarrera ? 'selected':''}}>--Carrera--</option>
+            @foreach($carrerasTotales as $itemCarrera)
+                <option value="{{$itemCarrera->codCarrera}}" {{$itemCarrera->codCarrera==$algunaCarrera ? 'selected':''}}>
+                  {{$itemCarrera->nombre}}
+                </option>                                 
+            @endforeach 
+          </select>
+
+          <button type="submit" class="btn btn-success float-left">
+            <i class="fas fa-search"></i>
+            Buscar
+          </button>
+        </form>
       </div>
-      <div class="col">
+      <div class="col-md-2">
         
-        
-      
-      </div>
-      <div class="col">
-        
-        <a href="{{route("Postulante.ExportarPostulantes")}}" class='btn btn-success float-right'>
+        <a href="{{route("Postulante.ExportarPostulantes")}}" class='btn btn-success'>
           <i class="fas fa-file-excel"></i> Reporte Postulantes
         </a>
       
@@ -69,7 +76,7 @@
     </div>
 
 
-  </form>
+  
  
   <br>
      
