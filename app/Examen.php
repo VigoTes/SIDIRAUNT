@@ -332,6 +332,7 @@ class Examen extends Model
         
         $analisis->generarGruposIguales();
         $analisis->generarPreGruposPatron();
+        $analisis->generarPostGruposPatron();
         
         $analisis->generarPostulantesElevados();
 
@@ -546,8 +547,6 @@ class Examen extends Model
             '2' =>'A',
             '6' => 'B',
             '16'=> 'D'
-
-
         ]
         un objeto examen
     Sale:

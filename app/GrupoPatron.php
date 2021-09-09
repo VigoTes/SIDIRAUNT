@@ -15,7 +15,25 @@ class GrupoPatron extends ElementoAnalisis
        'codAnalisis','nroIncorrectas','nroCorrectas','puntajeAdquirido','respuestasCoincidentesJSON','vectorExamenPostulante'
     ];
 
-   
+    public function getCantidadPreguntas(){
+        return $this->nroCorrectas + $this->nroIncorrectas;
+
+    }
+    public function getPromedioPostulantes(){
+        $lista = $this->getListaPostulantes();
+        $sum = 0;
+        foreach ($lista as $post) {
+           
+            $sum+=$post->puntajeTotal;
+        }
+        return $sum/count($lista);
+    }
+
+    public function getListaPostulantes(){
+        $array = explode(',',$this->vectorExamenPostulante);
+        return ExamenPostulante::whereIn('codExamenPostulante',$array)->get();
+
+    }
 
 
     public function identificador(){
@@ -36,6 +54,9 @@ class GrupoPatron extends ElementoAnalisis
             }
             
         }
+
+        $resumen = trim($resumen,',');
+        return $resumen;
         return substr($resumen, 1,120)." ...";
     }
 
@@ -53,4 +74,25 @@ class GrupoPatron extends ElementoAnalisis
 
     }
 
+
+
+
+    /*
+        Compara los json de 2 grupo patron
+        y retorna un vector con las respuestas coincidentes
+    */
+    public static function compararCoincidencias($json1,$json2){
+         
+        $obj1 = json_decode($json1,true);
+        $obj2 = json_decode($json2,true);
+ 
+        $preguntasCoincidentes = [];
+        foreach ($obj1 as $posicion => $pregunta){
+            if(array_key_exists($posicion,$obj2))//verificamos si existe esa key    
+                if($obj2[$posicion]==$obj1[$posicion]) //verificamos si en esa key está el mismo valor que en el json1
+                    $preguntasCoincidentes[$posicion] = $pregunta;
+        }
+        return $preguntasCoincidentes;
+
+    }
 }

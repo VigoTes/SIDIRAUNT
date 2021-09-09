@@ -70,7 +70,7 @@ class ExamenController extends Controller
 
         //para las 3 tablas
         $gruposIguales=GrupoIguales::where('codAnalisis','=',$analisis->codAnalisis)->get();
-        $gruposPatron=GrupoPatron::where('codAnalisis','=',$analisis->codAnalisis)->get();
+        $gruposPatron=GrupoPatron::where('codAnalisis','=',$analisis->codAnalisis)->orderBy('puntajeAdquirido','DESC')->get();
         $postulantesElevados=PostulantesElevados::where('codAnalisis','=',$analisis->codAnalisis)->get();
         //para los 3 pie
         $pieGruposIguales=['labels'=>[],'value'=>[],'color'=>[]];

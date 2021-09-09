@@ -74,4 +74,10 @@ class Debug extends Model
         return "_".$randomString;
     } 
 
+
+    public static function contenidoEnJS($cont){
+        return $cont.' <script> x = '.$cont.' </script>';
+        
+
+    }
 }

@@ -143,26 +143,37 @@
                     <th width="7%">Patron ID</th>
                     <th width="10%"># Estudiantes</th>
                     <th width="10%"># Preguntas</th>
-                    <th>Detalle</th>
+                    <th>Coincidencias</th>
+                    <th>
+                        Ptj Adquirido
+                    </th>
+                    <th>
+                        Ptj Prom Post
+                    </th>
+                    
                     <th width="5%">Ver</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($gruposPatron as $itemGrupo)
-                <tr style="background-color: {{$itemGrupo->getColorFila()}}">
-                    <td>{{$itemGrupo->identificador()}}</td>
-                    <td>{{$itemGrupo->cantidadPostulantes()}}</td>
-                    <td>{{$itemGrupo->nroCorrectas+$itemGrupo->nroIncorrectas}}</td>
-                    <td>{{$itemGrupo->respuestasResumen()}}</td>
-                    <td>
-                        <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalGrupoRespuestasIguales({{$itemGrupo->codGrupoPatron}})"
-                            data-toggle="modal" data-target="#ModalGrupoRespuestasIguales"><i class="fas fa-eye"></i>
-                        </button>
-
-
-                        
-                    </td>
-                </tr>
+                    <tr style="background-color: {{$itemGrupo->getColorFila()}}">
+                        <td>{{$itemGrupo->identificador()}}</td>
+                        <td>{{$itemGrupo->cantidadPostulantes()}}</td>
+                        <td>{{$itemGrupo->nroCorrectas+$itemGrupo->nroIncorrectas}}</td>
+                        <td class="fontSize9">{{$itemGrupo->respuestasResumen()}}</td>
+                        <td >
+                            {{$itemGrupo->puntajeAdquirido}}
+                            
+                        </td>
+                        <td >
+                            {{$itemGrupo->getPromedioPostulantes()}}
+                        </td>
+                        <td>
+                            <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalGrupoRespuestasIguales({{$itemGrupo->codGrupoPatron}})"
+                                data-toggle="modal" data-target="#ModalGrupoRespuestasIguales"><i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
                 @endforeach
                 <!--
                 <tr>

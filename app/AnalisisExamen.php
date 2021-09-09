@@ -116,7 +116,6 @@ class AnalisisExamen extends Model
                                                                                                     $listaExamenes[$i]->puntajeTotal;
                  */         
                 $puntajeJ = $listaExamenes[$j]->puntajeTotal;
-                error_log('-- i='.$i." j=$j// ".$listaExamenes[$i]->nroCarnet ." limiteVec=$limiteDelVecindario   puntajeJ=$puntajeJ" ); 
                 
                 if($limiteDelVecindario < $puntajeJ ){
                     // ['1'=>'A']
@@ -126,7 +125,9 @@ class AnalisisExamen extends Model
                     //  cantRespuestasLimite para romper tolerancia < cantRespuestasIguales
                     $cantRespuestasIguales = count($vectorRespuestasIguales);
                     $cantidadRespuestasLimite = $cantRespuestasMarcadas*$tasa; // si cantRespuestasIguales pasa de este limite, se detecta irreg
-
+                    
+                    error_log('-- i='.$i." j=$j// ".$listaExamenes[$i]->nroCarnet ." cantidadRespuestasLimite=$cantidadRespuestasLimite   cantRespuestasIguales=$cantRespuestasIguales" ); 
+                
                     if( $cantidadRespuestasLimite < $cantRespuestasIguales
                         && $cantRespuestasIguales > $cantidadMinimaDePreguntasParaPatron) 
                         {//Si se rompe la tolerancia y supera la cantidad minima de preguntas para un patron, SE DETECTA IRREGULARIDAD
@@ -181,12 +182,61 @@ class AnalisisExamen extends Model
 
     /* 
     //en base a los grupos patron encontrados en la etapa PRE, este algoritmo 
-        1. Encuentra patrones coincidentes dentro de cada grupoPatron
-        2. Elimina los grupoPatron generados en Pre
-        3. Inserta los nuevo grupo patron que son más pequeños pero tienen más ocurrencias
+         
     */
     public function generarPostGruposPatron(){
-        $listaGrupos  = GrupoPatron::where('codAnalisis','=',$this->codAnalisis)->get();
+        
+        //HACEMOS 5 ITERACIONES
+        for ($z=0; $z < 5 ; $z++) { 
+            Debug::mensajeSimple("ITERACIÓN $z de generarPostGruposPatron ");
+            $listaGrupos  = GrupoPatron::where('codAnalisis','=',$this->codAnalisis)
+                ->orderBy('puntajeAdquirido','DESC')
+                ->get();
+            $examen = $this->getExamen();
+            $porcentajeSimilitudParaUnificar = 0.5; 
+            //si al comparar 2 grupoPatron, tienen más de este porcentaje de similitud, los unificaremos en uno solo.
+            $nuevosGP = [];
+            $cantidadPar = count($listaGrupos) - count($listaGrupos)%2; //Si fuera 9, se convierte en 8. c = 9 - 1 o c = 8 - 0
+
+            for ($i=0; $i < $cantidadPar; $i=$i+2) { 
+                $j = $i+1;
+                $grupoi = $listaGrupos[$i];
+                $grupoj = $listaGrupos[$j];
+            
+                $preguntasCoincidentes = GrupoPatron::compararCoincidencias($grupoi->respuestasCoincidentesJSON,$grupoj->respuestasCoincidentesJSON);
+                    
+                $cantPreguntasTotali = $grupoi->getCantidadPreguntas();
+                $porcentajeSimilitud = count($preguntasCoincidentes)/$cantPreguntasTotali;
+
+                error_log("i=$i j=$j CantPregCoincid=".count($preguntasCoincidentes)." cantPreg=$cantPreguntasTotali  /psimilitud=$porcentajeSimilitud");
+                if($porcentajeSimilitud > $porcentajeSimilitudParaUnificar){ //UNIFICAMOS
+
+                    $vectorCorrectasIncorrectasPuntajes = Examen::compararVectorEspecialPosiciones($preguntasCoincidentes,$examen);
+                    error_log("Uniendo el i=$i con el j=$j");
+                    $nuevoGPUnificado = new GrupoPatron();
+                    $nuevoGPUnificado->codAnalisis = $this->codAnalisis;
+                    $nuevoGPUnificado->nroCorrectas = $vectorCorrectasIncorrectasPuntajes['nroCorrectas'];
+                    $nuevoGPUnificado->nroIncorrectas = $vectorCorrectasIncorrectasPuntajes['nroIncorrectas'];
+                    $nuevoGPUnificado->puntajeAdquirido = $vectorCorrectasIncorrectasPuntajes['puntajeAdquirido'];
+                    $nuevoGPUnificado->respuestasCoincidentesJSON = json_encode($preguntasCoincidentes);
+
+                    $vi = explode(',',$grupoi->vectorExamenPostulante);
+                    $vj = explode(',',$grupoj->vectorExamenPostulante);
+                    $unionPostulantes = array_merge($vi,$vj);
+                    $nuevoVectorSinRepetidos = array_unique($unionPostulantes);
+                    $nuevoGPUnificado->vectorExamenPostulante = implode(',',$nuevoVectorSinRepetidos); 
+                    
+                    $nuevoGPUnificado->save();
+                    
+                    $grupoi->delete();
+                    $grupoj->delete();
+                    
+                    $nuevosGP[] = $nuevoGPUnificado;
+                }
+            }
+        }
+        return 1;
+
 
 
 
@@ -201,6 +251,7 @@ class AnalisisExamen extends Model
                 "6:B":0
             }
         */
+
 
         //inicializamos el vector con valores 0
         foreach ($listaGrupos as $grupoPatron) {
