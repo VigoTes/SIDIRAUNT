@@ -121,6 +121,8 @@ class ExamenController extends Controller
             }            
             $examen->codEstado=$request->codEstado;
             $examen->save();
+            
+            MaracsoftBot::enviarMensaje('Se ha '.EstadoExamen::findOrFail($examen->codEstado)->descripcion." el examen ".$examen->periodo);
 
             DB::commit();
 

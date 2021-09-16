@@ -75,15 +75,9 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
 
 Route::get('/probandoCosas',function(){
-/* 
-    $gp1 = GrupoPatron::findOrFail(25298)->respuestasCoincidentesJSON;
-    $gp2 = GrupoPatron::findOrFail(25306)->respuestasCoincidentesJSON;
-    return GrupoPatron::compararCoincidencias($gp1,$gp2);
-     */
+  
+    $examen = Examen::findOrFail(6);
     
-
-    $an = AnalisisExamen::findOrFail(116);
-    return $an->generarPostGruposPatron();
 
 });
 

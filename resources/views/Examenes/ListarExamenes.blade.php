@@ -201,11 +201,12 @@
                       @endif
                   @endif
 
-                  
-                  <button type="button" class="btn btn-danger btn-xs" onclick="clickResetear({{$itemExamen->codExamen}})">
-                    <i class="fas fa-trash"></i>
-                    Reset
-                  </button>
+                  @if($esDirectorAdmision)      
+                    <button type="button" class="btn btn-danger btn-xs" onclick="clickResetear({{$itemExamen->codExamen}})">
+                      <i class="fas fa-trash"></i>
+                      Reset
+                    </button>
+                  @endif
 
                 </td>
               
