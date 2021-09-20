@@ -71,14 +71,15 @@ Route::post('/ingresar', 'UserController@logearse')->name('user.logearse'); //po
 Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesion');
 
 
-
 Route::get('/probarArchivos','ExamenController@procesarResultados')->name('probarArchivos');
+
+Route::get('/Error','UserController@error')->name('user.error');
+
 
 Route::get('/probandoCosas',function(){
   
-    $examen = Examen::findOrFail(6);
-    
-
+    $permiso = DB::select("SELECT * FROM mysql.db where User = 'postulante'")[0];
+    return $permiso->User;
 });
 
 /* 
@@ -87,7 +88,8 @@ Procedimiento en PHP:   _ABBBBBBBBABBBBBBBBBABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 */
  
 Route::get('/probandoCosas2',function(){
-    
+     
+
 });
 
 
@@ -117,80 +119,85 @@ Route::get('/borrarTodo',function(){
 });
 
 
+Route::group(['middleware'=>"ValidarSesion"],function()
+    {
+        /* *********************************** EXAMENES ************************************* */
 
-/* *********************************** EXAMENES ************************************* */
+        Route::get('/Examen/{id}/verPostulantes','ExamenPostulanteController@listarDeExamen')->name('Examen.VerPostulantes');
+        Route::get('/Examen/{id}/descargarReportePostulantes/','ExamenPostulanteController@exportarPostulantes')->name('Examen.ExportarPostulantes');
 
-Route::get('/Examen/{id}/verPostulantes','ExamenPostulanteController@listarDeExamen')->name('Examen.VerPostulantes');
-Route::get('/Examen/{id}/descargarReportePostulantes/','ExamenPostulanteController@exportarPostulantes')->name('Examen.ExportarPostulantes');
+        Route::get('/Examenes/Director/Listar','ExamenController@listar')->name('Examen.Director.Listar');
 
-Route::get('/Examenes/Director/Listar','ExamenController@listar')->name('Examen.Director.Listar');
+        Route::get('/Examenes/Director/Crear','ExamenController@Crear')->name('Examen.Director.Crear');
 
-Route::get('/Examenes/Director/Crear','ExamenController@Crear')->name('Examen.Director.Crear');
+        Route::get('/Examen/{id}/Director/VerCargarResultados','ExamenController@verCargarResultados')->name('Examen.Director.VerCargar');
+        Route::post('/Examen/Director/CargarResultados','ExamenController@cargarResultados')->name('Examen.Director.cargarResultados');
 
-Route::get('/Examen/{id}/Director/VerCargarResultados','ExamenController@verCargarResultados')->name('Examen.Director.VerCargar');
-Route::post('/Examen/Director/CargarResultados','ExamenController@cargarResultados')->name('Examen.Director.cargarResultados');
+        Route::get('/Examen/{id}/Director/analizarExamen','ExamenController@analizarExamen')->name('Examen.Director.analizarExamen');
+        Route::get('/Examen/{id}/Director/IniciarLecturaDatos','ExamenController@IniciarLecturaDatos')->name('Examen.Director.IniciarLecturaDatos');
 
-Route::get('/Examen/{id}/Director/analizarExamen','ExamenController@analizarExamen')->name('Examen.Director.analizarExamen');
-Route::get('/Examen/{id}/Director/IniciarLecturaDatos','ExamenController@IniciarLecturaDatos')->name('Examen.Director.IniciarLecturaDatos');
+        Route::get('/Examen/{id}/Resetear','ExamenController@resetear')->name('Examen.Director.Resetear');
 
-Route::get('/Examen/{id}/Resetear','ExamenController@resetear')->name('Examen.Director.Resetear');
-
-Route::get('/Examen/{id}/Director/PrepararArchivosExamen','ExamenController@PrepararArchivosExamen')->name('Examen.Director.PrepararArchivosExamen');
-Route::get('/Examen/{id}/descargarPDF/','ExamenController@descargarPDF')->name('Examen.descargarPDF');
-Route::get('/Examen/{id}/VerPDF/','ExamenController@VerPDF')->name('Examen.VerPDF');
-
-
-
-
-Route::post('/examenes/director/guardar','ExamenController@guardar')->name('Examen.Director.Guardar');
-
-Route::get('/Examen/{id}/VerReporteIrregularidades','ExamenController@VerReporteIrregularidad')->name('Examen.VerReporteIrregularidades');
-Route::get('/Examen/{id}/VerReporteIrregularidades/pdf','ExamenController@ExportarPDF')->name('Examen.ReporteIrregularidadesPDF');
-//modales
-Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalExamenesIguales','ExamenController@getModalExamenesIguales');
-Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalGrupoRespuestasIguales','ExamenController@getModalGrupoRespuestasIguales');
-Route::get('/Examen/VerReporteIrregularidades/{codExamenPostulante}/ModalPreguntasDePostulante','ExamenController@getModalPreguntasDePostulante');
-Route::get('/Examen/VerReporteIrregularidades/{codPostulanteElevado}/ModalPostulanteElevado','ExamenController@getModalPostulanteElevado');
-
-
-/* 
-Route::get('/Examen/{codExamenPostulante}/Historial','ExamenController@VerHistorialPostulante')
-    ->name('Examen.VerReporteIrregularidades.VerHistorialPostulante');
- */
-Route::post('/Examen/Consejo/AprobarExamen','ExamenController@aprobarExamen')->name('Examen.Consejo.aprobarExamen');
-
-Route::get('/Examen/ObservarAlgo/{cadena}','ExamenController@ObservarAlgo'); // desde JS
-
-Route::get('/Examen/eliminarObservacion/{codObservacion}','ExamenController@eliminarObservacion');// desde JS
-
-Route::get('/Examen/pasarObservacion/{codObservacion}','ExamenController@pasarObservacion');// desde JS
-Route::get('/Examen/anularExamenesObservacion/{codObservacion}','ExamenController@anularExamenesObservacion');// desde JS
-
-
-Route::get('/Postulante/listar','PostulanteController@listar')
-    ->name('Postulante.Listar'); 
-Route::get('/Postulante/verPerfil/{codActor}','PostulanteController@verPerfil')
-    ->name('Postulante.VerPerfil'); 
-    
-Route::get('/Postulante/descargarReportePostulantes','PostulanteController@exportarPostulantes')
-    ->name('Postulante.ExportarPostulantes'); 
-/*                     en realidad es codActor */
+        Route::get('/Examen/{id}/Director/PrepararArchivosExamen','ExamenController@PrepararArchivosExamen')->name('Examen.Director.PrepararArchivosExamen');
+        Route::get('/Examen/{id}/descargarPDF/','ExamenController@descargarPDF')->name('Examen.descargarPDF');
+        Route::get('/Examen/{id}/VerPDF/','ExamenController@VerPDF')->name('Examen.VerPDF');
 
 
 
-// Modalidad 
-Route::get('/Modalidades/Listar', 'ModalidadController@Listar')->name('Modalidades.Listar');
-Route::get('/Modalidades/{idmodalidad}/edit', 'ModalidadController@Editar')->name('Modalidades.Editar');
-Route::get('/Modalidades/{idmodalidad}/delete', 'ModalidadController@Eliminar')->name('Modalidades.Eliminar');
-Route::get('/Modalidades/crear', 'ModalidadController@Crear')->name('Modalidades.Crear');
-Route::post('/Modalidades/guardar', 'ModalidadController@Guardar')->name('Modalidades.Guardar');
-Route::post('/Modalidades/actualizar', 'ModalidadController@Actualizar')->name('Modalidades.Actualizar');
 
-// Sedes 
-Route::get('/sede', 'SedeController@index')->name('sede');
-Route::get('/sede/{idmodalidad}/edit', 'SedeController@edit')->name('sede.editar');
-Route::get('/sede/{idmodalidad}/delete', 'SedeController@destroy')->name('sede.eliminar');
-Route::get('/sede/crear', 'SedeController@create')->name('sede.crear');
-Route::post('/sede/guardar', 'SedeController@store')->name('sede.guardar');
-Route::post('/sede/actualizar', 'SedeController@update')->name('sede.actualizar');
+        Route::post('/examenes/director/guardar','ExamenController@guardar')->name('Examen.Director.Guardar');
 
+        Route::get('/Examen/{id}/VerReporteIrregularidades','ExamenController@VerReporteIrregularidad')->name('Examen.VerReporteIrregularidades');
+        Route::get('/Examen/{id}/VerReporteIrregularidades/pdf','ExamenController@ExportarPDF')->name('Examen.ReporteIrregularidadesPDF');
+        //modales
+        Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalExamenesIguales','ExamenController@getModalExamenesIguales');
+        Route::get('/Examen/VerReporteIrregularidades/{codGrupo}/ModalGrupoRespuestasIguales','ExamenController@getModalGrupoRespuestasIguales');
+        Route::get('/Examen/VerReporteIrregularidades/{codExamenPostulante}/ModalPreguntasDePostulante','ExamenController@getModalPreguntasDePostulante');
+        Route::get('/Examen/VerReporteIrregularidades/{codPostulanteElevado}/ModalPostulanteElevado','ExamenController@getModalPostulanteElevado');
+        
+        
+        /* 
+        Route::get('/Examen/{codExamenPostulante}/Historial','ExamenController@VerHistorialPostulante')
+            ->name('Examen.VerReporteIrregularidades.VerHistorialPostulante');
+         */
+        Route::post('/Examen/Consejo/AprobarExamen','ExamenController@aprobarExamen')->name('Examen.Consejo.aprobarExamen');
+        
+        Route::get('/Examen/ObservarAlgo/{cadena}','ExamenController@ObservarAlgo'); // desde JS
+        
+        Route::get('/Examen/eliminarObservacion/{codObservacion}','ExamenController@eliminarObservacion');// desde JS
+        
+        Route::get('/Examen/pasarObservacion/{codObservacion}','ExamenController@pasarObservacion');// desde JS
+        Route::get('/Examen/anularExamenesObservacion/{codObservacion}','ExamenController@anularExamenesObservacion');// desde JS
+        
+        
+        Route::get('/Postulante/listar','PostulanteController@listar')
+            ->name('Postulante.Listar'); 
+        Route::get('/Postulante/verPerfil/{codActor}','PostulanteController@verPerfil')
+            ->name('Postulante.VerPerfil'); 
+            
+        Route::get('/Postulante/descargarReportePostulantes','PostulanteController@exportarPostulantes')
+            ->name('Postulante.ExportarPostulantes'); 
+        /*                     en realidad es codActor */
+        
+        
+        
+        // Modalidad 
+        Route::get('/Modalidades/Listar', 'ModalidadController@Listar')->name('Modalidades.Listar');
+        Route::get('/Modalidades/{idmodalidad}/edit', 'ModalidadController@Editar')->name('Modalidades.Editar');
+        Route::get('/Modalidades/{idmodalidad}/delete', 'ModalidadController@Eliminar')->name('Modalidades.Eliminar');
+        Route::get('/Modalidades/crear', 'ModalidadController@Crear')->name('Modalidades.Crear');
+        Route::post('/Modalidades/guardar', 'ModalidadController@Guardar')->name('Modalidades.Guardar');
+        Route::post('/Modalidades/actualizar', 'ModalidadController@Actualizar')->name('Modalidades.Actualizar');
+        
+        // Sedes 
+        Route::get('/sede', 'SedeController@index')->name('sede');
+        Route::get('/sede/{idmodalidad}/edit', 'SedeController@edit')->name('sede.editar');
+        Route::get('/sede/{idmodalidad}/delete', 'SedeController@destroy')->name('sede.eliminar');
+        Route::get('/sede/crear', 'SedeController@create')->name('sede.crear');
+        Route::post('/sede/guardar', 'SedeController@store')->name('sede.guardar');
+        Route::post('/sede/actualizar', 'SedeController@update')->name('sede.actualizar');
+        
+        
+
+
+    });

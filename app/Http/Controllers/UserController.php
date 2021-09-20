@@ -124,6 +124,9 @@ class UserController extends Controller
         return $valor;
     }
 
-  
+    public function error(){
+        $datos = session('datos');
+        return view('Error',compact('datos'));
+    }
 
 }

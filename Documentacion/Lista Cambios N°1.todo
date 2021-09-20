@@ -13,6 +13,7 @@ Actividades:
         ✔ Mejorar eficiencia (tiempo que demora) @done(08-09-21 22:17)
         ✔ Que identifique grupos de más de 2 @done(08-09-21 22:17)
 
+    ☐ Redefinir la formula de la tasa de irregularidad
     ☐ Mejorar algoritmo Examen->generarCarrerasExamen (hace dms recorridos solo para las carreras)
     ✔ Añadir formula en vista tasas @done(07-09-21 23:18)
     ✔ Evaluar si eliminamos la tabla analisis_examen @done(07-09-21 23:18)
@@ -31,8 +32,14 @@ Actividades:
     ✔ Historial y perfil son lo mismo, corregir URLs que los diferencnan @done(07-09-21 23:31)
     ✔ Cambiar nombre a mi bot @done(07-09-21 23:21)
 
+    ☐ Crear Procedimientos almacenados para tener xD
+
+
     ☐ Añadir gestión de permisos (Debe leer de los permisos de usuarios que configuré en MySQL). Usar middlewares¿?
     ☐ Definir si el Representante tambien puede observar
     ☐ Añadir todos los examenes existentes (Hacer esto al final y en el host para el analisis rapido)
-    
+    ✔ Al verificar que no tiene permisos, redirigir a la vista de no tienes permisos error @done(16-09-21 22:12)
 
+    ☐ Arreglar Mockups del informe para que coincidan con las vistas
+    ☐ Hacer la vista de Home (para usuarios anonimos, esta debe ser la de listar examenes)
+    
