@@ -32,6 +32,7 @@ class AnalisisExamen extends Model
     */
     public function generarGruposIguales(){
         $codExamen = $this->codExamen;
+        /* 
         $consultaSQL = "SELECT 
             GROUP_CONCAT(codExamenPostulante) as 'vectorPostulaciones',
             respuestasJSON, 
@@ -40,8 +41,13 @@ class AnalisisExamen extends Model
                 where codExamen = $codExamen and puntajeTotal>0
                 GROUP by respuestasJSON
                 HAVING count(*)>1";
+        */
+
+        //Lo convertimos en un SP
+        $consultaSQL = "CALL `sp_consultarExamenesIguales`($codExamen);";
 
         $listaGruposSelect = DB::select($consultaSQL); 
+         
         //obtenemos un vector en el que cada elemento es [vectorPostulaciones,respuestasJSON,cantEstudiantes]
         
         foreach ($listaGruposSelect as $itemGrupoSelect){
