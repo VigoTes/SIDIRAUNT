@@ -12,7 +12,7 @@
 
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
         
-         
+        <!--
         <a href=" " class="dropdown-item">
           <div class="media" >
             <i class="fas fa-address-card"></i> &nbsp;
@@ -24,7 +24,8 @@
               
           </div>
         </a>
-        <a href=" " class="dropdown-item">
+        -->
+        <a href="{{route('user.editarPassword')}}" class="dropdown-item">
           <div class="media" >
             <i class="fas fa-unlock-alt"></i> &nbsp;
               <h3 class="dropdown-item-title">

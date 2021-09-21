@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actor;
 use Illuminate\Http\Request;
 use App\User;
 use App\Usuario;
@@ -92,6 +93,35 @@ class UserController extends Controller
         return view('login');
     }
  
+
+    public function editarPassword(){
+        return view('Actores.editarPassword');
+    }
+    public function guardarPassword(Request $request){
+        try{
+            DB::beginTransaction();
+            
+            $actor=Actor::getActorLogeado();
+
+            $usuario=User::findOrFail($actor->codUsuario);
+            //$usuario->usuario=$request->usuario;
+            $usuario->password=hash::make($request->contraseña);
+            $usuario->save();
+
+            db::commit();
+            return redirect()->route('user.editarPassword')
+                ->with('datos','Usuario '.$usuario->usuario.' editado exitosamente');
+            
+        }catch (\Throwable $th) {
+            //Debug::mensajeError(' EMPLEADO CONTROLLER guardarcrearempleado' ,$th);    
+            DB::rollback();
+
+            return redirect()->route('user.editarPassword')
+                ->with('datos','Error al editar un actor');
+                
+        }
+         
+    }
 
     public function cerrarSesion(){
         Auth::logout();

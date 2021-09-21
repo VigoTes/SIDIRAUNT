@@ -4,6 +4,7 @@
 @endsection
 
 @section('contenido')
+
 <br>
 
 <h2 class="text-center">
@@ -28,6 +29,7 @@
             <div class="col">
                 <div class="contanier">
                     <h5 style="text-align: center; font-weight: bold">GRUPO DE EXÁMENES EXACTAMENTE IGUALES</h5>
+                    <!--<button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>-->
                     <div class="card-body">
                         <div class="chartjs-size-monitor">
                             <div class="chartjs-size-monitor-expand">
@@ -168,6 +170,7 @@
                         <td >
                             {{$itemGrupo->getPromedioPostulantes()}}
                         </td>
+                        
                         <td>
                             <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalGrupoRespuestasIguales({{$itemGrupo->codGrupoPatron}})"
                                 data-toggle="modal" data-target="#ModalGrupoRespuestasIguales"><i class="fas fa-eye"></i>
@@ -489,6 +492,7 @@
 @endsection
 @include('Layout.ValidatorJS')
 @section('script')
+<!--<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>-->
 <script>
     function clickAprobarExamen(){
         msje = validar();
@@ -717,7 +721,7 @@
             maintainAspectRatio : false,
             responsive : true,
             legend: {
-                display: false
+                display: true
             },
         }
 
@@ -742,5 +746,5 @@
         })
     })
   </script>
-
+  
 @endsection

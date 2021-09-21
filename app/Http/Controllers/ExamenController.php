@@ -73,25 +73,40 @@ class ExamenController extends Controller
         $gruposPatron=GrupoPatron::where('codAnalisis','=',$analisis->codAnalisis)->orderBy('puntajeAdquirido','DESC')->get();
         $postulantesElevados=PostulantesElevados::where('codAnalisis','=',$analisis->codAnalisis)->get();
         //para los 3 pie
+        $total=0;
+        foreach ($gruposIguales as $item) $total+=$item->cantidadPostulantes();
+        $pieGruposIguales=[
+            "labels"=>['POSTULANTES CON IGUALDADES','POSTULANTES SIN IGUALDADES'],
+            "value"=>[$total,round($examen->asistentes*0.05)-$total],
+            "color"=>['#f56954', '#00a65a']
+        ];
+        $total=0;
+        foreach ($gruposPatron as $item) $total+=$item->cantidadPostulantes();
+        $pieGruposPatron=[
+            "labels"=>['POSTULANTES CON COINCIDENCIAS','POSTULANTES SIN COINCIDENCIAS'],
+            "value"=>[$total,$examen->asistentes-$total],
+            "color"=>['#f56954', '#00a65a']
+        ];
+        $piePostulantesElevados=[
+            "labels"=>['CRECIMIENTO ANORMAL','CRECIMIENTO ESTANDAR'],
+            "value"=>[count($postulantesElevados),$examen->asistentes-count($postulantesElevados)],
+            "color"=>['#f56954', '#00a65a']
+        ];
+        /*
         $pieGruposIguales=['labels'=>[],'value'=>[],'color'=>[]];
         foreach ($gruposIguales as $item) {
             $pieGruposIguales['labels'][]='Grupo '.$item->identificador();
             $pieGruposIguales['value'][]=$item->cantidadPostulantes();
             $pieGruposIguales['color'][]=sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-        }
-        $pieGruposPatron=['labels'=>[],'value'=>[],'color'=>[]];
+        }*/
+        //$pieGruposPatron=['labels'=>[],'value'=>[],'color'=>[]];
+        /*
         foreach ($gruposPatron as $item) {
             $pieGruposPatron['labels'][]='Grupo '.$item->identificador();
             $pieGruposPatron['value'][]=$item->cantidadPostulantes();
             $pieGruposPatron['color'][]=sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-        }
-        $piePostulantesElevados=[
-            "labels"=>['CRECIMIENTO ANORMAL','CRECIMIENTO ESTANDAR'],
-            "value"=>[count($postulantesElevados),$examen->asistentes-count($postulantesElevados)],
-            "color"=>[sprintf('#%06X', mt_rand(0, 0xFFFFFF)), sprintf('#%06X', mt_rand(0, 0xFFFFFF))]
-        ];
-
-
+        }*/
+        
 
         return view('Examenes.VerReporteIrregularidades',compact('estados','examen','analisis','gruposIguales','gruposPatron','postulantesElevados',
                                                                     'pieGruposIguales','pieGruposPatron','piePostulantesElevados'));
