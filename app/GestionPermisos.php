@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class GestionPermisos
@@ -16,7 +17,14 @@ class GestionPermisos
     /* para este punto, se tiene que validar antes que haya un actor logeado */
 
     // Esta funcion valida que los permisos establecidos en Laravel coincidan con los establecidos en mysql, retorna true o false
+    
+    //nombrePermiso = Select Insert Update Delete
+    /* 
+    
+    DEPRECADO PQ AHORA CAMBIO LA CONEXION DIRECTAMENTE
+    
     public static function tienePermisos(){
+        
         $actorLogeado = Actor::getActorLogeado();
         $nombreActor = $actorLogeado->getTipoActor()->nombre;
 
@@ -38,6 +46,9 @@ class GestionPermisos
         $consultaSQL = "SELECT * FROM mysql.db where User = '$nombreUsuarioMySQL'";
 
         $respuesta = DB::select($consultaSQL)[0];
+
+        //return $respuesta[$nombrePermiso.'_priv'];
+
         $vectorPermisosMysql = [
             'permiso_Select' => $respuesta->Select_priv,
             'permiso_Insert' => $respuesta->Insert_priv,
@@ -55,5 +66,5 @@ class GestionPermisos
         return true;
 
     }
-
+ */
 }

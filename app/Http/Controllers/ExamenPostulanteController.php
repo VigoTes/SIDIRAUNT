@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ExamenPostulanteController extends Controller
 {
-    const PAGINATION = 20;
+    const PAGINATION = 50;
     /* 
     
     Retorna la vista en la que se listan todos los postulantes de un examen

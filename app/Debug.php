@@ -80,4 +80,21 @@ class Debug extends Model
         
 
     }
+
+    /* 
+        Si es una excepción de falta de permisos, te retorna a la vista de NO TIENES PERMISOS
+        Si es una excepcion normal, te retorna el texto de la excepcion
+    */
+    public static function procesarExcepcion($th){
+        if(str_contains($th,'command denied to user')){
+            $datos = "No tienes permiso para realizar esta acción. Contacte con un administrador para verificar si se trata de un error.";
+            
+            return redirect()->route('user.error')->with('datos',$datos);
+        }else{
+            return $th;
+
+        }
+
+            
+    }
 }

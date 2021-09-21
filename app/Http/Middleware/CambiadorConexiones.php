@@ -2,12 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Actor;
-use App\GestionPermisos;
 use App\GestorConexiones;
 use Closure;
 
-class ValidarSesion
+class CambiadorConexiones
 {
     /**
      * Handle an incoming request.
@@ -18,11 +16,7 @@ class ValidarSesion
      */
     public function handle($request, Closure $next)
     {
-        if(Actor::getActorLogeado()==""){
-            return redirect()->route('user.error')->with('datos','No tiene permisos suficientes.');
-        }
-        
-        
+        //GestorConexiones::cambiarConexionSegunLogeado();
         return $next($request);
     }
 }
