@@ -19,7 +19,7 @@ class ValidarSesion
     public function handle($request, Closure $next)
     {
         if(Actor::getActorLogeado()==""){
-            return redirect()->route('user.error')->with('datos','No tiene permisos suficientes.');
+            return redirect()->route('user.error')->with('datos','Debe ingresar al sistema para administrarlo, no tiene permisos suficientes.');
         }
         
         

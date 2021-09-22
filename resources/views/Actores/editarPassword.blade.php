@@ -1,7 +1,7 @@
 @extends('Layout.Plantilla')
 
 @section('titulo')
-    Editar Usuario
+    Cambiar Contraseña
 @endsection
 
 @section('contenido')
@@ -12,7 +12,7 @@
 
 <div class="well">
     <H3 style="text-align: center;">
-        Editar Usuario
+        Cambiar Contraseña
     </H3>
 </div>
 @include('Layout.MensajeEmergenteDatos')
@@ -35,20 +35,37 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label class="" style="">Contraseña:</label>
+
+                    </div>
+
+                    <div class="w-100"></div>
+                    
+                    <div class="col">
+                        <label class="" style="">Contraseña Actual:</label>
                         <div class="">
-                            <input type="password" class="form-control" id="contraseña" name="contraseña" 
+                            <input type="password" class="form-control" id="contraseñaActual" name="contraseñaActual" 
+                                value="" placeholder="Contraseña..." >
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="" style="">Repetir Contraseña Actual:</label>
+                        <div class="">
+                            <input type="password" class="form-control" id="contraseñaActual2" name="contraseñaActual2" 
                                 value="" placeholder="Contraseña..." >
                         </div>
                     </div>
 
                     <div class="w-100"></div>
-
+                    
                     <div class="col">
-
+                        <label class="" style="">Nueva Contraseña:</label>
+                        <div class="">
+                            <input type="password" class="form-control" id="contraseña" name="contraseña" 
+                                value="" placeholder="Contraseña..." >
+                        </div>
                     </div>
                     <div class="col">
-                        <label class="" style="">Repetir Contraseña:</label>
+                        <label class="" style="">Repetir Nueva Contraseña:</label>
                         <div class="">
                             <input type="password" class="form-control" id="contraseña2" name="contraseña2" 
                                 value="" placeholder="Contraseña..." >
@@ -65,11 +82,7 @@
                             <i class='fas fa-save'></i> 
                             Registrar
                         </button> 
-                        
-                        <a href="{{route('Actor.listar')}}" class='btn btn-info float-left'>
-                            <i class="fas fa-arrow-left"></i> 
-                            Regresar al Menú
-                        </a>
+                         
     
                     </div>
 
@@ -114,14 +127,17 @@
  
     function validarFormulario(){
         limpiarEstilos(
-            ['usuario','contraseña','contraseña2']);
+            ['usuario','contraseñaActual','contraseñaActual2','contraseña','contraseña2']);
         msj = "";
         
         msj = validarTamañoMaximoYNulidad(msj,'usuario',50,'usuario');
-        msj = validarTamañoMaximoYNulidad(msj,'contraseña',50,'contraseña');
-        msj = validarTamañoMaximoYNulidad(msj,'contraseña2',50,'Repetir contraseña');
+        msj = validarTamañoMaximoYNulidad(msj,'contraseñaActual',50,'Contraseña Actual');
+        msj = validarTamañoMaximoYNulidad(msj,'contraseñaActual2',50,'Repetir contraseña actual');
+        msj = validarTamañoMaximoYNulidad(msj,'contraseña',50,'Nueva Contraseña');
+        msj = validarTamañoMaximoYNulidad(msj,'contraseña2',50,'Repetir nueva contraseña');
 
-        msj = validarContenidosIguales(msj,'contraseña','contraseña2','Las contraseñas deben coincidir');
+        msj = validarContenidosIguales(msj,'contraseñaActual','contraseñaActual2','Las actuales contraseñas deben coincidir');
+        msj = validarContenidosIguales(msj,'contraseña','contraseña2','Las nuevas contraseñas deben coincidir');
         
 
         return msj;

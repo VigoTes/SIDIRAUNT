@@ -2,6 +2,7 @@
 
 namespace Illuminate\Database\Eloquent;
 
+use App\Debug;
 use ArrayAccess;
 use Exception;
 use Illuminate\Contracts\Queue\QueueableCollection;
@@ -487,6 +488,7 @@ abstract class Model implements Arrayable, ArrayAccess, Jsonable, JsonSerializab
      */
     public static function all($columns = ['*'])
     {
+        
         return static::query()->get(
             is_array($columns) ? $columns : func_get_args()
         );
@@ -708,6 +710,8 @@ abstract class Model implements Arrayable, ArrayAccess, Jsonable, JsonSerializab
 
         $query = $this->newModelQuery();
 
+        $con = $query->getConnection();
+        
         // If the "saving" event returns false we'll bail out of the save and return
         // false, indicating that the save failed. This provides a chance for any
         // listeners to cancel save operations if validations fail or whatever.

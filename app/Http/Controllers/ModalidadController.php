@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Debug;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Modalidad;
@@ -19,10 +20,13 @@ class ModalidadController extends Controller
      */
     public function Listar()
     {
+        try {
+            $modalidades = Modalidad::all();
 
-        $modalidades = Modalidad::all();
-
-        return view('Modalidades.ListarModalidades', compact('modalidades'));
+            return view('Modalidades.ListarModalidades', compact('modalidades'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     /**
@@ -32,7 +36,11 @@ class ModalidadController extends Controller
      */
     public function Crear(Request $request)
     {
-        return view('Modalidades.CrearModalidad');
+        try {
+            return view('Modalidades.CrearModalidad');
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     /**
@@ -43,15 +51,19 @@ class ModalidadController extends Controller
      */
     public function Guardar(Request $request)
     {
-        $modalidad = new Modalidad();
+        try {
+            $modalidad = new Modalidad();
         
-        $modalidad->nombre = request()->nombre;
+            $modalidad->nombre = request()->nombre;
+        
+            $modalidad->save();
     
-        $modalidad->save();
-
-        $datos = 'Fue registrada la modalidad'. $modalidad->name .' exitosamente';
-
-        return redirect()->route('Modalidades.Listar')->with('datos', $datos);
+            $datos = 'Fue registrada la modalidad'. $modalidad->name .' exitosamente';
+    
+            return redirect()->route('Modalidades.Listar')->with('datos', $datos);
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
  
@@ -63,9 +75,13 @@ class ModalidadController extends Controller
      */
     public function Editar($id)
     {
-        $modalidad = Modalidad::find($id);
+        try {
+            $modalidad = Modalidad::find($id);
 
-        return view('Modalidades.EditarModalidad', compact(['modalidad']));
+            return view('Modalidades.EditarModalidad', compact(['modalidad']));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     /**
@@ -77,14 +93,17 @@ class ModalidadController extends Controller
      */
     public function Actualizar(Request $request)
     {
-        $modalidad = Modalidad::find(request()->codModalidad);
+        try {
+            $modalidad = Modalidad::find(request()->codModalidad);
 
-        $modalidad->nombre = request()->nombre;
-
-        $modalidad->save();
-
-        return redirect()->route('Modalidades.Listar')->with('datos', 'Modalidad actualizada correctamente!');
-
+            $modalidad->nombre = request()->nombre;
+    
+            $modalidad->save();
+    
+            return redirect()->route('Modalidades.Listar')->with('datos', 'Modalidad actualizada correctamente!');
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     /**
@@ -95,8 +114,12 @@ class ModalidadController extends Controller
      */
     public function Eliminar($id)
     {
-        Modalidad::destroy($id);
+        try {
+            Modalidad::destroy($id);
 
-        return redirect()->route('modalidad')->with('datos', 'Registro eliminado correctamente!');
+            return redirect()->route('modalidad')->with('datos', 'Registro eliminado correctamente!');
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 }

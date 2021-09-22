@@ -2,6 +2,7 @@
 
 namespace Illuminate\Database;
 
+use App\Debug;
 use Closure;
 use DateTimeInterface;
 use Doctrine\DBAL\Connection as DoctrineConnection;
@@ -166,6 +167,8 @@ class Connection implements ConnectionInterface
     public function __construct($pdo, $database = '', $tablePrefix = '', array $config = [])
     {
         $this->pdo = $pdo;
+
+        Debug::mensajeSimple('Connection/__construirConexión: el username de la conexión es:'.json_encode($config['username']));
 
         // First we will setup the default properties. We keep track of the DB
         // name we are connected to since it is needed when some reflective

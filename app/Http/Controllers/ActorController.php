@@ -16,14 +16,22 @@ class ActorController extends Controller
     const PAGINATION = 15;
 
     public function listar(){
-        $actores = Actor::where('codTipoActor','!=',1)->paginate($this::PAGINATION);
+        try {
+            $actores = Actor::where('codTipoActor','!=',1)->paginate($this::PAGINATION);
 
-        return view('Actores.ListarActores',compact('actores'));
+            return view('Actores.ListarActores',compact('actores'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     public function crear(){
-        $tipos=TipoActor::where('codTipoActor','!=',1)->get();
-        return view('Actores.crear',compact('tipos'));
+        try {
+            $tipos=TipoActor::where('codTipoActor','!=',1)->get();
+            return view('Actores.crear',compact('tipos'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     public function guardar(Request $request){
@@ -58,10 +66,14 @@ class ActorController extends Controller
     }
 
     public function editarActor($codActor){
-        $actor=Actor::findOrFail($codActor);
-        $tipos=TipoActor::where('codTipoActor','!=',1)->get();
+        try {
+            $actor=Actor::findOrFail($codActor);
+            $tipos=TipoActor::where('codTipoActor','!=',1)->get();
 
-        return view('Actores.EditarActor',compact('actor','tipos'));
+            return view('Actores.EditarActor',compact('actor','tipos'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
     
     public function guardarActor(Request $request){
@@ -90,9 +102,13 @@ class ActorController extends Controller
     }
 
     public function editarUsuario($codActor){
-        $actor=Actor::findOrFail($codActor);
-        $usuario=User::findOrFail($actor->codUsuario);
-        return view('Actores.EditarUsuario',compact('usuario'));
+        try {
+            $actor=Actor::findOrFail($codActor);
+            $usuario=User::findOrFail($actor->codUsuario);
+            return view('Actores.EditarUsuario',compact('usuario'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     public function guardarUsuario(Request $request){
@@ -122,10 +138,14 @@ class ActorController extends Controller
     }
 
     public function eliminar($codActor){
-        $actor=Actor::findOrFail($codActor);
-        $actor->delete();
-
-        return redirect()->route('Actor.listar')
-                ->with('datos','Actor '.$actor->apellidosYnombres.' eliminado exitosamente');
+        try {
+            $actor=Actor::findOrFail($codActor);
+            $actor->delete();
+    
+            return redirect()->route('Actor.listar')
+                    ->with('datos','Actor '.$actor->apellidosYnombres.' eliminado exitosamente');
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 }

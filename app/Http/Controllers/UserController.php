@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Cliente;
 use Illuminate\Support\Carbon;
 use App\Carrito;
+use App\Debug;
 use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
@@ -71,6 +72,11 @@ class UserController extends Controller
 
         public function index(Request $Request)
         {
+            try {
+                //code...
+            } catch (\Throwable $th) {
+                return Debug::procesarExcepcion($th);
+            }
             $buscarpor = $Request->buscarpor;
             $usuarios = User::where('name','like','%'.$buscarpor.'%')
                 ->where('estadoAct','=','1')
@@ -95,7 +101,11 @@ class UserController extends Controller
  
 
     public function editarPassword(){
-        return view('Actores.editarPassword');
+        try {
+            return view('Actores.editarPassword');
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
     public function guardarPassword(Request $request){
         try{
@@ -104,6 +114,12 @@ class UserController extends Controller
             $actor=Actor::getActorLogeado();
 
             $usuario=User::findOrFail($actor->codUsuario);
+            $hashp=$usuario->password; // guardamos la contraseña cifrada de la BD en hashp
+            $password=$request->get('contraseñaActual');    //guardamos la contraseña ingresada en password
+            if(!password_verify($password,$hashp)){       //comparamos con el metodo password_verifi ??¡ xdd
+                return redirect()->route('user.editarPassword')
+                    ->with('datos','Contraseña actual erronea');
+            }
             //$usuario->usuario=$request->usuario;
             $usuario->password=hash::make($request->contraseña);
             $usuario->save();
@@ -138,8 +154,15 @@ class UserController extends Controller
 
     public function home(){
        /*  if(is_null(Auth::id()))
-            return redirect()->route('user.verLogin');
- */
+            return redirect()->route('user.verLogin');*/     
+        if(Actor::hayActorLogeado()){
+            if(Actor::getActorLogeado()->verificarActor('Postulante')){
+                return redirect()->route('MiPerfil');
+            }
+        }
+
+        //Si no hay actor logeado, singifica que el usuario es anónimo. Por lo cual lo redirijimos al listar examenes 
+        return redirect()->route('Examen.Anonimo.Listar');
         return view('Bienvenido');
     }
 

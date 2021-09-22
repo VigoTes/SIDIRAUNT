@@ -14,4 +14,10 @@ class CondicionPostulacion extends Model
     protected $fillable = [
        'nombre'
     ];
+
+    public static function getCondicionIngresante(){
+        return CondicionPostulacion::where('nombre','=',"INGRESA")->get()->first();
+
+    }
+
 }

@@ -3,9 +3,17 @@
 
 @extends('Layout.Plantilla')
 @section('titulo')
-    Perfil de Postulante
+    Perfil de {{$postulante->apellidosYnombres}}
 @endsection
 
+@section('estilos')
+<style>
+    th,td{
+        text-align: center;
+    }
+
+</style>
+@endsection
 @section('contenido')
 <br>
 
@@ -63,20 +71,21 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-sm">
+        <table class="table table-sm table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th>Periodo</th>
+                    <th>Modalidad</th>
                     <th>Fecha Rend</th>
                     <th>#Marcadas</th>
 
                     <th>#Correctas</th>
                     <th>#Incorrectas</th>
                     
-                    <th>Puntaje APT</th>
-                    <th>Puntaje CON</th>
-                    <th>Puntaje Total</th>
-                    <th>Puntaje Mínimo ingresante</th>
+                    <th>Ptje APT</th>
+                    <th>Ptje CON</th>
+                    <th>Ptje Total</th>
+                    <th>Ptje Min ingresante</th>
                     <th>Escuela</th>
                     <th>Condición</th>
                     <th>Ver</th>
@@ -86,7 +95,13 @@
                 @foreach($postulante->getPostulaciones() as $postulacion)
                     <tr>
                         <td>
-                            {{$postulacion->getExamen()->periodo}}
+                            <a class="btn btn-sm btn-success" href="{{route('Examen.VerPostulantes',$postulacion->codExamen)}}">
+
+                                {{$postulacion->getExamen()->periodo}}
+                            </a>
+                        </td>
+                        <td>
+                            {{$postulacion->getExamen()->getModalidad()->nombre}}
                         </td>
                         <td>
                             {{$postulacion->getExamen()->getFechaRendicion()}}
@@ -104,17 +119,17 @@
                         
 
                         <td>
-                            {{$postulacion->puntajeAPT}}
+                            {{number_format($postulacion->puntajeAPT,3)}}
                         </td>
                         <td>
-                            {{$postulacion->puntajeCON}}
+                            {{number_format($postulacion->puntajeCON,3)}}
                         </td>
                         <td>
-                            {{$postulacion->puntajeTotal}}
+                            {{number_format($postulacion->puntajeTotal,3)}}
                         </td>
 
                         <td>
-                            {{$postulacion->puntajeMinimoPermitido}}
+                            {{number_format($postulacion->getCarreraExamen()->puntajeMinimoPostulante,3)}}
                         </td>
 
                         <td>

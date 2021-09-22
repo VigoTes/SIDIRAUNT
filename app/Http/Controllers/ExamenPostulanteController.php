@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Debug;
 use App\Examen;
 use App\ExamenPostulante;
 use App\Http\Controllers\Controller;
@@ -15,20 +16,27 @@ class ExamenPostulanteController extends Controller
     Retorna la vista en la que se listan todos los postulantes de un examen
     */
     public function listarDeExamen($codExamen){
-        
-        $examen = Examen::findOrFail($codExamen);
-        $listaExamenes = ExamenPostulante::where('codExamen','=',$codExamen)
-                        ->paginate($this::PAGINATION);
-
-        return view('Examenes.ListarPostulantesDeExamen',compact('examen','listaExamenes'));
+        try {
+            $examen = Examen::findOrFail($codExamen);
+            $listaExamenes = ExamenPostulante::where('codExamen','=',$codExamen)
+                            ->paginate($this::PAGINATION);
+    
+            return view('Examenes.ListarPostulantesDeExamen',compact('examen','listaExamenes'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     //REPORTES EXCEL
     public function exportarPostulantes($codExamen){
-        $examen = Examen::findOrFail($codExamen);
-        $listaExamenes = ExamenPostulante::where('codExamen','=',$codExamen)->get();
-        
-        return view('Examenes.ReportePostulantesExcel',compact('examen','listaExamenes'));
+        try {
+            $examen = Examen::findOrFail($codExamen);
+            $listaExamenes = ExamenPostulante::where('codExamen','=',$codExamen)->get();
+            
+            return view('Examenes.ReportePostulantesExcel',compact('examen','listaExamenes'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
 

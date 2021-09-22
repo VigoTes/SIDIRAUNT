@@ -5,11 +5,14 @@ namespace App;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class GestorConexiones 
 {
     //
 
+
+     
 
     /* 
         Cambia la conexión de la base de datos a la especificada en el parametro
@@ -21,7 +24,10 @@ class GestorConexiones
         $config = Config::get('database.connections.mysql');
         $config['username'] = $mysql_username; //cambiamos el username segun el que se nos haya pasado por parametro
         
-        config()->set('database.connections.mysql', $config);
+
+        config()->set('database.connections.mysql', $config); //cambiamos la configuración de donde se lee la conexión
+        DB::reconnect(); // reconectamos la conexión
+        
         //hasta aquí ya estaría
         /* Pero añadiré una validación para confirmar que efectivamente se cambió */
         $configVerificacion = Config::get('database.connections.mysql');
@@ -41,6 +47,8 @@ class GestorConexiones
             $nombreActor = $actorLogeado->getTipoActor()->nombre;
         }
         
+        
+        
         switch ($nombreActor) {
             case 'Postulante':
                 $nombreUsuarioMySQL = 'postulante';
@@ -53,13 +61,15 @@ class GestorConexiones
                 break;
             case 'anonimo':
                 $nombreUsuarioMySQL = 'anonimo';
+                break;
             default:
                 # code...
                 break;
         }
         
+        
         GestorConexiones::cambiarConexion($nombreUsuarioMySQL);
-        Debug::mensajeSimple("Conexión cambiada exitosamente");
+        Debug::mensajeSimple("Conexión cambiada exitosamente a la cuenta '$nombreUsuarioMySQL'");
 
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Debug;
 use App\GestorConexiones;
 use Closure;
 
@@ -16,7 +17,10 @@ class CambiadorConexiones
      */
     public function handle($request, Closure $next)
     {
-        //GestorConexiones::cambiarConexionSegunLogeado();
+        //Debug::mensajeSimple('yara:'. env('activarCambioDeUsuarioMYSQL'));
+        if(env('activarCambioDeUsuarioMYSQL')=='1')
+            GestorConexiones::cambiarConexionSegunLogeado();
+        
         return $next($request);
     }
 }

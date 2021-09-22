@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Hash;
 
 
 
@@ -51,13 +51,23 @@ Route::get('/Error','UserController@error')->name('user.error');
 
 
 Route::get('/probandoCosas',function(){
-   
+    
+    $n1 = ExamenPostulante::generarNombreUsuario("TIRADO GUERRA WILSON RICARDO");
+    $n2 = ExamenPostulante::generarNombreUsuario("VARGAS MONTOYA RODOLFO SEBASTIAN");
+    $n3 = ExamenPostulante::generarNombreUsuario("PAREDES PASTOR GIAN CARLOS");
+    $v = [$n1,$n2,$n3];
+    return $v;
+
 });
  
  
 Route::get('/probandoCosas2',function(){
-    
-    
+    $usuarios=User::where('contraseña','=','1234')->get();
+    foreach ($usuarios as $item) {
+        $item->contraseña='postulante';
+        $item->password=hash::make('postulante');
+        $item->save();
+    }
 });
 
 /* Middleware que cambia la conexión que está usando el usuario con la de su tipo de actor en mysql */
@@ -74,6 +84,12 @@ Route::group(['middleware'=>"CambiadorConexiones"],function()
             
     Route::get('/Postulante/verPerfil/{codActor}','PostulanteController@verPerfil')
                 ->name('Postulante.VerPerfil'); 
+
+    
+    Route::get('/MiPerfil','PostulanteController@MiPerfil') //solo para cuando se logea un postulante
+        ->name('MiPerfil'); 
+    
+    
                 
     Route::get('/Examen/VerReporteIrregularidades/{codExamenPostulante}/ModalPreguntasDePostulante','ExamenController@getModalPreguntasDePostulante');
             

@@ -19,15 +19,22 @@ class CarreraController extends Controller
 
     public function listar()
     {
-        $carreras=Carrera::where('codCarrera','>','0')->paginate($this::PAGINACION);
-        return view('Carreras.Listar',compact('carreras'));
+        try {
+            $carreras=Carrera::where('codCarrera','>','0')->paginate($this::PAGINACION);
+            return view('Carreras.Listar',compact('carreras'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     public function Crear(){
-        $areas=Area::all();
-        $facultades=Facultad::all();
-        return view('Carreras.Crear',compact('areas','facultades'));
-
+        try {
+            $areas=Area::all();
+            $facultades=Facultad::all();
+            return view('Carreras.Crear',compact('areas','facultades'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     public function guardar(Request $request){
@@ -59,11 +66,15 @@ class CarreraController extends Controller
     }
 
     public function editar($id){
-        $carrera=Carrera::findOrFail($id);
+        try {
+            $carrera=Carrera::findOrFail($id);
 
-        $areas=Area::all();
-        $facultades=Facultad::all();
-        return view('Carreras.Editar',compact('areas','facultades','carrera'));
+            $areas=Area::all();
+            $facultades=Facultad::all();
+            return view('Carreras.Editar',compact('areas','facultades','carrera'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     public function update(Request $request){
@@ -95,75 +106,87 @@ class CarreraController extends Controller
     }
 
     public function eliminar($id){
-        $carrera=Carrera::findOrFail($id);
-        $carrera->delete();
-
-        return redirect()->route('Carrera.listar')
-            ->with('datos','Carrera eliminada.');
+        try {
+            $carrera=Carrera::findOrFail($id);
+            $carrera->delete();
+    
+            return redirect()->route('Carrera.listar')
+                ->with('datos','Carrera eliminada.');
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
 
     public function verHistorico(){
-        $carrerasExamen=CarreraExamen::all();
-        $arr1=[];
-        foreach ($carrerasExamen as $item) {
-            $arr1[]=$item->codCarrera;
+        try {
+            $carrerasExamen=CarreraExamen::all();
+            $arr1=[];
+            foreach ($carrerasExamen as $item) {
+                $arr1[]=$item->codCarrera;
+            }
+            $carreras=Carrera::whereIn('codCarrera',$arr1)->get();
+            $carreraSelected=$carreras[0];
+            //$carreras=DB::select('select CAST(fechaHoraLogeo AS DATE) as fecha, COUNT(*) as cantidad from logeo_historial where fechaHoraLogeo>? and fechaHoraLogeo<? group by CAST(fechaHoraLogeo AS DATE)',[$fechaInicio,$fechaFin]);
+            
+    
+            //para que no se paltee tiene que haber minimo una carrera
+            $examenesCarrera=DB::TABLE('carrera_examen')
+            ->JOIN('examen', 'examen.codExamen', '=', 'carrera_examen.codExamen')
+            ->SELECT('carrera_examen.puntajeMinimoPermitido as puntajeMinimoPermitido', 'carrera_examen.puntajeMinimoPostulante as puntajeMinimoPostulante',
+                    'carrera_examen.puntajeMaximoPostulante as puntajeMaximoPostulante','examen.periodo as periodo')
+            ->where('carrera_examen.codCarrera','=',$carreraSelected->codCarrera)->get();
+            
+            $puntajesMinimoPermitido=[];
+            $puntajesMinimoPostulante=[];
+            $puntajesMaximoPostulante=[];
+            $periodos=[];
+            foreach ($examenesCarrera as $item) {
+                $puntajesMinimoPermitido[]=$item->puntajeMinimoPermitido;
+                $puntajesMinimoPostulante[]=$item->puntajeMinimoPostulante;
+                $puntajesMaximoPostulante[]=$item->puntajeMaximoPostulante;
+                $periodos[]=$item->periodo;
+            }
+    
+            return view('Carreras.VerHistorico',compact('carreras','carreraSelected','examenesCarrera','puntajesMinimoPermitido','puntajesMinimoPostulante','puntajesMaximoPostulante','periodos'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
         }
-        $carreras=Carrera::whereIn('codCarrera',$arr1)->get();
-        $carreraSelected=$carreras[0];
-        //$carreras=DB::select('select CAST(fechaHoraLogeo AS DATE) as fecha, COUNT(*) as cantidad from logeo_historial where fechaHoraLogeo>? and fechaHoraLogeo<? group by CAST(fechaHoraLogeo AS DATE)',[$fechaInicio,$fechaFin]);
-        
-
-        //para que no se paltee tiene que haber minimo una carrera
-        $examenesCarrera=DB::TABLE('carrera_examen')
-        ->JOIN('examen', 'examen.codExamen', '=', 'carrera_examen.codExamen')
-        ->SELECT('carrera_examen.puntajeMinimoPermitido as puntajeMinimoPermitido', 'carrera_examen.puntajeMinimoPostulante as puntajeMinimoPostulante',
-                'carrera_examen.puntajeMaximoPostulante as puntajeMaximoPostulante','examen.periodo as periodo')
-        ->where('carrera_examen.codCarrera','=',$carreraSelected->codCarrera)->get();
-        
-        $puntajesMinimoPermitido=[];
-        $puntajesMinimoPostulante=[];
-        $puntajesMaximoPostulante=[];
-        $periodos=[];
-        foreach ($examenesCarrera as $item) {
-            $puntajesMinimoPermitido[]=$item->puntajeMinimoPermitido;
-            $puntajesMinimoPostulante[]=$item->puntajeMinimoPostulante;
-            $puntajesMaximoPostulante[]=$item->puntajeMaximoPostulante;
-            $periodos[]=$item->periodo;
-        }
-
-        return view('Carreras.VerHistorico',compact('carreras','carreraSelected','examenesCarrera','puntajesMinimoPermitido','puntajesMinimoPostulante','puntajesMaximoPostulante','periodos'));
     }
 
     public function actualizarHistorico($id){
-        $carrerasExamen=CarreraExamen::all();
-        $arr1=[];
-        foreach ($carrerasExamen as $item) {
-            $arr1[]=$item->codCarrera;
+        try {
+            $carrerasExamen=CarreraExamen::all();
+            $arr1=[];
+            foreach ($carrerasExamen as $item) {
+                $arr1[]=$item->codCarrera;
+            }
+            $carreras=Carrera::whereIn('codCarrera',$arr1)->get();
+            $carreraSelected=Carrera::findOrFail($id);
+            //$carreras=DB::select('select CAST(fechaHoraLogeo AS DATE) as fecha, COUNT(*) as cantidad from logeo_historial where fechaHoraLogeo>? and fechaHoraLogeo<? group by CAST(fechaHoraLogeo AS DATE)',[$fechaInicio,$fechaFin]);
+            
+    
+            //para que no se paltee tiene que haber minimo una carrera
+            $examenesCarrera=DB::TABLE('carrera_examen')
+            ->JOIN('examen', 'examen.codExamen', '=', 'carrera_examen.codExamen')
+            ->SELECT('carrera_examen.puntajeMinimoPermitido as puntajeMinimoPermitido', 'carrera_examen.puntajeMinimoPostulante as puntajeMinimoPostulante',
+                    'carrera_examen.puntajeMaximoPostulante as puntajeMaximoPostulante','examen.periodo as periodo')
+            ->where('carrera_examen.codCarrera','=',$carreraSelected->codCarrera)->get();
+    
+            $puntajesMinimoPermitido=[];
+            $puntajesMinimoPostulante=[];
+            $puntajesMaximoPostulante=[];
+            $periodos=[];
+            foreach ($examenesCarrera as $item) {
+                $puntajesMinimoPermitido[]=$item->puntajeMinimoPermitido;
+                $puntajesMinimoPostulante[]=$item->puntajeMinimoPostulante;
+                $puntajesMaximoPostulante[]=$item->puntajeMaximoPostulante;
+                $periodos[]=$item->periodo;
+            }
+    
+            return view('Carreras.VerHistorico',compact('carreras','carreraSelected','examenesCarrera','puntajesMinimoPermitido','puntajesMinimoPostulante','puntajesMaximoPostulante','periodos'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
         }
-        $carreras=Carrera::whereIn('codCarrera',$arr1)->get();
-        $carreraSelected=Carrera::findOrFail($id);
-        //$carreras=DB::select('select CAST(fechaHoraLogeo AS DATE) as fecha, COUNT(*) as cantidad from logeo_historial where fechaHoraLogeo>? and fechaHoraLogeo<? group by CAST(fechaHoraLogeo AS DATE)',[$fechaInicio,$fechaFin]);
-        
-
-        //para que no se paltee tiene que haber minimo una carrera
-        $examenesCarrera=DB::TABLE('carrera_examen')
-        ->JOIN('examen', 'examen.codExamen', '=', 'carrera_examen.codExamen')
-        ->SELECT('carrera_examen.puntajeMinimoPermitido as puntajeMinimoPermitido', 'carrera_examen.puntajeMinimoPostulante as puntajeMinimoPostulante',
-                'carrera_examen.puntajeMaximoPostulante as puntajeMaximoPostulante','examen.periodo as periodo')
-        ->where('carrera_examen.codCarrera','=',$carreraSelected->codCarrera)->get();
-
-        $puntajesMinimoPermitido=[];
-        $puntajesMinimoPostulante=[];
-        $puntajesMaximoPostulante=[];
-        $periodos=[];
-        foreach ($examenesCarrera as $item) {
-            $puntajesMinimoPermitido[]=$item->puntajeMinimoPermitido;
-            $puntajesMinimoPostulante[]=$item->puntajeMinimoPostulante;
-            $puntajesMaximoPostulante[]=$item->puntajeMaximoPostulante;
-            $periodos[]=$item->periodo;
-        }
-
-        return view('Carreras.VerHistorico',compact('carreras','carreraSelected','examenesCarrera','puntajesMinimoPermitido','puntajesMinimoPostulante','puntajesMaximoPostulante','periodos'));
     }
 }

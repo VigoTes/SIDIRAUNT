@@ -202,7 +202,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-sm">
+        <table class="table table-sm table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th>Carnet</th>
@@ -212,7 +212,7 @@
                     <th>Puntaje Anterior</th>
                     <th>Puntaje Actual</th>
                     <th>Diferencia %</th>
-                    <th>Perfil</th>
+                    
                     <th>Respuestas</th>
                     <th>Diferencias</th>
                 </tr>
@@ -223,19 +223,23 @@
                     
                     <td>{{$itemPostElevado->examenActual()->nroCarnet}}</td>
 
-                    <td>{{$itemPostElevado->postulante()->apellidosYnombres}}</td>
+                    <td>
+                             
+                            <a href="{{route("Postulante.VerPerfil",$itemPostElevado->postulante()->codActor)}}" 
+                                class="ml-1 btn btn-warning btn-xs" title="Ver Perfil">
+                                <i class="fas fa-eye"></i>      
+                            </a>
+                                    {{$itemPostElevado->postulante()->apellidosYnombres}}
+                              
+                                 
+                    </td>
                     <td>{{$itemPostElevado->postulante()->codUsuario}}</td>
                     <td>{{$itemPostElevado->examenActual()->getCarrera()->nombre}}</td>
                     <td>{{$itemPostElevado->examenAnterior()->puntajeTotal}}</td>
               
                     <td>{{$itemPostElevado->examenActual()->puntajeTotal}}</td>
                     <td>{{number_format($itemPostElevado->porcentajeElevacion*100,2)}}%</td>
-                    <td>
-                        <a href="{{route("Postulante.VerPerfil",$itemPostElevado->postulante()->codActor)}}" 
-                            class="btn btn-warning btn-sm" title="Ver Reposición">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                    </td>
+                    
                     <td>
                         <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante({{$itemPostElevado->codExamenPostulante}},{{$itemPostElevado->postulante()->codUsuario}})"
                             data-toggle="modal" data-target="#ModalPreguntasDePostulante">

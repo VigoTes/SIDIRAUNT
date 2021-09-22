@@ -86,6 +86,7 @@ class Debug extends Model
         Si es una excepcion normal, te retorna el texto de la excepcion
     */
     public static function procesarExcepcion($th){
+        Debug::mensajeError('',$th);
         if(str_contains($th,'command denied to user')){
             $datos = "No tienes permiso para realizar esta acción. Contacte con un administrador para verificar si se trata de un error.";
             
