@@ -29,7 +29,7 @@
                 <td>{{$itemCarrera->getArea()->descripcion}}</td>
                 <td>{{$itemCarrera->getFacultad()->nombre}}</td>
                 <td>
-                    <a href="{{route('Carrera.actualizarHistorico',$itemCarrera->codCarrera)}}" class="btn btn-info btn-sm" title="Ver Reposición">Ver histórico</a>
+                    <a href="{{route('CarreraExamen.actualizarHistorico',$itemCarrera->codCarrera)}}" class="btn btn-info btn-sm" title="Ver Reposición">Ver histórico</a>
                 </td>
               </tr>
               @endforeach 

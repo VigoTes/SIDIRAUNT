@@ -95,6 +95,9 @@ Route::group(['middleware'=>"CambiadorConexiones"],function()
             
     Route::get('/Examen/{id}/descargarReportePostulantes/','ExamenPostulanteController@exportarPostulantes')->name('Examen.ExportarPostulantes');
 
+    /*HISTORICO DE CARRERAS */
+    Route::get('/CarreraExamen/VerHistorico', 'CarreraController@verHistorico')->name('CarreraExamen.verHistorico');
+    Route::get('/CarreraExamen/{id}/VerHistorico', 'CarreraController@actualizarHistorico')->name('CarreraExamen.actualizarHistorico');
 
     /* Middleware que valida que haya alguien logeado */
     Route::group(['middleware'=>"ValidarSesion"],function(){
@@ -218,8 +221,7 @@ Route::group(['middleware'=>"CambiadorConexiones"],function()
             Route::post('/Carrera/update', 'CarreraController@update')->name('Carrera.update');
             Route::get('/Carrera/{id}/eliminar', 'CarreraController@eliminar')->name('Carrera.eliminar');
 
-            Route::get('/Carrera/VerHistorico', 'CarreraController@verHistorico')->name('Carrera.verHistorico');
-            Route::get('/Carrera/{id}/VerHistorico', 'CarreraController@actualizarHistorico')->name('Carrera.actualizarHistorico');
+            
 
             //TASAS
             Route::get('/Tasas', 'DashboardController@listar')->name('Dashboard.listar');

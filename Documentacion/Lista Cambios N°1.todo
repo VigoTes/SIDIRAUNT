@@ -46,10 +46,24 @@ Actividades:
     ✔ Generacion de los nombres de usuario de los usuarios de los postulantes está mal @done(22-09-21 02:52)
 
     ☐ Filtros al buscar postulantes DE UN EXAMEN
+    ☐ GIF de explicacion de algoritmo grupo patron
 
+    ☐ Buscar examen de admision con filtros
+
+    Añadir al analisis de postulantes elevados, postulantes que ingresan por primera vez y superan un umbral
+
+Separar la descripción de el caso de uso "Observar ------" en 4 casos de uso:
+    ☐ Registrar observación
+    ☐ Cancelar observacion
+    ☐ Aprobar observacion
+    ☐ Anular examenes relacionados
+    
 Apartado del postulante cuando se logea:
     ✔ Hacer la vista de Home (para usuarios anonimos, esta debe ser la de listar examenes) @done(22-09-21 02:52)
     ✔ ver MIX examenes en los que participé @done(22-09-21 01:37)
     ✔ Que mi home sea mi perfil @done(22-09-21 01:37)
     ✔ Tener tambien acceso a todos los examenes @done(22-09-21 01:37)
     ✔ Añadir al editar mi contraseña, que repita la contraseña actual 2 veces @done(22-09-21 02:52)
+
+
+
