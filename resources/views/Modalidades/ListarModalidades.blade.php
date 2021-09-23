@@ -22,7 +22,7 @@ MODALIDAD
             
                 <div class="row">
                     <div class="col-12">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>Código</th>

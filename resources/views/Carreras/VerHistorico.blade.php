@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-sm">
+        <table class="table table-sm table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th>Escuela</th>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="container">
-            <table class="table table-sm">
+            <table class="table table-sm table-hover">
                 <thead class="thead-dark">
                     <tr>
                         <th>Puntaje Aprobatorio</th>
