@@ -28,7 +28,11 @@
         <div class="row">
             <div class="col">
                 <div class="contanier">
-                    <h5 style="text-align: center; font-weight: bold">GRUPO DE EXÁMENES EXACTAMENTE IGUALES</h5>
+                    <h5 style="text-align: center; font-weight: bold">
+                        
+                        GRUPO DE EXÁMENES EXACTAMENTE IGUALES 
+
+                    </h5>
                     <!--<button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>-->
                     <div class="card-body">
                         <div class="chartjs-size-monitor">
@@ -84,7 +88,14 @@
 <div class="card">
     <div class="card-header border-1">
         <div class="d-flex justify-content-between">
-            <h3 class="card-title">GRUPO DE EXAMENES EXACTAMENTE IGUALES:</h3>
+            <h3 class="card-title">GRUPO DE EXAMENES EXACTAMENTE IGUALES:
+                (
+                <b>
+                    {{count($gruposIguales)}}
+                </b>
+                )
+                
+            </h3>
         </div>
     </div>
     <div class="card-body">
@@ -135,7 +146,14 @@
 <div class="card">
     <div class="card-header border-1">
         <div class="d-flex justify-content-between">
-            <h3 class="card-title">PATRONES COINCIDENTES DE RESPUESTAS DE PREGUNTAS:</h3>
+            <h3 class="card-title">PATRONES COINCIDENTES DE RESPUESTAS DE PREGUNTAS:
+
+                (
+                <b>
+                    {{count($gruposPatron)}}
+                </b>
+                )
+            </h3>
         </div>
     </div>
     <div class="card-body">
@@ -198,7 +216,14 @@
 <div class="card">
     <div class="card-header border-1">
         <div class="d-flex justify-content-between">
-            <h3 class="card-title">ALUMNOS CON CRECIMIENTO ANORMAL DE PUNTAJES:</h3>
+            <h3 class="card-title">ALUMNOS CON CRECIMIENTO ANORMAL DE PUNTAJES:
+
+                (
+                <b>
+                    {{count($postulantesElevados)}}
+                </b>
+                )
+            </h3>
         </div>
     </div>
     <div class="card-body">

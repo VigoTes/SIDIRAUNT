@@ -687,9 +687,8 @@ class ExamenController extends Controller
         examen_postulante
         pregunta
         carrera_examen
-        
-        
     */
+    //ESTE RESETEA A CREADO
     public function resetear($codExamen){
         try {
             DB::beginTransaction();
