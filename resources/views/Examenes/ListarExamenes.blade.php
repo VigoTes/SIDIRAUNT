@@ -179,8 +179,9 @@
               <td>
                 {{$itemExamen->getModalidad()->nombre}}
               </td>
+              
               <td>
-                {{$itemExamen->getArea()->descripcion}}
+                {{$itemExamen->getArea()->area}}
               </td>
               <td>
                 @if($itemExamen->tieneResultados())
@@ -259,7 +260,7 @@
                   @if($esDirectorAdmision)      
                     <button type="button" class="btn btn-danger btn-xs" onclick="clickResetear({{$itemExamen->codExamen}})">
                       <i class="fas fa-trash"></i>
-                      Reset
+                      Resetear
                     </button>
                   @endif
 

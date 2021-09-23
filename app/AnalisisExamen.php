@@ -21,7 +21,9 @@ class AnalisisExamen extends Model
     }
 
 
+     
 
+    
 
     /* 
     Le entra:
