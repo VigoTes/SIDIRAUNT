@@ -266,36 +266,43 @@ class AnalisisExamen extends Model
     */
     public function generarPostulantesElevados(){
 
+        $puntajeMinimoParaTomarEnCuenta = Parametros::getTasa('puntajeMinimoParaPostulanteElevado'); 
+        $puntajeMinimoAnterior = Parametros::getTasa('puntajeMinimoAnterior'); 
+        
         $tasaToleranciaSubida = Parametros::getTasa('tasaToleranciaSubida'); //si la diferencia es de mas del 80% del examen anterior, es una irregularidad
-        $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)->get();
+        $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)
+            ->where('puntajeTotal','>',$puntajeMinimoParaTomarEnCuenta)
+            ->get();
+
         foreach ($listaExamenes as $examenPostulante) {
             $examenAnterior = $examenPostulante->getAnteriorExamenPostulante();
-            if($examenAnterior!="" && $examenPostulante->puntajeTotal > 60){ //si hubo un examen anterior y este examen sacó distinto a 0, comparamos
+            if($examenAnterior!=""){ //si hubo un examen anterior y este examen sacó distinto a 0, comparamos
                 
                 $ptjeAnterior = $examenAnterior->puntajeTotal;
                 $ptjeActual = $examenPostulante->puntajeTotal;
-                
-                $puntajeDiferencia = $ptjeActual - $ptjeAnterior; 
-                
-                if($ptjeAnterior == 0)
-                    if($puntajeDiferencia>100) //de 0 subió a más de 100 
-                        $porcentajeElevacion = 0.65;
-                    else
-                        $porcentajeElevacion = 0.4;
-                else
-                    $porcentajeElevacion = $puntajeDiferencia / $ptjeAnterior;
-                
-                Debug::mensajeSimple('ExamenPostulante:'.$examenPostulante->codExamenPostulante.' codActorActual='.$examenPostulante->codActor.' codActorAnt='.$examenAnterior->codActor.' nroCarnet actual:'.$examenPostulante->nroCarnet." puntajeActual=".$ptjeActual." ptjeAnt=".$ptjeAnterior.' %elevacion='.$porcentajeElevacion);
-                if($porcentajeElevacion >= $tasaToleranciaSubida){
-                    $postulanteElevado = new PostulantesElevados();
-                    $postulanteElevado->codAnalisis = $this->codAnalisis;
-                    $postulanteElevado->porcentajeElevacion = $porcentajeElevacion;
-                    $postulanteElevado->puntajeDiferencia = $puntajeDiferencia;
-                    $postulanteElevado->codExamenPostulanteAnterior = $examenAnterior->codExamenPostulante;
-                    $postulanteElevado->codExamenPostulante = $examenPostulante->codExamenPostulante;
-                    $postulanteElevado->save();
-                }
+                if($ptjeAnterior > $puntajeMinimoAnterior){
 
+                    $puntajeDiferencia = $ptjeActual - $ptjeAnterior; 
+                    if($ptjeAnterior == 0)
+                        if($puntajeDiferencia>100) //de 0 subió a más de 100 
+                            $porcentajeElevacion = 0.65;
+                        else
+                            $porcentajeElevacion = 0.4;
+                    else
+                        $porcentajeElevacion = $puntajeDiferencia / $ptjeAnterior;
+                    
+                    Debug::mensajeSimple('ExamenPostulante:'.$examenPostulante->codExamenPostulante.' codActorActual='.$examenPostulante->codActor.' codActorAnt='.$examenAnterior->codActor.' nroCarnet actual:'.$examenPostulante->nroCarnet." puntajeActual=".$ptjeActual." ptjeAnt=".$ptjeAnterior.' %elevacion='.$porcentajeElevacion);
+                    if($porcentajeElevacion >= $tasaToleranciaSubida){
+                        $postulanteElevado = new PostulantesElevados();
+                        $postulanteElevado->codAnalisis = $this->codAnalisis;
+                        $postulanteElevado->porcentajeElevacion = $porcentajeElevacion;
+                        $postulanteElevado->puntajeDiferencia = $puntajeDiferencia;
+                        $postulanteElevado->codExamenPostulanteAnterior = $examenAnterior->codExamenPostulante;
+                        $postulanteElevado->codExamenPostulante = $examenPostulante->codExamenPostulante;
+                        $postulanteElevado->save();
+                    }
+  
+                }
 
             }
             

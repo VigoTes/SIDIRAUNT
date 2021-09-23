@@ -689,6 +689,7 @@ class ExamenController extends Controller
         carrera_examen
     */
     //ESTE RESETEA A CREADO
+    /* AÑADIR BORRADO DE ACTORES */
     public function resetear($codExamen){
         try {
             DB::beginTransaction();
