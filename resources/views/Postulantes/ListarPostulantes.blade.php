@@ -85,7 +85,7 @@
 
     @include('Layout.MensajeEmergenteDatos')
       
-    <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
+    <table class="table table-sm table-hover" style="font-size: 9pt;">
       <thead class="thead-dark">
         <tr>
            <th>Nombres</th>
@@ -106,12 +106,16 @@
               <td>
                 {{$postulante->apellidosYnombres}}
               </td>
+              
               <td>
                 {{$postulante->getUltimoExamen()->periodo}}
               </td>
+
               <td>
-                {{$postulante->getPuntajePromedio()}}
+
+                {{number_format($postulante->getPuntajePromedio(),3)}}
               </td>
+              
               <td>
                 {{$postulante->getCantidadPostulaciones()}}
               </td>
@@ -119,8 +123,9 @@
               <td>
                 {{$postulante->getCarreraMásPostulada()->nombre}}
               </td>
+              
               <td>
-                  <a class="btn btn-info btn-sm" href="{{route('Postulante.VerPerfil',$postulante->codActor)}}">
+                  <a class="btn btn-info btn-xs" href="{{route('Postulante.VerPerfil',$postulante->codActor)}}">
                     Ver Perfil
                   </a>
                
@@ -130,7 +135,13 @@
         @endforeach
       </tbody>
     </table>
-    {{$listaPostulantes->links()}}
+    {{$listaPostulantes->appends(
+      ['nombresYapellidos'=>$nombresYapellidos,
+      'algunExamen'=>$algunExamen,
+      'algunaCarrera'=>$algunaCarrera]
+                      )
+      ->links()
+    }}
 </div>
 @endsection
 

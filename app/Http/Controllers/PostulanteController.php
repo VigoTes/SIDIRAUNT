@@ -63,9 +63,10 @@ class PostulanteController extends Controller
             }
             if($request->nombresYapellidos!=""){
                 $listaPostulantes = $listaPostulantes->where('apellidosYnombres','like','%'.$request->nombresYapellidos.'%');
-            }
+            } 
             
             $listaPostulantes = $listaPostulantes->paginate(Parametros::getTasa('paginacionListarPostulantes'));
+            // select count(*) as aggregate from `actor` where `codTipoActor` = 1 and `apellidosYnombres` like "%a%" or "1"="1"
 
             return view('Postulantes.ListarPostulantes',compact('listaPostulantes','nombresYapellidos','algunExamen','algunaCarrera','examenesTotales','carrerasTotales'));
         } catch (\Throwable $th) {

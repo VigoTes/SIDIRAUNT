@@ -51,13 +51,20 @@ Route::get('/Error','UserController@error')->name('user.error');
 
 
 Route::get('/probandoCosas',function(){
-    
-    $n1 = ExamenPostulante::generarNombreUsuario("TIRADO GUERRA WILSON RICARDO");
-    $n2 = ExamenPostulante::generarNombreUsuario("VARGAS MONTOYA RODOLFO SEBASTIAN");
-    $n3 = ExamenPostulante::generarNombreUsuario("PAREDES PASTOR GIAN CARLOS");
-    $v = [$n1,$n2,$n3];
-    return $v;
+     
+    $consulta = DB::select(" select A.codActor as 'codActor' from actor A 
+	left join examen_postulante EP on A.codActor = EP.codActor
+	where EP.codActor is null 
+    and A.codTipoActor = 1");
 
+    $vectorCodActor = [];
+    foreach ($consulta as $obj) {
+        $vectorCodActor[] = $obj->codActor;
+    }
+     
+    Actor::whereIn('codActor',$vectorCodActor)->delete();
+
+    return "yata";
 });
  
  
@@ -80,7 +87,7 @@ Route::group(['middleware'=>"CambiadorConexiones"],function()
 
     Route::get('/Examen/{id}/VerPDF/','ExamenController@VerPDF')->name('Examen.VerPDF');
 
-    Route::get('/Examen/{id}/verPostulantes','ExamenPostulanteController@listarDeExamen')->name('Examen.VerPostulantes');
+    Route::get('/Examen/verPostulantes/{codExamen}','ExamenPostulanteController@listarDeExamen')->name('Examen.VerPostulantes');
             
     Route::get('/Postulante/verPerfil/{codActor}','PostulanteController@verPerfil')
                 ->name('Postulante.VerPerfil'); 

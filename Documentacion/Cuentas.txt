@@ -3,7 +3,7 @@ director
 
 
 CONSEJO_UNIVERSITARIO
-consejo 
+consejo
 
 
 

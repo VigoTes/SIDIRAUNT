@@ -1,3 +1,8 @@
+@php
+    $esConsejo = App\Actor::getActorLogeado()->esConsejoUniversitario();
+    
+@endphp
+
 
                 <div class="row">
                     <div class="col">
@@ -93,7 +98,7 @@
                     </div>
                     <div class="col-8">
                         <label class="" style="margin-bottom: 6px">Relacion de Postulantes:</label>
-                        <table class="table table-sm">
+                        <table class="table table-sm table-hover">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>Codigo</th>
@@ -142,43 +147,49 @@
                                 <label for="">Estado de la observación:</label>
                                 <input type="text" class="form-control" value="{{$grupoPatrones->getObservacion()->getEstado()->nombre}}" readonly>
                                 
-                                
-                                @if($grupoPatrones->getObservacion()->estaPlanteada())
-                                    <div class="col">
-                                        <button type="button" id="" class="btn btn-danger btn-sm m-1" title="Se elimina que este registro estuvo observado alguna  vez."
-                                            onclick="clickCancelarObservacion({{$grupoPatrones->codObservacion}})">
-                                            <i class="fas fa-minus-circle"></i>
-                                            Eliminar Observación
-                                        </button>
-                                    </div>
-                                    <div class="w-100"></div>
-                                    <div class="col">
-                                        <button type="button" id="" class="btn btn-info btn-sm m-1" onclick="clickDejarPasarObservacion({{$grupoPatrones->codObservacion}})">
-                                            <i class="fas fa-check"></i>
-                                            Dejar pasar irregularidad
-                                        </button>
-                                    </div>
-                                    <div class="col">
+                                @if( $esConsejo)
+                                    
+                                    @if($grupoPatrones->getObservacion()->estaPlanteada())
+                                        <div class="col">
+                                            <button type="button" id="" class="btn btn-danger btn-sm m-1" title="Se elimina que este registro estuvo observado alguna  vez."
+                                                onclick="clickCancelarObservacion({{$grupoPatrones->codObservacion}})">
+                                                <i class="fas fa-minus-circle"></i>
+                                                Eliminar Observación
+                                            </button>
+                                        </div>
+                                        <div class="w-100"></div>
+                                        <div class="col">
+                                            <button type="button" id="" class="btn btn-info btn-sm m-1" onclick="clickDejarPasarObservacion({{$grupoPatrones->codObservacion}})">
+                                                <i class="fas fa-check"></i>
+                                                Dejar pasar irregularidad
+                                            </button>
+                                        </div>
+                                        <div class="col">
 
-                                        <button type="button" id="" class="btn btn-danger btn-sm m-1" onclick="clickAnularObservacion({{$grupoPatrones->codObservacion}})">
-                                            <i class="fas fa-ban"></i>
-                                            Anular postulaciones
-                                        </button>
-                                    </div>
+                                            <button type="button" id="" class="btn btn-danger btn-sm m-1" onclick="clickAnularObservacion({{$grupoPatrones->codObservacion}})">
+                                                <i class="fas fa-ban"></i>
+                                                Anular postulaciones
+                                            </button>
+                                        </div>
 
-                                @endif
+                                    @endif
                                
+                                @endif
                                 
                             @else
-                                <div class="col text-center">
-
-                                    <button type="button" id="" class="btn btn-danger" onclick="clickModalObservarGrupoPatron({{$grupoPatrones->codGrupoPatron}})"
-                                        data-toggle="modal" data-target="#ModalObservacion"> 
-                                        Observar Grupo
-                                        <i class="fas fa-exclamation-circle"></i>
+                                @if( $esConsejo)
                                         
-                                    </button>
-                                </div>
+                                    <div class="col text-center">
+
+                                        <button type="button" id="" class="btn btn-danger" onclick="clickModalObservarGrupoPatron({{$grupoPatrones->codGrupoPatron}})"
+                                            data-toggle="modal" data-target="#ModalObservacion"> 
+                                            Observar Grupo
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            
+                                        </button>
+                                    </div>
+                                    
+                                @endif
                             @endif
                         </div>
                     </div>

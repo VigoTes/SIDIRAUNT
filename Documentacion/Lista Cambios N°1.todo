@@ -16,7 +16,7 @@ Actividades:
     ✔ Mejorar algoritmo de identificacion de patrones () @done(08-09-21 22:17)
         ✔ Mejorar eficiencia (tiempo que demora) @done(08-09-21 22:17)
         ✔ Que identifique grupos de más de 2 @done(08-09-21 22:17)
-    ☐ Redefinir la formula de la tasa de irregularidad
+    ☐ Redefinir la formula de la tasa de irregularidad (cambiar las tasas)
     ☐ Mejorar algoritmo Examen->generarCarrerasExamen (hace dms recorridos solo para las carreras)
     ✔ Añadir formula en vista tasas @done(07-09-21 23:18)
     ✔ Evaluar si eliminamos la tabla analisis_examen @done(07-09-21 23:18)
@@ -29,15 +29,15 @@ Actividades:
 
     ✔ Añadir lógica de la distribución de un examen (solo mostrar en la web) Resultó que en todos los examenes es 30apt y 70con @done(23-08-21 17:12)
     ✔ Añadir lógica para ver cierta pregunta en la web @done(08-09-21 00:42)
-    ☐ Tratar de cambiar el menú lateral por uno superior
+  
     ✔ Envio de mensaje a telegram cuando hay una irregularidad @done(29-08-21 21:12)
     ✔ Añadir manejo de excepciones @done(08-09-21 00:27)
     ✔ Historial y perfil son lo mismo, corregir URLs que los diferencnan @done(07-09-21 23:31)
     ✔ Cambiar nombre a mi bot @done(07-09-21 23:21)
     ✔ Crear Procedimientos almacenados para tener xD @done(21-09-21 17:10) (Hice el de analisis de exactamente iguales)
     
-    ☐ Definir permisos para cada usuario en MYSQL
-    ☐ Definir si el Representante tambien puede observar
+    ✔ Definir permisos para cada usuario en MYSQL @done(22-09-21 16:52)
+    
     ☐ Añadir todos los examenes existentes (Hacer esto al final y en el host para el analisis rapido)
     ✔ Al verificar que no tiene permisos, redirigir a la vista de no tienes permisos error @done(16-09-21 22:12)
     
@@ -50,7 +50,11 @@ Actividades:
 
     ☐ Buscar examen de admision con filtros
 
-    Añadir al analisis de postulantes elevados, postulantes que ingresan por primera vez y superan un umbral
+    ☐ Añadir al analisis de postulantes elevados, postulantes que ingresan por primera vez y superan un umbral
+    ✔ Los usuarios anonimos no deben poder ver perfiles @done(22-09-21 19:20)
+    ✔ Los postulantes no deben ver perfiles ajenos @done(22-09-21 19:20)
+    ✔ Los postulantes pueden ver las respuestas de otros ¿? NO@done(22-09-21 19:20)
+
 
 Separar la descripción de el caso de uso "Observar ------" en 4 casos de uso:
     ☐ Registrar observación

@@ -21,6 +21,10 @@ class Actor extends Model
     public function getApellidosYnombresFormateado(){
         return $this->apellidosYnombres;
     }*/
+    
+    public function puedeVerPerfilesAjenos(){
+        return $this->esDirectorAdmision() || $this->esConsejoUniversitario();
+    }
 
     public function getApellidoFormateado(){
         $palabras=explode(" ", ucwords(strtolower($this->apellidosYnombres)));

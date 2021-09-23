@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actor;
 use App\Debug;
 use App\Examen;
 use App\ExamenPostulante;
@@ -11,17 +12,38 @@ use Illuminate\Http\Request;
 class ExamenPostulanteController extends Controller
 {
     const PAGINATION = 50;
+
+
+
     /* 
     
     Retorna la vista en la que se listan todos los postulantes de un examen
     */
-    public function listarDeExamen($codExamen){
+    public function listarDeExamen($codExamen,Request $request){
+         
         try {
+
+            $codExamen = $request->codExamen;
             $examen = Examen::findOrFail($codExamen);
-            $listaExamenes = ExamenPostulante::where('codExamen','=',$codExamen)
-                            ->paginate($this::PAGINATION);
+            $apellidosYnombres = "";
+            if($request!=[]){
+                $vectorCodigosActores = [];
+                $apellidosYnombres = $request->apellidosYnombres;
+                $listaActoresConEseNombre = Actor::where('apellidosYnombres','like',"%$apellidosYnombres%")->get();
+                foreach($listaActoresConEseNombre as $actor){
+                    $vectorCodigosActores[] = $actor->codActor;
+                }
+                
+                $listaExamenes = ExamenPostulante::where('codExamen','=',$codExamen)
+                    ->whereIn('codActor',$vectorCodigosActores)
+                    ->paginate($this::PAGINATION);
+            }else{
+                $listaExamenes = ExamenPostulante::where('codExamen','=',$codExamen)->paginate($this::PAGINATION);
+            }
+
+                           
     
-            return view('Examenes.ListarPostulantesDeExamen',compact('examen','listaExamenes'));
+            return view('Examenes.ListarPostulantesDeExamen',compact('examen','listaExamenes','apellidosYnombres'));
         } catch (\Throwable $th) {
             return Debug::procesarExcepcion($th);
         }

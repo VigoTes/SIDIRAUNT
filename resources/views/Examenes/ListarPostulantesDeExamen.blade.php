@@ -12,6 +12,19 @@
   </div>
 @endsection
 
+@php
+
+    $puedeVerPerfilesAjenos = false; //por defecto no puede
+    $actorLogeado = App\Actor::getActorLogeado();
+    if($actorLogeado != false){
+      if($actorLogeado->puedeVerPerfilesAjenos()){
+        $puedeVerPerfilesAjenos = true;
+      }
+    }
+
+
+
+@endphp
 
 @section('contenido')
 <style>
@@ -37,9 +50,9 @@
       
       <div class="col-md-10">
         <form class="form-inline float-left">
-
+         
           <input type="text"  class="form-control float-left" name="apellidosYnombres" id="apellidosYnombres" style="width: 300px"
-                value="" placeholder="Buscar por nombre...">
+                value="{{$apellidosYnombres}}" placeholder="Buscar por nombre...">
 
           
         
@@ -69,7 +82,10 @@
         
           <th>Escuela</th>
           <th>Condición</th>
-          <th>Ver</th>
+          @if($puedeVerPerfilesAjenos)
+            <th>Ver</th>
+          @endif
+        
         </tr>
       </thead>
       <tbody>
@@ -86,24 +102,32 @@
              
                 <td>{{$examenPostulante->getCarrera()->nombre}}</td>
                 <td>{{$examenPostulante->getCondicion()->nombre}}</td>
-                <td>
-                    <a class="btn btn-info btn-sm" href="{{route('Postulante.VerPerfil',$examenPostulante->codActor)}}">
-                      Perfil
-                    </a>
 
-                    {{-- ABRE EL MODAL PARA VER LAS RESPUESTAS --}}
-                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalPreguntasDePostulante" 
-                      onclick="actualizarModalPreguntasDePostulante({{$examenPostulante->codExamenPostulante}},'{{$examenPostulante->getActor()->apellidosYnombres}}')">
-                      Ver respuestas
-                    </button>
+                @if($puedeVerPerfilesAjenos)
+                  <td>
+                      <a class="btn btn-info btn-sm" href="{{route('Postulante.VerPerfil',$examenPostulante->codActor)}}">
+                        Perfil
+                      </a>
 
-                </td>
+                      {{-- ABRE EL MODAL PARA VER LAS RESPUESTAS --}}
+                      <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalPreguntasDePostulante" 
+                        onclick="actualizarModalPreguntasDePostulante({{$examenPostulante->codExamenPostulante}},'{{$examenPostulante->getActor()->apellidosYnombres}}')">
+                        Ver respuestas
+                      </button>
+
+                  </td>
+                @endif
                
             </tr>
         @endforeach
       </tbody>
     </table>
-    {{$listaExamenes->links()}}
+    {{$listaExamenes->appends(
+      ['apellidosYnombres'=>$apellidosYnombres]
+  )
+      ->links()
+    }}
+ 
 </div>
 
 

@@ -92,7 +92,8 @@ class Debug extends Model
             
             return redirect()->route('user.error')->with('datos',$datos);
         }else{
-            return $th;
+
+            throw $th;
 
         }
 
