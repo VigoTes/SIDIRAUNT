@@ -462,7 +462,7 @@ class ExamenController extends Controller
             
             $examen->procesarArchivoRespuestas();
             $examen->generarCarrerasExamen();
-
+            
             
             $examen->codEstado = 7;
             $examen->save();

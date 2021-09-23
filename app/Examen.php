@@ -140,8 +140,9 @@ class Examen extends Model
         /* Solo insertaremos en la tabla CarreraExamen las carreras de ese examen  */
 
         foreach ($carrerasDeEsteExamen as $carrera) {
+            error_log('insertando carrera :' .$carrera->nombre);
             $nuevaCE = new CarreraExamen();
-            $nuevaCE-> codExamen = $this->codExamen;
+            $nuevaCE->codExamen = $this->codExamen;
             $nuevaCE->codCarrera = $carrera->codCarrera;
  
 
@@ -264,7 +265,7 @@ class Examen extends Model
                     // Debug::imprimirVector($vectorColumnas);   
                     
                     ExamenPostulante::registrar($vectorColumnas,$listaCondiciones);
-                        
+                    error_log('Examen procesarArchivoRespuestas, nroCarnet='.$carnet);
                     //Debug::imprimir($linea);
 
                     $cant++;
