@@ -1,0 +1,100 @@
+[A] LECTURA. DEL TEXTO SE DEDUCE QUE:
+[B] LECTURA. EL TÍTULO MÁS APROPIADO PARA EL TEXTO ES:
+[B] BOHEMIO. 1. Gitano, individuo de cierta raza de gente errante.Atribuido a la persona taciturna. 3. Que lleva vida libre o desordenada. 4. Que deambula en las noches. 5. Natural de Bohemia. SON CIERTAS:
+[B] GEMELO: 1. Cada uno de los individuos nacidos de un mismo parto. 2. Conjunto de personas de gustos disímiles y muy compenetrados. 3. Juego de botones o dos piezas, unidas por una barrita o cadenita, con que se abrochan los puños de las camisas. 4. Dos cosas semejantes, que están emparejadas, en una construcción u ornamentación. 5. Repetición de una fonema en el habla o escritura.SON CIERTAS:
+[B] El artista es inevitablemente un sujeto político. Puede votar, adherirse o protestar, dirigir un movimiento doctrinario nacional, continental,racial o universal. De las palabras subrayadas los sinónimos contextuales son:
+[B] “El amor no es esencialmente una relación con una persona específica; es una actitud, una orientación del carácter que determina el tipo de relación de una persona con el mundo, como totalid, sentimiento 6. insensible, sexual, egoísmo SON CIERTAS:
+[B] El Rey Lear”, “Otelo”, “Hamlet”,.....
+[B] Jequetepeque, Chicama, Moche, Virú ......
+[B] El Cerebro:1. Masa de tejido nervioso. 2. Formación de hemisferio derecho e izquierdo. 3. Formación de palabras. 4. Líquido cefalorraquídeo. 5. Nervios raquídeos y periféricos. SON CIERTAS:
+[A] EFEBO: 1.doncel 2.longevo 3.núbil 4.senil 5.mancebo Por contraste, la respuesta es:
+[B] La proposición: “Javier es o bien trujillano o bien es piurano”. Tiene las siguientes características: 1. Es molecular 2. Es atómica 3. Su fórmula es A  B. 4. Se llama disyunción exclusiva. 5. Su fórmula es A  B. SON CIERTAS:
+[B] De las proposiciones lógicas: P1: “Todos industrial es dialéctico” y P2: “Algunos industriales no son estudiosos”, inferimos deductivamente en la siguiente proposición: 1. “Algunos dialécticos no estudian”.2. “Hay personas que siendo dialécticos no estudian”3. “Al menos debe haber una persona dialéctica que no estudia”.4. “Todo estudioso es dialéctico”.5. “Los dialécticos no son estudiosos” SON CIERTAS:
+[B] De los siguientes enunciados: 1. “La tierra es un planeta”.2. “¿Es un mapa bien estructurado?”.3. “Prohibido entrar sin avisar”.4. “La luna es un satélite de la tierra”. 5. “Las estrellas son astros que brillan con luz propia”.SON PROPOSICIONES:
+[B] Si: tautología = T, contradicción = R y consistente = S; y dadas las fórmulas: I. (p-q)  (-p/q) II. (pq)  - (p-q) III. -(p-q)  (pq) IV. -p  - (p-q) Sus esquemas moleculares son respectivamente:
+[B] La formula lógica: (pq)  r Su equivalencia por exportación es:
+[B] Si los focos están encendidos en el 1ro, 2do, y 4to. caso. ¿Cuál es la fórmula lógica correspondiente?
+[B] El diseño del circuito lógico a compuertas para (B/-A), es:
+[B] La siguiente fórmula: {[(pq)  -p]  q}, produce en un circuito 
+[B] Si la proposición lógica: {(-AB)  [(AC)  D]} es falsa.Entonces los valores de verdad de:I. –[(-A-B)  (C-D)]II. (-BC)  [-D (AB)]III. (-AD)  (-B  C) SON LAS SIGUIENTES:
+[A] La proposición: “Determinados ácidos valéricos no son etanoícos”, su conclusión de inferencia por obversión, la derivamos de la premisa:
+[B] Un bote puede transportar a 6 gordos u 8 flacos. Si tiene que transportar a 212 flacos y a 123 gordos. ¿Cuántos viajes debe realizar como mínimo?
+[B]  Dos depósitos de agua de igual volumen demoran en vaciarse 4 y 5 horas respectivamente, luego, ¿Después de cuánto tiempo que comienzan a vaciarse simultáneamente uno de los depósitos tiene el doble del contenido del otro?
+[B] Simplifica: [ECUACIÓN]
+[B] Resolver: [ECUACIÓN]
+[B] Un estanque tiene 4 caños: “A”, “B” que llenan y “C”, “D” que desaguan; los tiempos en que las llaves llenan y desaguan el estanque son 4, 6, 8 y 12 horas espectivamente. Si el estanque está lleno 1/3 y se abren las 4 llaves. ¿Qué tiempo debe transcurrir para que se llene?
+[B] En 1992 tenía yo tantos años como expresan las dos últimas cifras del año de mi nacimiento. ¿Cuál será mi edad en el año 2000? (En años).
+[B] Hallar el área del círculo menor: [FIGURA]
+[B] Hallar el número que continúa en la sucesión siguiente: 1,1,3/2,7/3,41,12...
+[B] Si [FIGURA] = [ECUACIÓN] ENTONCES [FIGURA]
+[B] La media aritmética de dos números es “[ECUACIÓN]” y la media geométrica de los mismos es [ECUACIÓN] . La media armónica de estos números es:
+[B] Son tipos de reproducción sexual: 1.La conjugación 2.La autogamia 3.La pluripartición 4.La partenogénesis 5.La escisión SON CIERTAS:
+[B]  De las siguientes afirmaciones referente a la materia viviente: 1. El catabolismo es un proceso de degradación. 2. La corola de las leguminosas tiene simetría Zigomorfa. 3. Las nastias es un fenómeno biológico irreversible.4. La mayoría de insectos se reproducen por partenogénesis.5. Las raíces puede tener tropismos positivos o negativos.SON CIERTAS SOLAMENTE:
+[B] Las características de la reacción fotoquímica de la fotosíntesis son: 1. Fotólisis del agua. 2. Producción de oxígeno 3. Producción de NADH2 y ATP 5. Tiene lugar en la membrana del tilacoide.SON CIERTAS:
+[B] Hormona que desencadena el proceso de maduración de los frutos:
+[B] Son tejidos formados por células vivas: 1.T. epidérmico 2.T. suberoso 3.T. esclerenquimático 4.T. colenquimático 5.T. xilemático SON CIERTAS:
+[B] Músculos del cuello cuya contracción simultánea, permite la flexión de la porción cervical de la columna vertebral y la cabeza:
+[B] El área de Broca o área del lenguaje articulado, se ubica mayormente en el hemisferio izquierdo, en el lóbulo:
+[B] El prosencéfalo, es la parte más voluminosa del encéfalo y está formado por:
+[B] Los músculos masticadores reciben inervación del nervio:
+[B] Las siguientes arterias nacen del tronco braquiocefálico:1. Arteria subclavia derecha 2. Arteria carótida interna derecha 3. Arteria carótida primitiva derecha 4. Arteria subclavia izquierda 5. Arteria axilar derecha SON CIERTAS:
+[B] Son células haploides: 1. Espermátides 2.ovótides 3.espermatozoides 4.espermatogonios SON CIERTAS:
+[B] El primer ruido cardíaco (“Lubb”) corresponde a: 
+[B] Son enzimas que participan en la digestión de las proteínas. 1.pepsina 2.tripsina 3.esteapsina 4.erepsina 5.amilopsina SON CIERTAS:
+[B] Los glóbulos blancos o leucocitos: 1. Se originan en la médula roja ósea. 2. viven unos 100 a 120 días. 3. fagocitan y hacen diapédesis. 4. son más numerosos que los hematíes.SON CIERTAS:
+[B] Son características de la vagina humana, excepto :
+[B] Un rayo de luz se propaga en un medio cuyo índice de refracción es 5/3 y va a incidir sobre la superficie de otro medio con un ángulo límite de 53º. Hallar el índice de refracción del segundo medio. 
+[B] Si el bloque se encuentra en reposo, calcular la fuerza de rozamiento estático. (m = 10kg)
+[B] Un condensador de 1uF se carga con potencial de 3000V. ¿Qué cantidad de calor producirá la chispa de descarga?
+[B] De una fuente de calor de 327ºC se transmite 250 kcal a una máquina que opera en el ciclo de Carnot. La máquina cede calor a un sumidero cuya temperatura es 27ºC. Calcular el trabajo que efectúa la máquina
+[B] Calcular cuál debe ser el ángulo de inclinación al disparar un proyectil para que alcance una altura de 16,4 pies. Si su velocidad inicial es 65,6 pies / seg. (g=32,8 pies / seg2)
+[B] Cuál es la intensidad en el circuito mostrado en la figura.
+[B] En el campo eléctrico uniforme cuya intensidad es 4N/C. Hallar la diferencia de potencial entre A y B (vB - vA)
+[B] ¿Cuál será la potencia disipada en un acumulador de 6v, cuya resistencia interna es 0,02 al cortocircuitarse?
+[B] En la figura, hallar AD
+[B] En un trapecio ABCD BC // AD, BC = 8m y AD= 16m. Si P y Q son los puntos medios de ACY BD respectivamente, entonces la longitud del segmento que une los puntos medios de BP y CQ, es:
+[B] Se tiene un triángulo rectángulo isósceles ABC, recto en B. Se construye una circunferencia con diámetro AB y por B se traza una  paralela a la hipotenusa AC que interfecta la circunferencia en E. Hallar la tangente del ángulo CEB
+[B] Hallar los números racionales “a” y “b” de la ecuación: 2x3 + bx2 + ax + 7 sabiendo que admite por raíz a. 
+[B] Al dividir [ecuaciion]
+[B] Calcular la suma de (a + b), si los números a, a + 2b, 2a+b; forman una progresión aritmética y los números (b + 1)2 , (ab + 5), (a + 1)2 ; forman una progresión geométrica.
+[B] Hallar el residuo que se obtiene al dividir el número.82 666 entre 13
+[B] ¿Cuántos números naturales, no mayores de 1512 son primos con 1512?
+[B] Dada la reacción A(g) B(g) + C(g)Cuando el sistema está en equilibrio se encontraron las siguientes concentraciones: [A] =0,2 ; [B] =0,3 y [C] = 0,3 Calcular la nueva concentración de equilibrio de A. Si se aumenta el volumen al doble.
+[B] En un procedimiento se necesita 200cm3 de H2SO4 :23% con una 1 = 1,14 g/ml. Qué cantidad se necesita de ácido concentrado con 2 = 1,84 g/ml y que contenga 98% de H2SO4 para preparar 200 cm3 (En cm3)
+[B] El cloruro de silicio se produce de acuerdo a la siguiente reacción: Si O2 + 2Cl2 + 2C  SiCl4 + 2CO ¿Qué cantidad de sílice (SiO2) debe emplearse para producir 70g de CO? (P.A. Si = 28)
+[B] Se ha obtenido benceno por síntesis de tres moléculas de acetileno. Suponiendo que el rendimiento de la reacción es 69%, qué peso de benceno se ha obtenido por tratamiento de 1N de acetileno?
+[B] Hallar el volumen de oxigeno necesario para quemar totalmente, y medido a condiciones normales, 2dm3 de propanol . (En dm3).
+[B] Hallar la vida media de un elemento radioactivo que demora 15 años en reducirse a 3.125% del valor inicial. (en años)
+[B] Cuando el Cl2O7 reacciona con el H2O, se forma el ácido perclórico (HClO4), indicar el número de enlaces dativos que hay en 3 moléculas de dicho ácido.
+[B] Se tiene 3,5g de N2 a 32ºF y 760mmHg ¿Qué peso de propano (C3H8), en las mismas condiciones de temperatura y presión se requiere para que ocupe el mismo volumen? (N = 14)
+[B] ¿Cuál es la alternativa incorrecta, respecto al cuarto periodo de la tabla periódica moderna?
+[B] Para la neutralización de 2,7g de un ácido se usaron 45ml de una disolución de KOH 0,3N. Calcular el Eq-g del ácido.
+[B] Cuántas proposiciones hay en la oración? Muchos creyeron que moriría en la guerra, otros, que se volvería loco, pero muy pocos imaginaron que volvería triunfante”.
+[B] “Carlos llama por teléfono a su enamorada y le dice que los temas de lenguaje, desarrollados hasta la quinta semana, vendrán en el próximo examen”. La función del lenguaje que predomina en la expresión del lenguaje que predomina en la expresión anterior se denomina:
+[B] De listado de palabras:1. Semicírculo 2. Rehúso 3. Hincapie 4. Trúhan 5. Despreciaís 6. Viósele 7. Trajeronlé 8. Prohíbe Están correctamente tildadas:
+[B] En el siguiente ejemplo: “Carlos confiesa sus pecados ante un sacerdote”. La clase de comunicación que se representa, según la relación Emisor – Receptor es:
+[B] La categoría gramatical que sustituye a un sustantivo y funciona como núcleo del sujeto:
+[B] Es incompatible con la vida y obra de Pablo Neruda
+[B] No es una característica del Modernismo:
+[B] Es incompatible con González Prada:
+[B] La clasificación de los caracteres según Jung, agrupan a los hombres en:
+[B] Rama de la psicología que estudia las variaciones de los fenómenos psíquicos y la influencia de factores como la clase social, sexo, etnia, edad, profesionalización, etc.: 
+[B] Cuál es el método psicológico más apropiado que se puede aplicar a un niño de 7 años:
+[B] La araña teje su tela, el volar de las aves, el piar de los pollos que recién salen del cascarón, son ejemplos de:
+[B] La conservación es un proceso de la memoria que consiste en:
+[B] Son filósofos peruanos: 1. Francisco Romero.2. Augusto Salazar Bondy.3. Francisco Miró Quezada.4. Mario Bunge.5. Wagner de Reyna.6. Leopoldo Zea.SON CIERTAS:
+[B] A la filosofía predominante de la edad media se le denomina:
+[B] Sólo podrán postular a congresistas quienes renuncien a sus cargos 6 meses antes de la elección, excepto:
+[B] Según la Constitución Política, el fin supremo de la sociedad y del Estado es:
+[B] Mediante la división de poderes se busca:1. Evitar la concentración del poder en una sola persona.2. Que el Estado cumpla todas las tareas que le son propias. 3. Evitar el centralismo.4. Lograr una mejor administración del país.5. Contribuir a que exista una mayor participación popular. SON CIERTAS:
+[B] En el costo medio se cumplen las siguientes condiciones:1. Su gráfica tiene la forma de una “U”.2. El costo medio es la variación del costo total.3. Cme: CT/Q 4. Es la suma del costo fijo más el costo total5. Cme: CF me + CV me.SON CIERTAS:
+[B] El crédito significa: 1. compromiso de pago futuro 2. promesa de pago futuro 3. creer o tener confianza en el pago futuro 4. cesión de liquidez actual 5. expectativa de liquidez futura SON CIERTAS SOLAMENTE:
+[B] Del primer banco que se tiene referencia, sabemos: 1. Lo crearon los lombardos del norte de Asiria 2. Fue creado al norte de Italia 3. Otorgaban “cheques” para su cobranza 4. El banco fue creado para evitar asaltos 5. Cuando Asiria invadió Italia, se creó el banco. SON CIERTAS:
+[B] Son características de la Moneda Fiduciaria: 1.Nominalismo 2.Alto Valor Real 3. Alto Valor Legal 4. Elasticidad 5. Bajo Valor Legal SON CIERTAS:
+[B] La gratuidad de la Educación Primaria y Secundaria se dieron durante los gobiernos de, sucesivamente:1.Manuel A. Odria 2.José Pardo y Barreda 3.Manuel Pardo y Lavalle 4.Manuel Prado Ugarteche 5.Fernando Belaúnde Terry ES VERDAD:
+[B] El Presidente Belaúnde con su Ministro …………….. dieron una nueva tributación: PREDIOS.
+[B] En la lucha por la unidad italiana, surgió el estado más pequeño del mundo, llamado:
+[B] El nevado Yerupaja se encuentra en la cadena …… y cordillera …..
+[B] Son penínsulas que pertenecen al Perú: 1.Capachica 2.Copacabana 3.Ilave 4.Huata - Achacachi 5.Chucuito SON CIERTAS:
+[B] Sólo podrán postular a congresistas quienes renuncien a sus cargos 6 meses antes de la elección, excepto:
+[B] Según la Constitución Política, el fin supremo de la sociedad y del Estado es:
