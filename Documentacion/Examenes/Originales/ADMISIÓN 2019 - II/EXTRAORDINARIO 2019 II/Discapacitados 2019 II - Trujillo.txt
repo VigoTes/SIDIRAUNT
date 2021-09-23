@@ -1,0 +1,33 @@
+   UNIVERSIDAD NACIONAL DE TRUJILLO - UNT
+ DIREC.DE SIST.y COMUNIC.                         EXAMEN DE ADMISION 2019-II * TRUJILLO                                    Pag.  1
+        * UNIDAD P.A.D.*                               Modalidad : DISCAPACITADOS                                          24/02/2019
+                                       RESULTADOS GENERALES POR ESCUELA PROFESIONAL - GRUPOS A y B
+ ======================================================================================================================================
+ OR-  CARNET      APELLIDOS  y  NOMBRES                PTJE APT   PTJE    PUNTAJE     NOTA        ESCUELA               OBSERVA
+ DEN                                                    ACADEM    CONOC.   TOTAL     MINIMA                             CIONES
+ ======================================================================================================================================
+ 0001 004542 SALINAS TANTAQUISPE MIGUEL ANGEL            28.484   54.038   82.522    60.582   DERECHO Y CC.PP.          INGRESA
+ 0002 017895 NARCISO VENEGAS ALI VLADIMIR                19.325   18.333   37.658    60.582   DERECHO Y CC.PP.          NO INGRESA
+
+
+
+ 0001 019397 NUBE FELIX ANGELINA                          5.053    5.070   10.123    60.582   ENFERMERIA                NO INGRESA
+
+
+
+ 0001 000047 HUACCHA ALVA PEDRO CARLOS                   16.268   17.327   33.595    60.582   ING.INDUSTRIAL            NO INGRESA
+
+
+
+ 0001 027076 VALVERDE CHAVEZ ALISON ALEJANDRA            60.019  119.297  179.316    60.582   MEDICINA                  INGRESA
+ 0002 027824 CHAVEZ RIOS FIORELLA KAROL                  31.535    8.153   39.688    60.582   MEDICINA                  NO INGRESA
+
+
+
+ 0001 003564 HOYOS RODRIGUEZ MARIA GRACIELA              32.554   11.206   43.760    60.582   ING.DE SISTEMAS           NO INGRESA
+
+
+
+ 0001 000588 ALTAMIRANO PIÑAS WILLIAMS STEVEN            33.561   24.434   57.995    60.582   ING.AMBIENTAL             NO INGRESA
+  ************************************************************************************************************************************
+  Nro TOTAL DE POSTULANTES ====>                               8
