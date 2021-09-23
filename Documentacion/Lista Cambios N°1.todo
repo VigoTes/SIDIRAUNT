@@ -42,7 +42,7 @@ Actividades:
     ✔ Al verificar que no tiene permisos, redirigir a la vista de no tienes permisos error @done(16-09-21 22:12)
     
     ☐ Arreglar Mockups del informe para que coincidan con las vistas
-    ☐ Probar inyecciones SQL
+    ✔ Probar inyecciones SQL @done(22-09-21 20:40)
     ✔ Generacion de los nombres de usuario de los usuarios de los postulantes está mal @done(22-09-21 02:52)
 
     ☐ Filtros al buscar postulantes DE UN EXAMEN
@@ -54,13 +54,9 @@ Actividades:
     ✔ Los usuarios anonimos no deben poder ver perfiles @done(22-09-21 19:20)
     ✔ Los postulantes no deben ver perfiles ajenos @done(22-09-21 19:20)
     ✔ Los postulantes pueden ver las respuestas de otros ¿? NO@done(22-09-21 19:20)
+    ✔ Validar texto de la observacion @done(22-09-21 23:59)
 
-
-Separar la descripción de el caso de uso "Observar ------" en 4 casos de uso:
-    ☐ Registrar observación
-    ☐ Cancelar observacion
-    ☐ Aprobar observacion
-    ☐ Anular examenes relacionados
+ 
     
 Apartado del postulante cuando se logea:
     ✔ Hacer la vista de Home (para usuarios anonimos, esta debe ser la de listar examenes) @done(22-09-21 02:52)

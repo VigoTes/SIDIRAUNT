@@ -12,6 +12,7 @@ use App\GestorConexiones;
 use App\GrupoIguales;
 use App\GrupoPatron;
 use App\MaracsoftBot;
+use App\Observacion;
 use App\Parametros;
 use App\PostulantesElevados;
 use App\Pregunta;
@@ -120,10 +121,12 @@ Route::group(['middleware'=>"CambiadorConexiones"],function()
             GrupoIguales::where('codAnalisis','>','0')->delete();
             GrupoPatron::where('codAnalisis','>',0)->delete();
             PostulantesElevados::where('codAnalisis','>','0')->delete();
-            
-            User::where('contraseña','=','123')->delete();
+
+            Observacion::where('codObservacion','>','0')->delete();
+
+            User::where('contraseña','=','postulante')->delete();
             Actor::where('codTipoActor','=',1)->delete();
-    
+            
             //Seteamos todos los examenes como archivos cargados
             $listaExamenes = Examen::All();
             foreach ($listaExamenes as $examen) {

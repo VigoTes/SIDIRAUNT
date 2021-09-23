@@ -77,9 +77,10 @@ class AnalisisExamen extends Model
         GrupoPatron
     
     */
+
     public function generarPreGruposPatron(){
         $cantidadMinimaDePuntajeAdquirido = 50;
-        $maximaDiferenciaDePuntajeParaComparar = 0.3; // si sus puntajes difieren más del 40% que el mayor, no se compararán
+        $maximaDiferenciaDePuntajeParaComparar = 0.3; // si sus puntajes difieren más del 30% que el mayor, no se compararán
         $listaExamenes = ExamenPostulante::where('codExamen','=',$this->codExamen)
             ->where('puntajeTotal','>',$cantidadMinimaDePuntajeAdquirido)
             ->orderBy('puntajeTotal','DESC')

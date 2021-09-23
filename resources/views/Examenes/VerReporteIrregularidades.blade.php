@@ -640,6 +640,12 @@
 
     //guarda la observacion en la bd
     function guardarObservacion(){
+        msj = validarObservacion();
+        if(msj!=""){
+            alerta(msj);
+            return;
+        }
+
         notaObservacion = document.getElementById('NotaObservacion').value;
 
         tipoObservacion = document.getElementById('tipoObservacion').value;
@@ -647,6 +653,14 @@
         Ruta = "/Examen/ObservarAlgo/" + tipoObservacion + "*" + codigoAObservar + "*" + notaObservacion;
         location.href=Ruta;
 
+    }
+
+
+    function validarObservacion(){
+        msjError = "";
+        msjError = validarTamañoMaximoYNulidad(msjError,'NotaObservacion',400,"Razón de la observación");
+        return msjError;
+        
     }
 
     codObservacionAEliminar = 0;
