@@ -74,6 +74,7 @@ class CarreraExamen extends Model
         ->where('codCondicion','=','1')
         ->get();
 
+        
         return $postulaciones[0]->puntajeMinimoPermitido;
         
 
