@@ -1,5 +1,6 @@
 @php
     $esConsejo = App\Actor::getActorLogeado()->esConsejoUniversitario();
+    $sePuedeObservar = $examen->verificarEstado('Analizado');
     
 @endphp
 
@@ -177,7 +178,7 @@
                                 @endif
                                 
                             @else
-                                @if( $esConsejo)
+                                @if( $esConsejo && $sePuedeObservar)
                                         
                                     <div class="col text-center">
 

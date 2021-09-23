@@ -1,10 +1,9 @@
 @php
     $esConsejo = App\Actor::getActorLogeado()->esConsejoUniversitario();
+    $sePuedeObservar = $examen->verificarEstado('Analizado');
     
 @endphp
-
-
-
+    
 
     <div class="row">
         <div class="col">
@@ -207,7 +206,7 @@
                 @else
 
                     {{-- Solo si es el consejo, le permitirá observar --}}
-                    @if($esConsejo )
+                    @if($esConsejo && $sePuedeObservar)
                             
                         <div class="col text-center">
 

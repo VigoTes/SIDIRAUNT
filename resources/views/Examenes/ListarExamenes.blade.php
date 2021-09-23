@@ -64,35 +64,41 @@
     </div>
     {{-- PARTE DERECHA --}}
     <div class="col">
-      <div class="row">
-
-        <div class="col">
-       
-          <select class="form-control" name="" id="">
-            <option value="">- Modalidad -</option>
-    
-          </select>
-    
-        </div>
-    
-        <div class="col">
-    
-          <select class="form-control" name="" id="">
-            <option value="">- Año -</option>
-    
-          </select>
+      <form class="" action="{{route('Examen.Anonimo.Listar')}}">
+        <div class="row">
           
-    
-        </div>
-        <div class="col">
-          <button class="btn btn-success">
-            <i class="fas fa-search"></i>
-            Buscar
-          </button>
-        </div>
+          <div class="col">
+        
+            <select class="form-control" name="codModalidad" id="codModalidad">
+              <option value="-1" {{'-1'==$codModalidadSelected || null==$codModalidadSelected ? 'selected':''}}>- Modalidad -</option>
+              @foreach($modalidades as $itemModalidad)
+              <option value="{{$itemModalidad->codModalidad}}" {{$itemModalidad->codModalidad==$codModalidadSelected ? 'selected':''}}>{{$itemModalidad->nombre}}</option>
+              @endforeach
+            </select>
+      
+          </div>
+      
+          <div class="col">
+      
+            <select class="form-control" name="año" id="año">
+              <option value="-1" {{'-1'==$añoSelected || null==$añoSelected ? 'selected':''}}>- Año -</option>
+              @foreach($años as $itemAño)
+              <option value="{{$itemAño->año}}" {{$itemAño->año==$añoSelected ? 'selected':''}}>{{$itemAño->año}}</option>
+              @endforeach
+            </select>
+            
+      
+          </div>
+          <div class="col">
+            <button class="btn btn-success">
+              <i class="fas fa-search"></i>
+              Buscar
+            </button>
+          </div>
+          
 
-
-      </div>
+        </div>
+      </form>
     </div>
  
   </div>

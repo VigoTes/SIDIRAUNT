@@ -52,9 +52,14 @@ Route::get('/Error','UserController@error')->name('user.error');
 
 
 Route::get('/probandoCosas',function(){
-    return ExamenPostulante::generarNombreUsuario("ARANDA MARIÑOS JOSÑ ÑÑ AS ASÑ");
+    return ExamenPostulante::generarNombreUsuario("RODRIGUEZ PAREDES YANELY ANTHONELLA");
+/* 
+    RODRIGLEN854
+    RODRIGLEN104
+    RODRIGLEN163
+    RODRIGLEN130
+ */
 
-    
 });
  
  

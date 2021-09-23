@@ -8,7 +8,7 @@ Urgentes que dijo el profe:
 
 
 CAMBIOS GRANDES:
-    ☐ Ver si puedo añadir a ExactamenteIguales una opcion para considerar a los examenes que tienen puntaje igual en APT o CON
+    ✘ Ver si puedo añadir a ExactamenteIguales una opcion para considerar a los examenes que tienen puntaje igual en APT o CON @cancelled(23-09-21 04:49)
 Actividades:
     ✔ Que no se pueda tomar decision sobre el examen si hay observaciones pendientes ('Planteada') @done(08-09-21 00:10)
     ✔ Separar actores por vistas @done(08-09-21 00:10)
@@ -16,8 +16,8 @@ Actividades:
     ✔ Mejorar algoritmo de identificacion de patrones () @done(08-09-21 22:17)
         ✔ Mejorar eficiencia (tiempo que demora) @done(08-09-21 22:17)
         ✔ Que identifique grupos de más de 2 @done(08-09-21 22:17)
-    ☐ Redefinir la formula de la tasa de irregularidad (cambiar las tasas)
-    ☐ Mejorar algoritmo Examen->generarCarrerasExamen (hace dms recorridos solo para las carreras)
+ 
+     
     ✔ Añadir formula en vista tasas @done(07-09-21 23:18)
     ✔ Evaluar si eliminamos la tabla analisis_examen @done(07-09-21 23:18)
     ✔ CRUD Modalidades @done(07-09-21 23:18)
@@ -38,26 +38,25 @@ Actividades:
     
     ✔ Definir permisos para cada usuario en MYSQL @done(22-09-21 16:52)
     
-    ☐ Añadir todos los examenes existentes (Hacer esto al final y en el host para el analisis rapido)
+    ✔ Añadir todos los examenes existentes (Hacer esto al final y en el host para el analisis rapido) @done(23-09-21 04:49)
     ✔ Al verificar que no tiene permisos, redirigir a la vista de no tienes permisos error @done(16-09-21 22:12)
     
-    ☐ Arreglar Mockups del informe para que coincidan con las vistas
+    ✔ Arreglar Mockups del informe para que coincidan con las vistas @done(23-09-21 04:49)
     ✔ Probar inyecciones SQL @done(22-09-21 20:40)
     ✔ Generacion de los nombres de usuario de los usuarios de los postulantes está mal @done(22-09-21 02:52)
 
-    ☐ Filtros al buscar postulantes DE UN EXAMEN
-    ☐ GIF de explicacion de algoritmo grupo patron
+    ✔ Filtros al buscar postulantes DE UN EXAMEN @done(23-09-21 04:49)
+    ✔ GIF de explicacion de algoritmo grupo patron @done(23-09-21 04:49)
 
-    ☐ Buscar examen de admision con filtros
-
-    ☐ Añadir al analisis de postulantes elevados, postulantes que ingresan por primera vez y superan un umbral
+   
+    ✘ Añadir al analisis de postulantes elevados, postulantes que ingresan por primera vez y superan un umbral @cancelled(23-09-21 04:38)
     ✔ Los usuarios anonimos no deben poder ver perfiles @done(22-09-21 19:20)
     ✔ Los postulantes no deben ver perfiles ajenos @done(22-09-21 19:20)
     ✔ Los postulantes pueden ver las respuestas de otros ¿? NO@done(22-09-21 19:20)
     ✔ Validar texto de la observacion @done(22-09-21 23:59)
 
-    ☐ LOGIN diferenciar el ingresar del regresar al menu
-    ☐ Implementar filtros en listar examenes
+    ✔ LOGIN diferenciar el ingresar del regresar al menu @done(23-09-21 04:49)
+    ✔ Implementar filtros en listar examenes @done(23-09-21 04:49)
     
 Apartado del postulante cuando se logea:
     ✔ Hacer la vista de Home (para usuarios anonimos, esta debe ser la de listar examenes) @done(22-09-21 02:52)

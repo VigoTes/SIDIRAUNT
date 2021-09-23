@@ -354,12 +354,13 @@ class Examen extends Model
         $analisis->save();
         
         $analisis->generarGruposIguales();
+
         $analisis->generarPreGruposPatron();
         $analisis->generarPostGruposPatron();
         
         $analisis->generarPostulantesElevados();
 
-   
+        
         $tasas = $analisis->calcularTasaIrregularidad();
         $analisis->tasaGI = $tasas['tasaGI'];
         $analisis->tasaGP = $tasas['tasaGP'];

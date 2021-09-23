@@ -30,12 +30,23 @@ use Illuminate\Support\Facades\Config;
 
 class ExamenController extends Controller
 {
-    public const PAGINACION = 20;
+    public const PAGINACION = 25;
 
 
 
-    public function listar(){
+    public function listar(Request $request){
         try {
+            //filtros
+            $añoSelected=$request->año;
+            if(is_null($request->año)){
+                $añoSelected="-1";
+            }
+            $codModalidadSelected=$request->codModalidad;
+            if(is_null($request->codModalidad)){
+                $codModalidadSelected="-1";
+            }
+
+
             /* Si es el anonimo o postulante, no debemos listar los examenes que aun no pasan por todo el proceso */
             $actorLogeado = Actor::getActorLogeado();
             if($actorLogeado==false){ // ANONIMO
@@ -53,12 +64,26 @@ class ExamenController extends Controller
             if(!$mostrarExamenesNoListos) //Añadimos el filtro para que solo se vean los listos
                 $listaExamenes = $listaExamenes->where('codEstado','=',$estadoListo);
             
+
+            /** */
+            if(!is_null($añoSelected) && $añoSelected!=-1){
+                $listaExamenes = $listaExamenes->where('año','=',$añoSelected);
+            }
+            if(!is_null($codModalidadSelected) && $codModalidadSelected!=-1){
+                $listaExamenes = $listaExamenes->where('codModalidad','=',$codModalidadSelected);
+            }
+            /** */
+
+
             $listaExamenes = $listaExamenes->paginate(Parametros::getTasa('paginacionListarExamenes'));
             
             $fechaInicio = null;
             $fechaFin= null;
             
-            return view('Examenes.ListarExamenes',compact('listaExamenes','fechaInicio','fechaFin'));
+            $modalidades=Modalidad::all();
+            $años=Examen::select('año')->groupBy('año')->get();
+
+            return view('Examenes.ListarExamenes',compact('listaExamenes','fechaInicio','fechaFin','modalidades','años','añoSelected','codModalidadSelected'));
         } catch (\Throwable $th) {
             return Debug::procesarExcepcion($th);
         }
@@ -158,7 +183,7 @@ class ExamenController extends Controller
                 return redirect()->route('Examen.VerReporteIrregularidades',$examen->codExamen)
                     ->with('datos','USTED NO ES CONSEJO UNIVERSITARIO');
             }
-
+            
             //VALIDACION DE SI LA CONTRA ESTA CORRECTA
             $hashp=Actor::getActorLogeado()->getUsuario()->password;
             $password=$request->get('contraseña');
@@ -191,7 +216,7 @@ class ExamenController extends Controller
         try {
             $grupoIguales=GrupoIguales::findOrFail($codGrupo);
             $analisis=AnalisisExamen::findOrFail($grupoIguales->codAnalisis);
-
+            $examen = Examen::findOrFail($analisis->codExamen);
             //$respuestasProbando="_ABXBBDBXBXBXBBBBBXXXBDXBXXBXBBDXXXXXBBBBXXXBXBBDXXBBXXBXXBBBXBBXBXBXXBAXXXBXXDXBBBXBXXXBBBXXXBXXXXAX";
             $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
             $respuestasProbando=$grupoIguales->respuestasJSON;
@@ -220,7 +245,7 @@ class ExamenController extends Controller
             }
             $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
 
-            return view('Examenes.Modales.ModalExamenesIguales',compact('arr','respuestasProbando','solucionario','grupoIguales','postulantes','analisis'));
+            return view('Examenes.Modales.ModalExamenesIguales',compact('arr','respuestasProbando','solucionario','grupoIguales','postulantes','analisis','examen'));
         } catch (\Throwable $th) {
             return Debug::procesarExcepcion($th);
         }
@@ -232,6 +257,7 @@ class ExamenController extends Controller
         try {
             $grupoPatrones=GrupoPatron::findOrFail($codGrupo);
             $analisis=AnalisisExamen::findOrFail($grupoPatrones->codAnalisis);
+            $examen = Examen::findOrFail($analisis->codExamen);
 
             $solucionario=Examen::findOrFail($analisis->codExamen)->getStringRespuestas();
             $respuestasProbando=json_decode($grupoPatrones->respuestasCoincidentesJSON,true);
@@ -261,7 +287,7 @@ class ExamenController extends Controller
             $postulantes=Actor::whereIn('codActor',$postulantesArr)->get();
             */
 
-            return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis'));
+            return view('Examenes.Modales.ModalGrupoRespuestasIguales',compact('arr','respuestasProbando','solucionario','grupoPatrones','postulantes','analisis','examen'));
         } catch (\Throwable $th) {
             return Debug::procesarExcepcion($th);
         }
@@ -305,7 +331,9 @@ class ExamenController extends Controller
             $anteriorPostulacion = ExamenPostulante::findOrFail($postulanteElevado->codExamenPostulanteAnterior);
             $actualPostulacion = ExamenPostulante::findOrFail($postulanteElevado->codExamenPostulante);
 
-            return view('Examenes.Modales.ModalPostulanteElevado',compact('postulanteElevado','anteriorPostulacion','actualPostulacion'));
+            $examen = Examen::findOrFail($actualPostulacion->codExamen);
+
+            return view('Examenes.Modales.ModalPostulanteElevado',compact('examen','postulanteElevado','anteriorPostulacion','actualPostulacion'));
         } catch (\Throwable $th) {
             return Debug::procesarExcepcion($th);
         }

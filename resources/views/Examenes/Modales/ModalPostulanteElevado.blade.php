@@ -3,6 +3,7 @@
     además se muestra el grafico de subida de puntaje y la tasa de elevacion --}}
 @php
     $esConsejo = App\Actor::getActorLogeado()->esConsejoUniversitario();
+    $sePuedeObservar = $examen->verificarEstado('Analizado');
     
 @endphp
 
@@ -96,7 +97,7 @@
             </div>           
 
         @else
-            @if( $esConsejo)
+            @if( $esConsejo && $sePuedeObservar)
                                  
                 <div class="col text-center">
 

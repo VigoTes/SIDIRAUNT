@@ -58,12 +58,15 @@
 					<div class="group">
 						<input id="ingresar" name="ingresar" type="submit" class="button" value="Ingresar">
 					</div>
+					<br>
+					<br>
 					<div class="group">
-						<a href="{{route('user.home')}}" class='button' style="text-align: center; background: #2a3bbd">
+						<a href="{{route('user.home')}}" class='button' style="width:50%; text-align: center; background: #1a315c">
                             <i class="fas fa-arrow-left"></i> 
                             Regresar al Menú
                         </a>
 					</div>
+
 				</div>
 			</div>
 			<div style="text-align: center">
