@@ -45,7 +45,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                         
                         <div class="">
                             <input type="text" class="form-control" id="año" name="año" 
-                                value="" placeholder="Nombre..." >
+                                value="" placeholder="Año..." >
                         </div>
                     </div>
 

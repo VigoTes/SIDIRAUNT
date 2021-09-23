@@ -447,7 +447,7 @@ class ExamenController extends Controller
 
 
     }   
-
+    
     public function IniciarLecturaDatos($codExamen){
         try {
              DB::beginTransaction();

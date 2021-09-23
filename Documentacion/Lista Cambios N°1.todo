@@ -56,7 +56,8 @@ Actividades:
     ✔ Los postulantes pueden ver las respuestas de otros ¿? NO@done(22-09-21 19:20)
     ✔ Validar texto de la observacion @done(22-09-21 23:59)
 
- 
+    ☐ LOGIN diferenciar el ingresar del regresar al menu
+    ☐ Implementar filtros en listar examenes
     
 Apartado del postulante cuando se logea:
     ✔ Hacer la vista de Home (para usuarios anonimos, esta debe ser la de listar examenes) @done(22-09-21 02:52)

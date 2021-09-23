@@ -1,0 +1,12 @@
+   UNIVERSIDAD NACIONAL DE TRUJILLO - UNT
+ DIREC.DE SIST.y COMUNIC.                       EXAMEN DE ADMISION 2019-II * TRUJILLO                                      Pag.  1
+        * UNIDAD P.A.D.*                         Modalidad : DEPORTISTAS CALIFICADOS                                       24/02/2019
+                                             RESULTADOS GENERALES POR ESCUELA PROFESIONAL
+ ======================================================================================================================================
+ OR-  CARNET      APELLIDOS  y  NOMBRES                PTJE APT   PTJE    PUNTAJE     NOTA        ESCUELA               OBSERVA
+ DEN                                                    ACADEM    CONOC.   TOTAL     MINIMA                             CIONES
+ ======================================================================================================================================
+ 0001 011903 ZETA RIMAICUNA ALEXANDRA NICOHOL            55.955   17.322   73.277    56.485   ING.AGROINDUSTRIAL        INGRESA
+ 0002 021551 VASQUEZ HERRERA ERIC JAIR                   32.560    7.132   39.692    56.485   ING.AGROINDUSTRIAL        NO INGRESA
+  ************************************************************************************************************************************
+  Nro TOTAL DE POSTULANTES ====>                               2

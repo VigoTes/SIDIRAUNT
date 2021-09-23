@@ -61,17 +61,17 @@ class ExamenPostulante extends Model
             $postulante->codTipoActor = 1;//postulante
             $postulante->codUsuario = User::All()->last()->codUsuario;
             $postulante->save();
-            Debug::mensajeSimple('NUEVO');
+            //error_log('NUEVO');
 
         }else{ //ya existe el postulante en la BD
             $postulante = $listaPostulantes[0];
-            Debug::mensajeSimple('YA EXISTE');
+            //Debug::mensajeSimple('YA EXISTE');
 
         }
 
         $carrera = Carrera::where('abreviacionMayus','=',$array['escuela'])->get()[0];
 
-        Debug::mensajeSimple('condicionPostulacion="'.$array['observaciones'].'"');
+        //Debug::mensajeSimple('condicionPostulacion="'.$array['observaciones'].'"');
         //$condicion = CondicionPostulacion::where('nombre','like',$array['observaciones']."%")->get()[0]; //Codigo anterior, es dms lento
         $codCondicion = ExamenPostulante::calcularCodCondicion($array['observaciones'],$listaCondiciones);
         

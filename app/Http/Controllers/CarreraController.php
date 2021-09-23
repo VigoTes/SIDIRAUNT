@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class CarreraController extends Controller
 {
-    public const PAGINACION = 20;
+    public const PAGINACION = 100;
 
     public function listar()
     {

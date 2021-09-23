@@ -1,0 +1,16 @@
+    UNIVERSIDAD NACIONAL DE TRUJILLO - UNT
+ DIREC.DE SIST.y COMUNIC.                        EXAMEN DE ADMISION 2019-II * TRUJILLO                                     Pag.  1
+        * UNIDAD P.A.D.*                         Modalidad : VICTIMAS DE LA VIOLENCIA                                      24/02/2019
+                                             RESULTADOS GENERALES POR ESCUELA PROFESIONAL
+ ======================================================================================================================================
+ OR-  CARNET      APELLIDOS  y  NOMBRES                PTJE APT   PTJE    PUNTAJE     NOTA        ESCUELA               OBSERVA
+ DEN                                                    ACADEM    CONOC.   TOTAL     MINIMA                             CIONES
+ ======================================================================================================================================
+ 0001 001922 ROJAS SAENZ PIERO ALDAIR                    43.739  138.676  182.415   117.515   MEDICINA                  INGRESA
+ 0002 016412 MEJIA RODRIGUEZ JESSICA EVELIN              44.770   60.154  104.924   117.515   MEDICINA                  NO INGRESA
+
+
+
+ 0001 025548 MEJIA RODRIGUEZ LESLY JUDITH                19.325   45.880   65.205   117.515   TRABAJO SOCIAL            NO INGRESA
+  ************************************************************************************************************************************
+  Nro TOTAL DE POSTULANTES ====>                               3

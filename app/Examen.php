@@ -187,6 +187,7 @@ class Examen extends Model
         //Actor::where('codActor','>','0')->delete();
         $respuestasCorrectas = $this->getStringRespuestas();
             
+        
         /* 
             INGRESA
             ING. 2-
@@ -259,9 +260,11 @@ class Examen extends Model
                             'correctasEincorrectas'=>$correctasEincorrectas
                         ];
                     
-                    Debug::imprimirVector($vectorColumnas);   
+                    
+                    // Debug::imprimirVector($vectorColumnas);   
+                    
                     ExamenPostulante::registrar($vectorColumnas,$listaCondiciones);
-
+                        
                     //Debug::imprimir($linea);
 
                     $cant++;
@@ -271,7 +274,7 @@ class Examen extends Model
         }
         Debug::mensajeSimple('Conteo general: ' . json_encode($conteoCondiciones));
         Debug::mensajeSimple('la cantidad de postulantes es:'.$cant);
-
+        
         $this->nroVacantes = $conteoCondiciones['INGRESA'];
         $this->ausentes = $conteoCondiciones['AUSENTE'];
         $this->asistentes = $conteoCondiciones['INGRESA'] + $conteoCondiciones['NO INGR'] + $conteoCondiciones['ING. 2-'];

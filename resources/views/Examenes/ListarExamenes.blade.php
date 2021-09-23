@@ -21,8 +21,7 @@
 @section('contenido')
 <style>
   .col{
-    margin-top: 15px;
-
+     
     }
 
   .colLabel{
@@ -44,24 +43,61 @@
 <div style="text-align: center">
   <h2> Exámenes de admisión de la UNT </h2>
   
-
-
-  <br>
+   
+  <div class="row ml-2">
+    <div class="col text-left">
     @if(App\Actor::hayActorLogeado())
       
       @if(App\Actor::getActorLogeado()->esDirectorAdmision())
         
-      <div class="row">
-        <div class="col-md-2">
-          <a href="{{route('Examen.Director.Crear')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
+     
+        
+          <a href="{{route('Examen.Director.Crear')}}" class = "btn btn-primary" style=""> 
             <i class="fas fa-plus"> </i> 
               Registrar examen
           </a>
-        </div>
+       
 
         @endif
-
+   
     @endif
+    </div>
+    {{-- PARTE DERECHA --}}
+    <div class="col">
+      <div class="row">
+
+        <div class="col">
+       
+          <select class="form-control" name="" id="">
+            <option value="">- Modalidad -</option>
+    
+          </select>
+    
+        </div>
+    
+        <div class="col">
+    
+          <select class="form-control" name="" id="">
+            <option value="">- Año -</option>
+    
+          </select>
+          
+    
+        </div>
+        <div class="col">
+          <button class="btn btn-success">
+            <i class="fas fa-search"></i>
+            Buscar
+          </button>
+        </div>
+
+
+      </div>
+    </div>
+ 
+  </div>
+
+
  {{-- 
 
       <a href="/borrarTodo" class = "btn btn-danger" style="margin-bottom: 5px;"> 

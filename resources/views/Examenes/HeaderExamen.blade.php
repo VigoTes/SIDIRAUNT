@@ -103,7 +103,7 @@
                   <i class="fas fa-file-pdf"></i> Ver Examen
                 </a>
 
-                <button class="btn btn-success" data-toggle="modal" data-target="#ModalListaPreguntas">
+                <button class="btn btn-success m-1" data-toggle="modal" data-target="#ModalListaPreguntas">
                     <i class="fas fa-tasks"></i>
                     Ver preguntas
                 </button>
