@@ -20,3 +20,4 @@ drop table tipo_actor;
 drop table usuario;
 drop table estado_observacion;
 drop table observacion;
+ 
