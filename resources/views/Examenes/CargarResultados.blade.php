@@ -61,40 +61,24 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                     <div class="col">
 
                         
-                        <label class="" style="">Valoración CON+:</label>
+                        <label class="" style="">Area:</label>
                         
                         <input type="text" class="form-control"  
-                        value="{{$examen->valoracionPositivaCON}}"  readonly>
+                        value="[{{$examen->getArea()->area}}] {{$examen->getArea()->descripcion}}"  readonly>
                     </div>
                     <div class="col">
 
                         
-                        <label class="" style="">Valoración APT+:</label>
+                        <label class="" style="">Periodo:</label>
                         
                         <input type="text" class="form-control"   
-                        value="{{$examen->valoracionPositivaAPT}}" readonly >
+                        value="{{$examen->periodo}}" readonly >
                     </div>
 
 
                     <div class="w-100"></div>
-                    <div class="col">
-
-                        
-                        <label class="" style="">Valoración CON -:</label>
-                        
-                        <input type="text" class="form-control"  
-                        value="{{$examen->valoracionNegativaCON}}"   readonly>
-                    </div>
-                    <div class="col">
-
-                        
-                        <label class="" style="">Valoración APT -:</label>
-                        <input type="text" class="form-control"  
-                        value="{{$examen->valoracionNegativaAPT}}" readonly >
-                    </div>
-
-
-                    <div class="w-100"></div>
+                    
+ 
                     <div class="col">
 
                         
