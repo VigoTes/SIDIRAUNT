@@ -52,20 +52,8 @@ Route::get('/Error','UserController@error')->name('user.error');
 
 
 Route::get('/probandoCosas',function(){
-     
-    $consulta = DB::select(" select A.codActor as 'codActor' from actor A 
-	left join examen_postulante EP on A.codActor = EP.codActor
-	where EP.codActor is null 
-    and A.codTipoActor = 1");
-
-    $vectorCodActor = [];
-    foreach ($consulta as $obj) {
-        $vectorCodActor[] = $obj->codActor;
-    }
-     
-    Actor::whereIn('codActor',$vectorCodActor)->delete();
-
-    return "yata";
+    return hash::make("postulante");
+    
 });
  
  

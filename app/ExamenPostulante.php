@@ -42,8 +42,8 @@ class ExamenPostulante extends Model
     */
     public static function registrar($array,$listaCondiciones){
         $contraseñaDefecto = "postulante";
-        $contraseñaDefectoHASH = hash::make($contraseñaDefecto);
-
+        $contraseñaDefectoHASH = '$2y$10$tVK.gcWYqm0OHDY/0MBB3unWt9sHqJ8EFYl74GSXJYchqzbZ1a/GW';
+        
         $listaPostulantes = Actor::where('apellidosYnombres','=',$array['apellidosYnombres'])->get();
         if(count($listaPostulantes)==0){ //No existe el postulante en la BD, le creamos un perfil
             
