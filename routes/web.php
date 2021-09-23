@@ -133,7 +133,7 @@ Route::group(['middleware'=>"CambiadorConexiones"],function()
                 $examen->codEstado = 8;
                 $examen->save();
             }
-            
+            return "Todo se ha borrado.";
     
         });
 
