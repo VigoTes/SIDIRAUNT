@@ -321,8 +321,8 @@ class Examen extends Model
     */
     public static function calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas){
         
-        error_log($respuestas);
-        error_log($respuestasCorrectas);
+        //error_log($respuestas);
+        //error_log($respuestasCorrectas);
         $respuestasCorrectas = str_split($respuestasCorrectas);
         $respuestas = str_split($respuestas);
         
