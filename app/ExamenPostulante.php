@@ -106,16 +106,18 @@ class ExamenPostulante extends Model
             TIRADORAC647
     */
     public static function generarNombreUsuario($apellidosYnombres){
-        $apellidosYnombres = str_replace(" ","",$apellidosYnombres);
+        $apellidosYnombres =  str_replace(" ","",$apellidosYnombres);
         
-        $nombreInvertido = strrev($apellidosYnombres);
+        $nombreInvertido =  static::mb_strrev($apellidosYnombres,'UTF-8');
 
         $usuario = mb_substr($apellidosYnombres,0,6).mb_substr($nombreInvertido,2,3).rand(100,999);
         return $usuario;
 
     }
 
-
+    static function mb_strrev($str, $encoding='UTF-8'){
+        return mb_convert_encoding( strrev( mb_convert_encoding($str, 'UTF-16BE', $encoding) ), $encoding, 'UTF-16LE');
+    }
 
     /* 
     Le entra:

@@ -52,7 +52,8 @@ Route::get('/Error','UserController@error')->name('user.error');
 
 
 Route::get('/probandoCosas',function(){
-    return hash::make("postulante");
+    return ExamenPostulante::generarNombreUsuario("ARANDA MARIÑOS JOSÑ ÑÑ AS ASÑ");
+
     
 });
  
