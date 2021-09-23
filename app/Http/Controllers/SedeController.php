@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Debug;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Sede;
@@ -10,14 +11,22 @@ class SedeController extends Controller
 {
     public function index()
     {
-        $sedes = Sede::all();
+        try {
+            $sedes = Sede::all();
 
-        return view('Sedes.listar', compact('sedes'));
+            return view('Sedes.listar', compact('sedes'));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     public function create(Request $request)
     {
-        return view('Sedes.crear');
+        try {
+            return view('Sedes.crear');
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     /**
@@ -28,15 +37,19 @@ class SedeController extends Controller
      */
     public function store(Request $request)
     {
-        $sede = new Sede();
+        try {
+            $sede = new Sede();
         
-        $sede->nombre = request()->nombre;
+            $sede->nombre = request()->nombre;
+        
+            $sede->save();
     
-        $sede->save();
-
-        $message = 'Fue registrada la sede'. $sede->name .' exitosamente';
-
-        return redirect()->route('sede')->with('message', $message);
+            $message = 'Fue registrada la sede'. $sede->name .' exitosamente';
+    
+            return redirect()->route('sede')->with('message', $message);
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     /**
@@ -58,9 +71,13 @@ class SedeController extends Controller
      */
     public function edit($id)
     {
-        $sede = Sede::find($id);
+        try {
+            $sede = Sede::find($id);
 
-        return view('Sedes.editar', compact(['sede']));
+            return view('Sedes.editar', compact(['sede']));
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     /**
@@ -72,14 +89,17 @@ class SedeController extends Controller
      */
     public function update(Request $request)
     {
-        $sede = Sede::find(request()->codSede);
+        try {
+            $sede = Sede::find(request()->codSede);
 
-        $sede->nombre = request()->nombre;
-
-        $sede->save();
-
-        return redirect()->route('sede')->with('message', 'Sede actualizada correctamente!');
-
+            $sede->nombre = request()->nombre;
+    
+            $sede->save();
+    
+            return redirect()->route('sede')->with('message', 'Sede actualizada correctamente!');
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
     /**
@@ -90,9 +110,13 @@ class SedeController extends Controller
      */
     public function destroy($id)
     {
-        Sede::destroy($id);
+        try {
+            Sede::destroy($id);
 
-        return redirect()->route('sede')->with('message', 'Registro eliminado correctamente!');
+            return redirect()->route('sede')->with('message', 'Registro eliminado correctamente!');
+        } catch (\Throwable $th) {
+            return Debug::procesarExcepcion($th);
+        }
     }
 
 }

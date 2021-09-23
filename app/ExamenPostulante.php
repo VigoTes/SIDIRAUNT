@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ExamenPostulante extends Model
 {
@@ -16,6 +17,13 @@ class ExamenPostulante extends Model
        'codExamen', 'respuestasJSON','puntajeAPT','puntajeCON','puntajeTotal','codActor','codCarrera','orden','codCondicion','nroCorrectas','nroIncorrectas'
     ];
 
+    public function getCarreraExamen(){
+        return CarreraExamen::where('codExamen','=',$this->codExamen)
+            ->where('codCarrera','=',$this->codCarrera)
+            ->get()
+            ->first();
+        
+    }
     public function getCarrera(){
         return Carrera::findOrFail($this->codCarrera);
     }
@@ -33,14 +41,18 @@ class ExamenPostulante extends Model
         si ya existe, le añade este examen a ExamenPostulante 
     */
     public static function registrar($array,$listaCondiciones){
-        
+        $contraseñaDefecto = "postulante";
+        $contraseñaDefectoHASH = hash::make($contraseñaDefecto);
+
         $listaPostulantes = Actor::where('apellidosYnombres','=',$array['apellidosYnombres'])->get();
         if(count($listaPostulantes)==0){ //No existe el postulante en la BD, le creamos un perfil
             
             $usuario = new User();
-            $usuario->usuario =  mb_substr($array['apellidosYnombres'],0,7).rand(1000,9999);
-            $usuario->contraseña = "123";
-            $usuario->password = "123";
+
+            //Verificar si esto está bien
+            $usuario->usuario =  static::generarNombreUsuario($array['apellidosYnombres']); //mb_substr($array['apellidosYnombres'],0,7).rand(1000,9999);
+            $usuario->contraseña = $contraseñaDefecto;
+            $usuario->password = $contraseñaDefectoHASH;
             
             $usuario->save();
 
@@ -85,6 +97,25 @@ class ExamenPostulante extends Model
 
         
     }
+
+
+    /* 
+        Entra el nombre completo (apellidos y nombres)
+            TIRADO GUERRA WILSON RICARDO
+        Sale el nombre de usuario 
+            TIRADORAC647
+    */
+    public static function generarNombreUsuario($apellidosYnombres){
+        $apellidosYnombres = str_replace(" ","",$apellidosYnombres);
+        
+        $nombreInvertido = strrev($apellidosYnombres);
+
+        $usuario = mb_substr($apellidosYnombres,0,6).mb_substr($nombreInvertido,2,3).rand(100,999);
+        return $usuario;
+
+    }
+
+
 
     /* 
     Le entra:

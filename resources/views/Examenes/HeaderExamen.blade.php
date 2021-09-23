@@ -130,7 +130,7 @@
                 </button>
             </div>
             <div class="modal-body" id="">
-                <table class="table table-sm fontSize9" >
+                <table class="table table-sm table-hover fontSize9" >
                     <thead class="thead-dark">
                         <tr>
                             <th>Item</th>

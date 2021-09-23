@@ -15,7 +15,7 @@
 @php
   $esDirectorAdmision = App\Actor::esDirectorAdmision();
   $esConsejo = App\Actor::esConsejoUniversitario();
-
+  $esDirectorOConsejo = $esDirectorAdmision || $esConsejo ;
 @endphp
 
 @section('contenido')
@@ -32,13 +32,17 @@
 
   }
 
+  th,td{
+    text-align: center;
+  }
+
 
 </style>
 
 
 
 <div style="text-align: center">
-  <h2> Listar exámenes </h2>
+  <h2> Exámenes de admisión de la UNT </h2>
   
 
 
@@ -103,21 +107,26 @@
 
     @include('Layout.MensajeEmergenteDatos')
       
-    <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
+    <table class="table table-sm table-hover" style="font-size: 10pt; margin-top:10px;">
       <thead class="thead-dark">
         <tr>
           <th>Periodo</th>
           <th>Fecha Rendición</th>
           <th>Modalidad</th>
-          <th>Nro Postulantes</th>
+          <th>Área</th>
+          <th>#Postulantes</th>
+          <th>#Asistentes</th>
+          <th>#Ingresantes</th>
           <th>Sede</th>
 
           @if($esDirectorAdmision || $esConsejo)
               <th>Estado</th>
               
           @endif
-          
-          <th>Opciones</th>
+
+          @if($esDirectorOConsejo)   
+            <th>Opciones</th>
+          @endif
         </tr>
       </thead>
       <tbody>
@@ -135,9 +144,25 @@
                 {{$itemExamen->getModalidad()->nombre}}
               </td>
               <td>
-                {{$itemExamen->nroPostulantes}}
-
+                {{$itemExamen->getArea()->descripcion}}
               </td>
+              <td>
+                @if($itemExamen->tieneResultados())
+                      <a class="btn btn-success btn-xs" href="{{route('Examen.VerPostulantes',$itemExamen->codExamen)}}">
+                        {{$itemExamen->nroPostulantes}}
+                        <i class="fas fa-eye"></i>
+                      </a>
+                @endif
+
+                
+              </td>
+              <td>
+                {{$itemExamen->asistentes}}
+              </td>
+              <td>
+                {{$itemExamen->getCantidadIngresantes()}}
+              </td>
+
               <td>
                 {{$itemExamen->getSede()->nombre}}
               </td>
@@ -148,18 +173,12 @@
                   {{$itemExamen->getEstado()->descripcion}}
                 </td>
               @endif
-                              
+                      
+              {{-- OPCIONES --}}
+              @if($esDirectorOConsejo)
+                
                 <td>
                       
-                  
-                   
-                  
-                    @if($itemExamen->tieneResultados())
-                      <a class="btn btn-success btn-sm" href="{{route('Examen.VerPostulantes',$itemExamen->codExamen)}}">
-                        Ver postulantes
-                      </a>
-                    @endif
-
                   @if($esDirectorAdmision)
                     
                     @if($itemExamen->verificarEstado('Creado'))
@@ -201,14 +220,16 @@
                       @endif
                   @endif
 
-                  
-                  <button type="button" class="btn btn-danger btn-xs" onclick="clickResetear({{$itemExamen->codExamen}})">
-                    <i class="fas fa-trash"></i>
-                    Reset
-                  </button>
+                  @if($esDirectorAdmision)      
+                    <button type="button" class="btn btn-danger btn-xs" onclick="clickResetear({{$itemExamen->codExamen}})">
+                      <i class="fas fa-trash"></i>
+                      Reset
+                    </button>
+                  @endif
 
                 </td>
               
+              @endif
             </tr>
         @endforeach
       </tbody>

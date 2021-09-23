@@ -4,6 +4,7 @@
 @endsection
 
 @section('contenido')
+
 <br>
 
 <h2 class="text-center">
@@ -28,6 +29,7 @@
             <div class="col">
                 <div class="contanier">
                     <h5 style="text-align: center; font-weight: bold">GRUPO DE EXÁMENES EXACTAMENTE IGUALES</h5>
+                    <!--<button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>-->
                     <div class="card-body">
                         <div class="chartjs-size-monitor">
                             <div class="chartjs-size-monitor-expand">
@@ -86,7 +88,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-sm">
+        <table class="table table-sm table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th>Grupo</th>
@@ -137,7 +139,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-sm">
+        <table class="table table-sm table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th width="7%">Patron ID</th>
@@ -168,6 +170,7 @@
                         <td >
                             {{$itemGrupo->getPromedioPostulantes()}}
                         </td>
+                        
                         <td>
                             <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalGrupoRespuestasIguales({{$itemGrupo->codGrupoPatron}})"
                                 data-toggle="modal" data-target="#ModalGrupoRespuestasIguales"><i class="fas fa-eye"></i>
@@ -199,7 +202,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-sm">
+        <table class="table table-sm table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th>Carnet</th>
@@ -209,7 +212,7 @@
                     <th>Puntaje Anterior</th>
                     <th>Puntaje Actual</th>
                     <th>Diferencia %</th>
-                    <th>Perfil</th>
+                    
                     <th>Respuestas</th>
                     <th>Diferencias</th>
                 </tr>
@@ -220,19 +223,23 @@
                     
                     <td>{{$itemPostElevado->examenActual()->nroCarnet}}</td>
 
-                    <td>{{$itemPostElevado->postulante()->apellidosYnombres}}</td>
+                    <td>
+                             
+                            <a href="{{route("Postulante.VerPerfil",$itemPostElevado->postulante()->codActor)}}" 
+                                class="ml-1 btn btn-warning btn-xs" title="Ver Perfil">
+                                <i class="fas fa-eye"></i>      
+                            </a>
+                                    {{$itemPostElevado->postulante()->apellidosYnombres}}
+                              
+                                 
+                    </td>
                     <td>{{$itemPostElevado->postulante()->codUsuario}}</td>
                     <td>{{$itemPostElevado->examenActual()->getCarrera()->nombre}}</td>
                     <td>{{$itemPostElevado->examenAnterior()->puntajeTotal}}</td>
               
                     <td>{{$itemPostElevado->examenActual()->puntajeTotal}}</td>
                     <td>{{number_format($itemPostElevado->porcentajeElevacion*100,2)}}%</td>
-                    <td>
-                        <a href="{{route("Postulante.VerPerfil",$itemPostElevado->postulante()->codActor)}}" 
-                            class="btn btn-warning btn-sm" title="Ver Reposición">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                    </td>
+                    
                     <td>
                         <button type="button" id="" class="btn btn-info btn-sm" onclick="actualizarModalPreguntasDePostulante({{$itemPostElevado->codExamenPostulante}},{{$itemPostElevado->postulante()->codUsuario}})"
                             data-toggle="modal" data-target="#ModalPreguntasDePostulante">
@@ -489,6 +496,7 @@
 @endsection
 @include('Layout.ValidatorJS')
 @section('script')
+<!--<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>-->
 <script>
     function clickAprobarExamen(){
         msje = validar();
@@ -632,6 +640,12 @@
 
     //guarda la observacion en la bd
     function guardarObservacion(){
+        msj = validarObservacion();
+        if(msj!=""){
+            alerta(msj);
+            return;
+        }
+
         notaObservacion = document.getElementById('NotaObservacion').value;
 
         tipoObservacion = document.getElementById('tipoObservacion').value;
@@ -639,6 +653,14 @@
         Ruta = "/Examen/ObservarAlgo/" + tipoObservacion + "*" + codigoAObservar + "*" + notaObservacion;
         location.href=Ruta;
 
+    }
+
+
+    function validarObservacion(){
+        msjError = "";
+        msjError = validarTamañoMaximoYNulidad(msjError,'NotaObservacion',400,"Razón de la observación");
+        return msjError;
+        
     }
 
     codObservacionAEliminar = 0;
@@ -717,7 +739,7 @@
             maintainAspectRatio : false,
             responsive : true,
             legend: {
-                display: false
+                display: true
             },
         }
 
@@ -742,5 +764,5 @@
         })
     })
   </script>
-
+  
 @endsection

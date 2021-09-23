@@ -1,3 +1,10 @@
+@php
+    $esConsejo = App\Actor::getActorLogeado()->esConsejoUniversitario();
+    
+@endphp
+
+
+
 
     <div class="row">
         <div class="col">
@@ -121,7 +128,7 @@
         </div>
         <div class="col-8">
             <label class="" style="margin-bottom: 6px">Relacion de Postulantes:</label>
-            <table class="table table-sm">
+            <table class="table table-sm table-hover">
                 <thead class="thead-dark">
                     <tr>
                         <th>Codigo</th>
@@ -163,49 +170,56 @@
                                 
                         <div class="row ">
                              
-                            
-                            @if($grupoIguales->getObservacion()->estaPlanteada())
-                                <div class="col">
-                                    <button type="button" id="" class="btn btn-danger btn-sm m-1" title="Se elimina que este registro estuvo observado alguna  vez."
-                                    onclick="clickCancelarObservacion({{$grupoIguales->codObservacion}})">
-                                    <i class="fas fa-minus-circle"></i>
-                                        Eliminar Observación
-                                    </button>
+                            @if($esConsejo )
+                        
+                                @if($grupoIguales->getObservacion()->estaPlanteada())
+                                    <div class="col">
+                                        <button type="button" id="" class="btn btn-danger btn-sm m-1" title="Se elimina que este registro estuvo observado alguna  vez."
+                                        onclick="clickCancelarObservacion({{$grupoIguales->codObservacion}})">
+                                        <i class="fas fa-minus-circle"></i>
+                                            Eliminar Observación
+                                        </button>
+                                    
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col">
+                                        <button type="button" id="" class="btn btn-info btn-sm m-1" onclick="clickDejarPasarObservacion({{$grupoIguales->codObservacion}})">
+                                            <i class="fas fa-check"></i>
+                                            Dejar pasar irregularidad
+                                        </button>
+        
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" id="" class="btn btn-danger btn-sm m-1" onclick="clickAnularObservacion({{$grupoIguales->codObservacion}})">
+                                            <i class="fas fa-ban"></i>
+                                            Anular postulaciones
+                                        </button>
+                                    </div>
                                 
-                                </div>
-                                <div class="w-100"></div>
-                                <div class="col">
-                                    <button type="button" id="" class="btn btn-info btn-sm m-1" onclick="clickDejarPasarObservacion({{$grupoIguales->codObservacion}})">
-                                        <i class="fas fa-check"></i>
-                                        Dejar pasar irregularidad
-                                    </button>
-    
-                                </div>
-                                <div class="col">
-                                    <button type="button" id="" class="btn btn-danger btn-sm m-1" onclick="clickAnularObservacion({{$grupoIguales->codObservacion}})">
-                                        <i class="fas fa-ban"></i>
-                                        Anular postulaciones
-                                    </button>
-                                </div>
-                               
-                               
+                                
 
+                                @endif
+                                    
                             @endif
- 
-                          
                         </div>
                     </div>
                    
                 @else
-                    <div class="col text-center">
 
-                        <button type="button" id="" class="btn btn-danger" onclick="clickModalObservarExamenesIguales({{$grupoIguales->codGrupo}})"
-                            data-toggle="modal" data-target="#ModalObservacion"> 
-                            Observar Grupo
-                            <i class="fas fa-exclamation-circle"></i>
+                    {{-- Solo si es el consejo, le permitirá observar --}}
+                    @if($esConsejo )
                             
-                        </button>
-                    </div>
+                        <div class="col text-center">
+
+                            <button type="button" id="" class="btn btn-danger" onclick="clickModalObservarExamenesIguales({{$grupoIguales->codGrupo}})"
+                                data-toggle="modal" data-target="#ModalObservacion"> 
+                                Observar Grupo
+                                <i class="fas fa-exclamation-circle"></i>
+                                
+                            </button>
+                        </div>
+                    
+                    @endif
                 @endif
             </div>
         </div>

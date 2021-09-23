@@ -1,6 +1,10 @@
 {{-- En este modal se vé las características de 
     la postulacion actual vs la de la postulacion anterior con la que se compara, 
     además se muestra el grafico de subida de puntaje y la tasa de elevacion --}}
+@php
+    $esConsejo = App\Actor::getActorLogeado()->esConsejoUniversitario();
+    
+@endphp
 
   
     <div class="row">
@@ -58,52 +62,55 @@
             <input type="text" class="form-control" value="{{$postulanteElevado->getObservacion()->getEstado()->nombre}}" readonly>
             <div class="row ">
                              
-                            
-                @if($postulanteElevado->getObservacion()->estaPlanteada())
-                    <div class="col">
-                        <button type="button" id="" class="btn btn-danger btn-sm m-1" title="Se elimina que este registro estuvo observado alguna  vez."
-                        onclick="clickCancelarObservacion({{$postulanteElevado->codObservacion}})">
-                        <i class="fas fa-minus-circle"></i>
-                            Eliminar Observación
-                        </button>
+                @if( $esConsejo)
+                                                    
+                    @if($postulanteElevado->getObservacion()->estaPlanteada())
+                        <div class="col">
+                            <button type="button" id="" class="btn btn-danger btn-sm m-1" title="Se elimina que este registro estuvo observado alguna  vez."
+                            onclick="clickCancelarObservacion({{$postulanteElevado->codObservacion}})">
+                            <i class="fas fa-minus-circle"></i>
+                                Eliminar Observación
+                            </button>
+                        
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <button type="button" id="" class="btn btn-info btn-sm m-1" onclick="clickDejarPasarObservacion({{$postulanteElevado->codObservacion}})">
+                                <i class="fas fa-check"></i>
+                                Dejar pasar irregularidad
+                            </button>
+
+                        </div>
+                        <div class="col">
+                            <button type="button" id="" class="btn btn-danger btn-sm m-1" onclick="clickAnularObservacion({{$postulanteElevado->codObservacion}})">
+                                <i class="fas fa-ban"></i>
+                                Anular postulaciones
+                            </button>
+                        </div>
                     
-                    </div>
-                    <div class="w-100"></div>
-                    <div class="col">
-                        <button type="button" id="" class="btn btn-info btn-sm m-1" onclick="clickDejarPasarObservacion({{$postulanteElevado->codObservacion}})">
-                            <i class="fas fa-check"></i>
-                            Dejar pasar irregularidad
-                        </button>
+                    
 
-                    </div>
-                    <div class="col">
-                        <button type="button" id="" class="btn btn-danger btn-sm m-1" onclick="clickAnularObservacion({{$postulanteElevado->codObservacion}})">
-                            <i class="fas fa-ban"></i>
-                            Anular postulaciones
-                        </button>
-                    </div>
-                   
-                   
-
+                    @endif
                 @endif
-
               
             </div>           
 
         @else
-            <div class="col text-center">
+            @if( $esConsejo)
+                                 
+                <div class="col text-center">
 
 
-                <button type="button" id="" class="btn btn-danger" onclick="clickModalObservarPostulantesElevados({{$postulanteElevado->codPostulanteElevado}})"
-                    data-toggle="modal" data-target="#ModalObservacion"> 
-                    Observar Grupo
-                    <i class="fas fa-exclamation-circle"></i>
-                    
-                </button>
+                    <button type="button" id="" class="btn btn-danger" onclick="clickModalObservarPostulantesElevados({{$postulanteElevado->codPostulanteElevado}})"
+                        data-toggle="modal" data-target="#ModalObservacion"> 
+                        Observar Grupo
+                        <i class="fas fa-exclamation-circle"></i>
+                        
+                    </button>
 
 
-            </div>
-
+                </div>
+            @endif
 
         @endif
 

@@ -8,6 +8,7 @@ use Throwable;
 
 class Actor extends Model
 {
+
     protected $table = "actor";
     protected $primaryKey = "codActor";
     public $timestamps = false; 
@@ -16,7 +17,29 @@ class Actor extends Model
     protected $fillable = [
        'apellidosYnombres', 'codUsuario', 'codTipoActor'
     ];
+    /*
+    public function getApellidosYnombresFormateado(){
+        return $this->apellidosYnombres;
+    }*/
+    
+    public function puedeVerPerfilesAjenos(){
+        return $this->esDirectorAdmision() || $this->esConsejoUniversitario();
+    }
 
+    public function getApellidoFormateado(){
+        $palabras=explode(" ", ucwords(strtolower($this->apellidosYnombres)));
+
+        return $palabras[0].' '.$palabras[1];
+    }
+    public function getNombreFormateado(){
+        $palabras=explode(" ", ucwords(strtolower($this->apellidosYnombres)));
+        $nombres='';
+        for ($i=2; $i < count($palabras); $i++) { 
+            $nombres=$nombres.$palabras[$i].' ';
+        }
+
+        return $nombres;
+    }
 
     public function getTipoActor(){
         return TipoActor::findOrFail($this->codTipoActor);
@@ -70,8 +93,9 @@ class Actor extends Model
 
     public static function getActorLogeado(){
         $codUsuario = Auth::id();         
+        
         $actores = Actor::where('codUsuario','=',$codUsuario)->get();
-
+        
         if(is_null(Auth::id())){
             return false;
         }
@@ -84,6 +108,7 @@ class Actor extends Model
            
             return false;
         }
+        
         return $actores[0]; 
     }
 

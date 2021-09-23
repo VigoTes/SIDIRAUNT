@@ -47,7 +47,7 @@
     
     @include('Layout.MensajeEmergenteDatos')
       
-    <table class="table table-sm" style="font-size: 10pt; margin-top:10px;">
+    <table class="table table-sm table-hover" style="font-size: 10pt; margin-top:10px;">
         <thead class="thead-dark">
             <tr>
                 <th>Código</th>

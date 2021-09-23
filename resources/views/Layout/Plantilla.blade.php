@@ -167,8 +167,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('user.home') }}" class="brand-link">
-      <img src="/img/logo cuadrado.png"
-           alt="AdminLTE Logo"
+      <img src="/img/LOGO SIDIRAUNT.png"
+           alt="Sidiraunt"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">SIDIRAUNT</span>
@@ -185,13 +185,19 @@
           <img src="/img/usuario.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="/verMisDatos" class="d-block"></a>
-          
+            <a href="#" class="d-block">
+              
+              {{  (App\Actor::getActorLogeado()->getApellidoFormateado() ) }}
+              <br>
+              {{  (App\Actor::getActorLogeado()->getNombreFormateado() ) }}
+            </a>
+            
             <label for="" style="color: rgb(255, 255, 255))">
-              {{  (App\Actor::getActorLogeado()->apellidosYnombres ) }}
+              {{App\Actor::getActorLogeado()->getTipoActor()->nombre}}
             </label>
-  
+            
         </div>
+
       </div>
       @endif
       
@@ -205,7 +211,7 @@
             
             @switch(App\Actor::getActorLogeado()->getTipoActor()->nombre)
               @case('Postulante')
-                  
+                @include('Layout.MenuLateral.Postulante')
                 @break
               @case('Consejo Universitario')
                   @include('Layout.MenuLateral.Consejo')

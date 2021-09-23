@@ -1,10 +1,10 @@
 <?php 
-header("Pragma: public");
-header("Expires: 0");
-$filename = "Reporte de Postulantes de Examen ".$examen->periodo.".xls";
-header("Content-type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=$filename");
-header("Pragma: no-cache");
+    header("Pragma: public");
+    header("Expires: 0");
+    $filename = "Reporte de Postulantes de Examen ".$examen->periodo.".xls";
+    header("Content-type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=$filename");
+    header("Pragma: no-cache");
 
 ?>
 <meta charset="utf-8">

@@ -89,6 +89,8 @@ class Examen extends Model
     public function tieneResultados(){
         return $this->verificarEstadoVarios(['Aprobado','Cancelado','Analizado','Datos Insertados']);
     }
+
+    
     public function verificarEstadoVarios($vectorNombresEstados){
         foreach ($vectorNombresEstados as $nombreEstado ) {
             if($this->verificarEstado($nombreEstado))
@@ -98,6 +100,21 @@ class Examen extends Model
 
     }
 
+    public function getCantidadIngresantes(){
+        $codExamen = $this->codExamen;
+        $codCondicionIngresante =  CondicionPostulacion::getCondicionIngresante()->codCondicion;
+        $cantidad = DB::select("
+            SELECT 
+                count(codExamenPostulante) as 'cantidad'
+            FROM
+                examen_postulante
+            WHERE
+                codExamen = '$codExamen' AND
+                codCondicion = '$codCondicionIngresante';
+        ");
+
+        return $cantidad[0]->cantidad;
+    }
 
     public function tieneAnalisis(){
         return count(AnalisisExamen::where('codExamen','=',$this->codExamen)->get()) > 0;
@@ -301,6 +318,8 @@ class Examen extends Model
     */
     public static function calcularCorrectasIncorrectas($respuestasCorrectas,$respuestas){
         
+        error_log($respuestas);
+        error_log($respuestasCorrectas);
         $respuestasCorrectas = str_split($respuestasCorrectas);
         $respuestas = str_split($respuestas);
         

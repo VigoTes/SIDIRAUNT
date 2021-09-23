@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-sm fontSize9">
+                    <table class="table table-sm fontSize9 table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th style="text-align: center">Rango de Puntajes</th>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-sm">
+                    <table class="table table-sm table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">Descripción</th>

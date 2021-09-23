@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-sm">
+        <table class="table table-sm table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th>Escuela</th>
@@ -29,7 +29,7 @@
                 <td>{{$itemCarrera->getArea()->descripcion}}</td>
                 <td>{{$itemCarrera->getFacultad()->nombre}}</td>
                 <td>
-                    <a href="{{route('Carrera.actualizarHistorico',$itemCarrera->codCarrera)}}" class="btn btn-info btn-sm" title="Ver Reposición">Ver histórico</a>
+                    <a href="{{route('CarreraExamen.actualizarHistorico',$itemCarrera->codCarrera)}}" class="btn btn-info btn-sm" title="Ver Reposición">Ver histórico</a>
                 </td>
               </tr>
               @endforeach 
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="container">
-            <table class="table table-sm">
+            <table class="table table-sm table-hover">
                 <thead class="thead-dark">
                     <tr>
                         <th>Puntaje Aprobatorio</th>

@@ -1,18 +1,22 @@
 
 Urgentes que dijo el profe:
     ✔ Al momento de decidir sobre irregularidades, esto debe ser a nivel de cada examen @done(24-08-21 17:21)
-    ☐ Mejorar los gráficos porque no se entienden
+    ✔ Mejorar los gráficos porque no se entienden @done(21-09-21 17:10)
     ✔ Corregir titulo @done(07-09-21 23:32)
     ✔ Crear trigger y funcion para la tarea @done(29-08-21 18:33)
     ✔ Crear examen ocultar valoraciones @done(07-09-21 17:25)
+
+
+CAMBIOS GRANDES:
+    ☐ Ver si puedo añadir a ExactamenteIguales una opcion para considerar a los examenes que tienen puntaje igual en APT o CON
 Actividades:
     ✔ Que no se pueda tomar decision sobre el examen si hay observaciones pendientes ('Planteada') @done(08-09-21 00:10)
     ✔ Separar actores por vistas @done(08-09-21 00:10)
     ✔ Integrar bot de telegram @done(29-08-21 20:06)
-    ☐ Mejorar algoritmo de identificacion de patrones ()
-        ☐ Mejorar eficiencia (tiempo que demora)
-        ☐ Que identifique grupos de más de 2
-
+    ✔ Mejorar algoritmo de identificacion de patrones () @done(08-09-21 22:17)
+        ✔ Mejorar eficiencia (tiempo que demora) @done(08-09-21 22:17)
+        ✔ Que identifique grupos de más de 2 @done(08-09-21 22:17)
+    ☐ Redefinir la formula de la tasa de irregularidad (cambiar las tasas)
     ☐ Mejorar algoritmo Examen->generarCarrerasExamen (hace dms recorridos solo para las carreras)
     ✔ Añadir formula en vista tasas @done(07-09-21 23:18)
     ✔ Evaluar si eliminamos la tabla analisis_examen @done(07-09-21 23:18)
@@ -25,8 +29,41 @@ Actividades:
 
     ✔ Añadir lógica de la distribución de un examen (solo mostrar en la web) Resultó que en todos los examenes es 30apt y 70con @done(23-08-21 17:12)
     ✔ Añadir lógica para ver cierta pregunta en la web @done(08-09-21 00:42)
-    ☐ Tratar de cambiar el menú lateral por uno superior
+  
     ✔ Envio de mensaje a telegram cuando hay una irregularidad @done(29-08-21 21:12)
     ✔ Añadir manejo de excepciones @done(08-09-21 00:27)
     ✔ Historial y perfil son lo mismo, corregir URLs que los diferencnan @done(07-09-21 23:31)
     ✔ Cambiar nombre a mi bot @done(07-09-21 23:21)
+    ✔ Crear Procedimientos almacenados para tener xD @done(21-09-21 17:10) (Hice el de analisis de exactamente iguales)
+    
+    ✔ Definir permisos para cada usuario en MYSQL @done(22-09-21 16:52)
+    
+    ☐ Añadir todos los examenes existentes (Hacer esto al final y en el host para el analisis rapido)
+    ✔ Al verificar que no tiene permisos, redirigir a la vista de no tienes permisos error @done(16-09-21 22:12)
+    
+    ☐ Arreglar Mockups del informe para que coincidan con las vistas
+    ✔ Probar inyecciones SQL @done(22-09-21 20:40)
+    ✔ Generacion de los nombres de usuario de los usuarios de los postulantes está mal @done(22-09-21 02:52)
+
+    ☐ Filtros al buscar postulantes DE UN EXAMEN
+    ☐ GIF de explicacion de algoritmo grupo patron
+
+    ☐ Buscar examen de admision con filtros
+
+    ☐ Añadir al analisis de postulantes elevados, postulantes que ingresan por primera vez y superan un umbral
+    ✔ Los usuarios anonimos no deben poder ver perfiles @done(22-09-21 19:20)
+    ✔ Los postulantes no deben ver perfiles ajenos @done(22-09-21 19:20)
+    ✔ Los postulantes pueden ver las respuestas de otros ¿? NO@done(22-09-21 19:20)
+    ✔ Validar texto de la observacion @done(22-09-21 23:59)
+
+ 
+    
+Apartado del postulante cuando se logea:
+    ✔ Hacer la vista de Home (para usuarios anonimos, esta debe ser la de listar examenes) @done(22-09-21 02:52)
+    ✔ ver MIX examenes en los que participé @done(22-09-21 01:37)
+    ✔ Que mi home sea mi perfil @done(22-09-21 01:37)
+    ✔ Tener tambien acceso a todos los examenes @done(22-09-21 01:37)
+    ✔ Añadir al editar mi contraseña, que repita la contraseña actual 2 veces @done(22-09-21 02:52)
+
+
+
